@@ -5,7 +5,6 @@
 #' @param dbh [\code{Numeric(1)}]\cr DBH of tree
 #' @references \itemize{
 #' \item Ribbens, E., Silander, J.A., Pacala, S.W., 1994. Seedling recruitment in forests: Calibratiing models to predict patterns of tree seedling dispersion. Ecology 75, 1794–1806.
-#' \item further references
 #' }
 #' @examples
 #' CI <- Seed.dispersal(pattern=pattern_living_trees)

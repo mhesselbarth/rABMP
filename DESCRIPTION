@@ -1,12 +1,14 @@
 Package: rABMP
 Type: Package
-Title: What the Package Does (Title Case)
-Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Title: R agent Based Model for Plants
+Version: 1.0.1
+Authors@R: person("Maximilian H.K.", "Hesselbarth", email = "maximilian.hesselbarth@uni-goettingen.de",
+  role = c("aut", "cre"))
+Description: Function to model plant growth based on agents
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
+Depends:
+  tidyverse,
+  spatstat
 RoxygenNote: 6.0.1.9000

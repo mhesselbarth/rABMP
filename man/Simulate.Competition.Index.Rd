@@ -4,28 +4,16 @@
 \alias{Simulate.Competition.Index}
 \title{Update competition index}
 \usage{
-Simulate.Competition.Index(pattern, dbh, ci, standardized = T,
-  max.dist = 30)
+Simulate.Competition.Index(input, standardized = T, max_dist = 30)
 }
 \arguments{
-\item{pattern}{[\code{ppp(1)}]\cr Point pattern object of the spatstat package}
+\item{input}{[\code{tibble(1)}]\cr Tibble with individuals}
 
-\item{dbh}{[\code{String(1)}]\cr Name of the weights mark}
+\item{standardized}{[\code{logical(1)}]\cr Standardize maximum CI to 1}
 
-\item{ci}{[\code{String(1)}]\cr Name of the competition index}
-
-\item{standardized}{[\code{Logical(1)}]\cr Standardize maximum CI to 1}
-
-\item{max.dist}{[\code{Numeric(1)}]\cr Maximum interaction distance between trees}
-}
-\value{
-Updated point pattern
+\item{max_dist}{[\code{numeric(1)}]\cr Maximum interaction distance between trees}
 }
 \description{
 The function updates the competition index of the provided pattern using an Epanechnikov kernel. The competition
 kernel idea is mainly based on Pommering et al. (2011) and Pommering et al. (2014).
-}
-\examples{
-CI <- Competition.Index(pattern=pattern_living_trees, dbh="DBH_13", ci="CI")
-
 }

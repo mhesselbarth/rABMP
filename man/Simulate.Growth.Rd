@@ -4,16 +4,12 @@
 \alias{Simulate.Growth}
 \title{Update DBH}
 \usage{
-Simulate.Growth(pattern, year, dbh, ci)
+Simulate.Growth(input, year)
 }
 \arguments{
-\item{pattern}{[\code{ppp(1)}]\cr Point pattern object of the spatstat package}
+\item{input}{[\code{ppp(1)}]\cr Point pattern object of the spatstat package}
 
 \item{year}{[\code{Numeric(1)}]\cr Year of simulation}
-
-\item{ci}{[\code{String(1)}]\cr Name of the competition index}
-
-\item{mark}{[\code{String(1)}]\cr Name of the mark}
 }
 \value{
 Vector with size increase for each point
@@ -22,6 +18,5 @@ Vector with size increase for each point
 The function simulates growth of individual points
 }
 \examples{
-CI <- Competition.Index(pattern=pattern_living_trees, DBH="DBH_13", sigma=25)
 
 }

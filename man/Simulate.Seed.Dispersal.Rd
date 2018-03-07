@@ -4,7 +4,7 @@
 \alias{Simulate.Seed.Dispersal}
 \title{Seed dispersal}
 \usage{
-Simulate.Seed.Dispersal(pattern, threshold = 30, dbh = "DBH")
+Simulate.Seed.Dispersal(input, threshold = 30)
 }
 \arguments{
 \item{pattern}{[\code{ppp(1)}]\cr Point pattern object of the spatstat package}

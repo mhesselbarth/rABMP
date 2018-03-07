@@ -4,24 +4,18 @@
 \alias{Competition.Kernel}
 \title{Competition kernel}
 \usage{
-Competition.Kernel(r, dbh, max.dist, type = "Epanechnikov")
+Competition.Kernel(r, dbh, max_dist, type = "Epanechnikov")
 }
 \arguments{
-\item{max.dist}{[\code{Numeric(1)}]\cr Maximum interaction distance. Used to standartize values to 0-1}
+\item{r}{[\code{numeric(1)}]\cr Distance between c_i and c_j}
 
-\item{type}{[\code{String(1)}]\cr Kernel type to use (either "Fractional", "Exponential" or "Epanechnikov")}
+\item{dbh}{[\code{Numeric(1)}]\cr DBH of c_j}
 
-\item{pattern}{[\code{Numeric(1)}]\cr Distance between c_i and c_j}
+\item{max_dist}{[\code{numeric(1)}]\cr Maximum interaction distance.
+Used to standartize values to 0-1 for Epanechnikov kernel}
 
-\item{mark}{[\code{Numeric(1)}]\cr Size of c_j}
-}
-\value{
-Vector with CI values for each point
+\item{type}{[\code{string(1)}]\cr Kernel type to use (either "Fractional", "Exponential" or "Epanechnikov")}
 }
 \description{
 Function to calculate competitionfor c_i experienced by c_j
-}
-\examples{
-CI <- Competition.Index(pattern=pattern_living_trees, DBH="DBH_13", sigma=25)
-
 }

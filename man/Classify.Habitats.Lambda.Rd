@@ -10,19 +10,19 @@ Classify.Habitats.Lambda(pattern, species, kernel = "epanechnikov",
 \arguments{
 \item{pattern}{[\code{ppp(1)}]\cr Point pattern of the spatstat-package}
 
-\item{species}{[\code{Character(1)}]\cr Name of the species}
+\item{species}{[\code{character(1)}]\cr Name of the species}
 
-\item{kernel}{[\code{Character(1)}] Type of the kernel to use (see spatstat::density.ppp)}
+\item{kernel}{[\code{string(1)}]\cr Type of the kernel to use (see spatstat::density.ppp)}
 
-\item{sigma}{[\code{Numeric(1)}] Sigma of density kernel (see spatstat::density.ppp)}
+\item{sigma}{[\code{numeric(1)}]\cr Sigma of density kernel (see spatstat::density.ppp)}
 
-\item{resolution}{[\code{Numeric(1)}] Patch size of resulting raster (see raster::aggregate)}
+\item{resolution}{[\code{numeric(1)}]\cr Patch size of resulting raster (see raster::aggregate)}
 
-\item{n}{[\code{Numeric(1)}] Number of classes (see classInt::classIntervals)}
+\item{n}{[\code{numeric(1)}]\cr Number of classes (see classInt::classIntervals)}
 
-\item{method}{[\code{Character(1)}] Method to classifiy values (see classInt::classIntervals)}
+\item{method}{[\code{string(1)}]\cr Method to classifiy values (see classInt::classIntervals)}
 
-\item{resolution}{[\code{Numeric(1)}] Patch size of resulting raster (see raster::aggregate)}
+\item{resolution}{[\code{numeric(1)}]\cr Patch size of resulting raster (see raster::aggregate)}
 }
 \value{
 Returns a raster of the raster-package with the classified habitats

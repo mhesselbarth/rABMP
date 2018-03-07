@@ -4,7 +4,7 @@
 \alias{Random.Coordinates}
 \title{Random Coordinates}
 \usage{
-Random.Coordinates(species, n = 100, r.max = 80, number.samples = 1e+06)
+Random.Coordinates(species, n = 100, r_max = 80, number_samples = 1e+06)
 }
 \description{
 Create Random coordinates depending on seed kernel function

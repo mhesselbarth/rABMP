@@ -4,7 +4,7 @@
 \alias{Seed.Kernel}
 \title{Seed kernel}
 \usage{
-Seed.Kernel(species, r, r.max)
+Seed.Kernel(species, r, r_max)
 }
 \arguments{
 \item{species}{[\code{String(1)}]\cr Species of tree}
@@ -20,7 +20,6 @@ CI <- Seed.dispersal(pattern=pattern_living_trees)
 }
 \references{
 \itemize{
-\item Martínez, I., González-Taboada, F., 2009. Seed dispersal patterns in a temperate forest during a mast event: Performance of alternative dispersal kernels. Oecologia 159, 389–400.#' \item Millerón, M., De Heredia, U.L., Lorenzo, Z., Alonso, J., Dounavi, A., Gil, L., Nanos, N., 2013. Assessment of spatial discordance of primary and effective seed dispersal of European beech (Fagus sylvatica L.) by ecological and genetic methods. Mol. Ecol. 22, 1531–1545.
-\item further references
+\item Ribbens, E., Silander, J.A., Pacala, S.W., 1994. Seedling recruitment in forests: Calibratiing models to predict patterns of tree seedling dispersion. Ecology 75, 1794–1806.
 }
 }

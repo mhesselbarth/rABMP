@@ -2,13 +2,13 @@
 #'
 #' Classifies habitats based on the point density
 #' @param pattern [\code{ppp(1)}]\cr Point pattern of the spatstat-package
-#' @param species [\code{Character(1)}]\cr Name of the species
-#' @param kernel [\code{Character(1)}] Type of the kernel to use (see spatstat::density.ppp)
-#' @param sigma [\code{Numeric(1)}] Sigma of density kernel (see spatstat::density.ppp)
-#' @param resolution [\code{Numeric(1)}] Patch size of resulting raster (see raster::aggregate)
-#' @param resolution [\code{Numeric(1)}] Patch size of resulting raster (see raster::aggregate)
-#' @param n [\code{Numeric(1)}] Number of classes (see classInt::classIntervals)
-#' @param method [\code{Character(1)}] Method to classifiy values (see classInt::classIntervals)
+#' @param species [\code{character(1)}]\cr Name of the species
+#' @param kernel [\code{string(1)}]\cr Type of the kernel to use (see spatstat::density.ppp)
+#' @param sigma [\code{numeric(1)}]\cr Sigma of density kernel (see spatstat::density.ppp)
+#' @param resolution [\code{numeric(1)}]\cr Patch size of resulting raster (see raster::aggregate)
+#' @param resolution [\code{numeric(1)}]\cr Patch size of resulting raster (see raster::aggregate)
+#' @param n [\code{numeric(1)}]\cr Number of classes (see classInt::classIntervals)
+#' @param method [\code{string(1)}]\cr Method to classifiy values (see classInt::classIntervals)
 #' @return Returns a raster of the raster-package with the classified habitats
 #' @examples
 #' habitats_beech <- Classify.Habitats.Lambda(pattern=pattern_1999, species="Beech")
