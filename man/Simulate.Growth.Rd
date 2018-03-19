@@ -7,7 +7,7 @@
 Simulate.Growth(input, year)
 }
 \arguments{
-\item{input}{[\code{ppp(1)}]\cr Point pattern object of the spatstat package}
+\item{input}{[\code{tibble(1)}]\cr Tibble with input data}
 
 \item{year}{[\code{Numeric(1)}]\cr Year of simulation}
 }

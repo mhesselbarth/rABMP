@@ -2,7 +2,7 @@
 #'
 #' The function updates the competition index of the provided pattern using an Epanechnikov kernel. The competition
 #' kernel idea is mainly based on Pommering et al. (2011) and Pommering et al. (2014).
-#' @param input [\code{tibble(1)}]\cr Tibble with individuals
+#' @param input [\code{tibble(1)}]\cr Tibble with input data
 #' @param standardized [\code{logical(1)}]\cr Standardize maximum CI to 1
 #' @param max_dist [\code{numeric(1)}]\cr Maximum interaction distance between trees
 #'

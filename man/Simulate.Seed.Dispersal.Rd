@@ -7,7 +7,7 @@
 Simulate.Seed.Dispersal(input, threshold = 30)
 }
 \arguments{
-\item{pattern}{[\code{ppp(1)}]\cr Point pattern object of the spatstat package}
+\item{input}{[\code{tibble(1)}]\cr Tibble with input data}
 
 \item{dbh}{[\code{String(1)}]\cr Name of the DBH mark}
 }

@@ -7,7 +7,7 @@
 Simulate.Competition.Index(input, standardized = T, max_dist = 30)
 }
 \arguments{
-\item{input}{[\code{tibble(1)}]\cr Tibble with individuals}
+\item{input}{[\code{tibble(1)}]\cr Tibble with input data}
 
 \item{standardized}{[\code{logical(1)}]\cr Standardize maximum CI to 1}
 

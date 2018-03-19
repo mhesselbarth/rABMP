@@ -1,7 +1,7 @@
 #' Update DBH
 #'
 #' The function simulates growth of individual points
-#' @param input [\code{ppp(1)}]\cr Point pattern object of the spatstat package
+#' @param input [\code{tibble(1)}]\cr Tibble with input data
 #' @param year [\code{Numeric(1)}]\cr Year of simulation
 #' @return Vector with size increase for each point
 #' @examples

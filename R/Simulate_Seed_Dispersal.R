@@ -1,7 +1,7 @@
 #' Seed dispersal
 #'
 #' The function simulates growth of individual points
-#' @param pattern [\code{ppp(1)}]\cr Point pattern object of the spatstat package
+#' @param input [\code{tibble(1)}]\cr Tibble with input data
 #' @param dbh [\code{String(1)}]\cr Name of the DBH mark
 #' @references \itemize{
 #' \item Clark, J.S., Silman, M., Kern, R., Macklin, E., HilleRisLambers, J., 1999. Seed dispersal near and far: Patterns across temperate and tropical forests. Ecology 80, 1475–1494.
