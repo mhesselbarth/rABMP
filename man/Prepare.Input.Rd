@@ -4,13 +4,22 @@
 \alias{Prepare.Input}
 \title{Prepare Input}
 \usage{
-Prepare.Input(input, ID = NULL)
+Prepare.Input(input, x, y, species, type, dbh)
 }
 \arguments{
 \item{input}{[\code{tibble(1)}]\cr Tibble with input data}
 
-\item{ID}{[\code{string(1)}]\cr String with the name of ID coloumn if already existing}
+\item{x}{[\code{string(1)}]\cr String with  name of column containing the x-coordinate as dbl}
+
+\item{y}{[\code{string(1)}]\cr String with  name of column containing the y-coordinate as dbl}
+
+\item{species}{[\code{string(1)}]\cr String with  name of column containing the species}
+
+\item{type}{[\code{string(1)}]\cr String with  name of column containing the type as string.
+\cr The types must be 'Adult', 'Seedlings' and 'Dead'}
+
+\item{dbh}{[\code{string(1)}]\cr String with name of column containing the DBH as dbl}
 }
 \description{
-Function to prepare the input in a way that an ID coloumn exists and the data is nested
+Function to prepare the input dataframe in a tibble with the structure needed by all functions
 }

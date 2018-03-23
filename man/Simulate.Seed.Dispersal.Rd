@@ -2,21 +2,17 @@
 % Please edit documentation in R/Simulate_Seed_Dispersal.R
 \name{Simulate.Seed.Dispersal}
 \alias{Simulate.Seed.Dispersal}
-\title{Seed dispersal}
+\title{Seed dispersal (not running)}
 \usage{
 Simulate.Seed.Dispersal(input, threshold = 30)
 }
 \arguments{
 \item{input}{[\code{tibble(1)}]\cr Tibble with input data}
 
-\item{dbh}{[\code{String(1)}]\cr Name of the DBH mark}
+\item{threshold}{[\code{numeric(1)}]\cr Minimum DBH threshold for reproduction}
 }
 \description{
-The function simulates growth of individual points
-}
-\examples{
-CI <- Seed.dispersal(pattern=pattern_living_trees)
-
+The function simulates seed dispersal
 }
 \references{
 \itemize{

@@ -4,19 +4,14 @@
 \alias{Simulate.Growth}
 \title{Update DBH}
 \usage{
-Simulate.Growth(input, year)
+Simulate.Growth(input)
 }
 \arguments{
 \item{input}{[\code{tibble(1)}]\cr Tibble with input data}
-
-\item{year}{[\code{Numeric(1)}]\cr Year of simulation}
 }
 \value{
 Vector with size increase for each point
 }
 \description{
 The function simulates growth of individual points
-}
-\examples{
-
 }

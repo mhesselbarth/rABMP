@@ -1,22 +1,22 @@
-#' Internal help function
+#' Growth function
 #'
-#' The function contains growing functions for each species
-#' @param dbh [\code{Numerical(1)}]\cr DBH of target plant
-#' @param Species [\code{String(1)}]\cr Name of the species
+#' Internal help function that contains all growing functions for each species
+#' @param dbh [\code{numeric(1)}]\cr DBH of target plant
+#' @param species [\code{string(1)}]\cr Name of the species
 #' @return Numeric with size increase for each point
 #'
 #' @export
 Growth.Function.Species <- function(dbh, species){
-  increase <- 0
-  if(species=="Beech"){increase <- dbh * 0.005367 + 0.017436}
 
-  else if(species=="Ash"){increase <- dbh * 0.00534 + 0.12778}
+  if(species == "Beech"){increase <- dbh * 0.005367 + 0.017436}
 
-  else if(species=="Hornbeam"){increase <- dbh * 0.004008 - 0.052462}
+  else if(species == "Ash"){increase <- dbh * 0.00534 + 0.12778}
 
-  else if(species=="Sycamore"){increase <- dbh * 0.004856 - 0.083668}
+  else if(species == "Hornbeam"){increase <- dbh * 0.004008 - 0.052462}
 
-  else if(species=="others"){increase <- dbh * 0.004100 + 0.002149}
+  else if(species == "Sycamore"){increase <- dbh * 0.004856 - 0.083668}
+
+  else if(species == "others"){increase <- dbh * 0.004100 + 0.002149}
 
   else{print("Warning: No growth function for species availaibe - increase=0")}
 

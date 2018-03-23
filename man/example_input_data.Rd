@@ -8,9 +8,9 @@
 \describe{
   \item{x}{x coordinate}
   \item{y}{y coordinate}
-  \item{Species}{Species of indivdual}
-  \item{Type}{Type of individual}
-  \item{DBH}{Diameter at breast height of individual in cm}
+  \item{spec}{Species of indivdual}
+  \item{Class}{Type of individual}
+  \item{bhd}{Diameter at breast height of individual in cm}
 }}
 \usage{
 example_input_data

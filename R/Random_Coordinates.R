@@ -2,17 +2,29 @@
 #'
 #' Create Random coordinates depending on seed kernel function
 #'
+#' @param species [\code{string(1)}]\cr Species of tree
+#' @param n [\code{numeric(1)}]\cr Number of random coordinates
+#' @param max_dist [\code{numeric(1)}]\cr Maximum distance of seed dispersal
+#' @param number_samples [\code{numeric(1)}]\cr Starting number of random coordinates checked against
+#' the seed kernal function. A higher number will decrease the speed of the function but increase
+#' the fit to the seed kernel
+#'
 #' @export
-Random.Coordinates <- function(species, n=100, r_max=80, number_samples=1000000){
+Random.Coordinates <- function(species, n = NULL, max_dist = 80, number_samples = 1000000){
 
-  result <- tibble::tibble(Proposed=runif(number_samples, min=0, max=r_max)) %>%
-    dplyr::mutate(Target=Seed.Kernel(species=species, r=Proposed, r_max=r_max),
-                  Random=runif(number_samples, min=0, max=1),
-                  Accept=dplyr::case_when(Random <= Target/max(Target, na.rm=T) ~ TRUE,
+  result <- tibble::tibble(Proposed = runif(number_samples, min = 0, max = max_dist)) %>% # random numbers between 0 and max dispersal distance
+    dplyr::mutate(Target = Seed.Kernel(species = species, distance = Proposed, max_dist = max_dist), # probability of random number according to seed dipersal
+                  Random = runif(number_samples, min = 0, max = 1), # test value
+                  Accept = dplyr::case_when(Random <= Target / max(Target, na.rm = TRUE) ~ TRUE, # set TRUE for numbers that fit distribution
                                           TRUE ~ FALSE)) %>%
-     dplyr::filter(Accept==TRUE) %>%
-     dplyr::pull(Proposed) %>%
-     c(. , . * -1)
+    dplyr::filter(Accept == TRUE) %>% # only coordinates that fit the distribution
+    dplyr::pull(Proposed) %>%
+    c(. , . * -1) # coordinates in both directions
+
+  if(is.null(n)){n <- length(result)} # no provided, returns all coordinates
+
+  result <- result %>% # only n coordinates
+    sample(n)
 
   return(result)
 }

@@ -7,16 +7,12 @@
 Number.Seeds(species, dbh)
 }
 \arguments{
-\item{species}{[\code{String(1)}]\cr Species of tree}
+\item{species}{[\code{string(1)}]\cr Species of tree}
 
-\item{dbh}{[\code{Numeric(1)}]\cr DBH of tree}
+\item{dbh}{[\code{numeric(1)}]\cr DBH of tree}
 }
 \description{
 The function calculates the number of seeds for each tree depending on the DBH
-}
-\examples{
-CI <- Seed.dispersal(pattern=pattern_living_trees)
-
 }
 \references{
 \itemize{

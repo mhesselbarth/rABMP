@@ -2,18 +2,18 @@
 % Please edit documentation in R/Growth_Function_Species.R
 \name{Growth.Function.Species}
 \alias{Growth.Function.Species}
-\title{Internal help function}
+\title{Growth function}
 \usage{
 Growth.Function.Species(dbh, species)
 }
 \arguments{
-\item{dbh}{[\code{Numerical(1)}]\cr DBH of target plant}
+\item{dbh}{[\code{numeric(1)}]\cr DBH of target plant}
 
-\item{Species}{[\code{String(1)}]\cr Name of the species}
+\item{species}{[\code{string(1)}]\cr Name of the species}
 }
 \value{
 Numeric with size increase for each point
 }
 \description{
-The function contains growing functions for each species
+Internal help function that contains all growing functions for each species
 }

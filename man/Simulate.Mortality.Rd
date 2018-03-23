@@ -2,7 +2,7 @@
 % Please edit documentation in R/Simulate_Mortality.R
 \name{Simulate.Mortality}
 \alias{Simulate.Mortality}
-\title{Mortality function}
+\title{Mortality function (not running)}
 \usage{
 Simulate.Mortality(pattern, dbh = "DBH")
 }
@@ -13,10 +13,6 @@ Simulate.Mortality(pattern, dbh = "DBH")
 }
 \description{
 Function to model mortality of trees
-}
-\examples{
-Enter Example
-
 }
 \references{
 \itemize{

@@ -2,21 +2,17 @@
 % Please edit documentation in R/Mortality_Probability.R
 \name{Mortality.Probability}
 \alias{Mortality.Probability}
-\title{Calculcate mortalitay porib}
+\title{Calculcate mortalitay mortality probability (not running)}
 \usage{
 Mortality.Probability(species, dbh)
 }
 \arguments{
-\item{species}{[\code{Character(1)}]\cr Character with species of tree}
+\item{species}{[\code{character(1)}]\cr Character with species of tree}
 
 \item{dbh}{[\code{Numeric(1)}]\cr DBH of tree in cm}
 }
 \description{
 Function to model mortality of trees
-}
-\examples{
-Enter Example
-
 }
 \references{
 \itemize{

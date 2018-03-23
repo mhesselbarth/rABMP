@@ -2,22 +2,25 @@
 #'
 #' The function simulates growth of individual points
 #' @param input [\code{tibble(1)}]\cr Tibble with input data
-#' @param year [\code{Numeric(1)}]\cr Year of simulation
 #' @return Vector with size increase for each point
-#' @examples
 #'
 #' @export
-Simulate.Growth <- function(input, year){
+Simulate.Growth <- function(input){
+
+  past <- input %>% # save the data of previous time step
+    tidyr::unnest()
 
   result <- input %>%
-    dplyr::mutate(!!paste0("Year_", year-1) := DBH,
-                  DBH = dplyr::case_when(Type == "Dead" ~ DBH,
-                                         Type == "Alive" ~
-                                           DBH + purrr::pmap_dbl(., function(Species, DBH, CI,...){
-                                             Growth.Function.Species(dbh=DBH, species=Species) * (1-CI)})))
+    tidyr::unnest() %>%
+    dplyr::filter(Type != "Dead" & i == max(i)) %>% # only living trees of the current time step
+    dplyr::mutate(DBH = DBH + purrr::pmap_dbl(., function(Species, DBH, CI,...){
+              rABMP::Growth.Function.Species(species=Species, dbh=DBH) * (1-CI)}), # add increase to current DBH
+           i = i + 1, # update timestep
+           Type = dplyr::case_when(DBH <= 10 ~ "Seedling", # update type
+                     DBH > 10 ~ "Adult")) %>%
+    dplyr::bind_rows(past) %>% # combine with data of of previous time step
+    tidyr::nest(-c(x, y, Species), .key = "Data") %>%
+    dplyr::mutate(Data=purrr::map(Data, function(x){dplyr::arrange(x, i)})) # order data in increasing i
 
   return(result)
 }
-
-
-

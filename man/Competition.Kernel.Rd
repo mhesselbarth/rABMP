@@ -4,12 +4,12 @@
 \alias{Competition.Kernel}
 \title{Competition kernel}
 \usage{
-Competition.Kernel(r, dbh, max_dist, type = "Epanechnikov")
+Competition.Kernel(distance, dbh, max_dist, type = "Epanechnikov")
 }
 \arguments{
-\item{r}{[\code{numeric(1)}]\cr Distance between c_i and c_j}
+\item{distance}{[\code{numeric(1)}]\cr Distance between c_i and c_j}
 
-\item{dbh}{[\code{Numeric(1)}]\cr DBH of c_j}
+\item{dbh}{[\code{numeric(1)}]\cr DBH of c_j}
 
 \item{max_dist}{[\code{numeric(1)}]\cr Maximum interaction distance.
 Used to standartize values to 0-1 for Epanechnikov kernel}

@@ -4,19 +4,17 @@
 \alias{Seed.Kernel}
 \title{Seed kernel}
 \usage{
-Seed.Kernel(species, r, r_max)
+Seed.Kernel(species, distance, max_dist)
 }
 \arguments{
-\item{species}{[\code{String(1)}]\cr Species of tree}
+\item{species}{[\code{string(1)}]\cr Species of tree}
 
-\item{r}{[\code{Numeric(1)}]\cr Distance r from mother tree}
+\item{distance}{[\code{numeric(1)}]\cr Distance r from mother tree}
+
+\item{max_dist}{[\code{numeric(1)}]\cr Maximum distance of seed dispersal}
 }
 \description{
 The kernel function
-}
-\examples{
-CI <- Seed.dispersal(pattern=pattern_living_trees)
-
 }
 \references{
 \itemize{
