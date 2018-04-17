@@ -2,7 +2,7 @@ library(rABMP)
 
 names(rABMP::example_input_data)
 
-trees <- Prepare.Input(input=example_input_data,
+data_trees <- Prepare.Input(input=example_input_data,
                        x="x_coord", y="y_coord",
                        species="spec", type="Class",
                        dbh="bhd")
@@ -10,13 +10,14 @@ trees <- Prepare.Input(input=example_input_data,
 years <- 5
 
 for(i in 1:years){
-  trees <- Update.Competition.Index(trees)
-  trees <- Simulate.Growth(trees)
-  #trees <- Simulate.Seed.Dispersal(trees) # Bug somewhere
+  data_trees <- Update.Competition.Index(data_trees)
+  data_trees <- Simulate.Growth(data_trees)
+  trees <- Simulate.Seed.Dispersal(trees) # Bug somewhere
+  # trees <- Simulate.Mortality(trees)
   print(paste0(i, " from ", years, " runs done"))
 }
 
-trees$Data[[1]]
+data_trees$Data[[1]]
 # A tibble: 11 x 4
 # i Type    DBH     CI
 # <dbl> <chr> <dbl>  <dbl>

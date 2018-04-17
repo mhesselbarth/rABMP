@@ -4,7 +4,7 @@
 \alias{Simulate.Mortality}
 \title{Mortality function (not running)}
 \usage{
-Simulate.Mortality(pattern, dbh = "DBH")
+Simulate.Mortality(input)
 }
 \arguments{
 \item{pattern}{[\code{ppp(1)}]\cr Point pattern object of the spatstat package}

@@ -16,7 +16,7 @@ Simulate.Growth <- function(input){
     dplyr::mutate(DBH = DBH + purrr::pmap_dbl(., function(Species, DBH, CI,...){
               rABMP::Growth.Function.Species(species=Species, dbh=DBH) * (1-CI)}), # add increase to current DBH
            i = i + 1, # update timestep
-           Type = dplyr::case_when(DBH <= 10 ~ "Seedling", # update type
+           Type = dplyr::case_when(DBH <= 10 ~ "Sapling", # update type
                      DBH > 10 ~ "Adult")) %>%
     dplyr::bind_rows(past) %>% # combine with data of of previous time step
     tidyr::nest(-c(x, y, Species), .key = "Data") %>%
