@@ -12,8 +12,8 @@ years <- 5
 for(i in 1:years){
   data_trees <- Update.Competition.Index(data_trees)
   data_trees <- Simulate.Growth(data_trees)
-  trees <- Simulate.Seed.Dispersal(trees) # Bug somewhere
-  # trees <- Simulate.Mortality(trees)
+  trees <- Simulate.Seed.Dispersal(data_trees) # Bug somewhere
+  trees <- Simulate.Mortality(data_trees) # Bug somewhere
   print(paste0(i, " from ", years, " runs done"))
 }
 

@@ -5,12 +5,19 @@
 #' @param dbh [\code{numeric(1)}]\cr DBH of tree
 #' @references \itemize{
 #' \item Ribbens, E., Silander, J.A., Pacala, S.W., 1994. Seedling recruitment in forests: Calibratiing models to predict patterns of tree seedling dispersion. Ecology 75, 1794–1806.
+#' \item Millerón, M., De Heredia, U.L., Lorenzo, Z., Alonso, J., Dounavi, A., Gil, L., Nanos, N., 2013. Assessment of spatial discordance of primary and effective seed dispersal of European beech (Fagus sylvatica L.) by ecological and genetic methods. Mol. Ecol. 22, 1531–1545.
 #' }
 #'
 #' @export
 Number.Seeds <- function(species, dbh){
 
-  if(species == "Beech"){no_seeds <- 121.22 * (dbh / 30) ^ 2}
+  if(species == "Beech"){
+    # no_seeds <- 121.22 * (dbh / 30) ^ 2
+
+    # Based on Milleron et al. (2013) Year 2007
+    beta <- runif(n = 1, min = 0.015, max = 0.017)
+    no_seeds <- exp(beta) * (pi * (dbh/2)^2 / 10000)
+    }
 
   else if(species == "Ash"){no_seeds <- 26.18 * (dbh / 30) ^ 2}
 
