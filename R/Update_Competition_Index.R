@@ -21,14 +21,16 @@ update_competition_index <- function(input, standardized = T, max_dist = 30){
     dplyr::filter(i == max(i))
 
   competition <- current %>%
-   dplyr::select(x,y) %>% # get distances between all individuals
+   dplyr::select(x, y) %>% # get distances between all individuals
    dist() %>% # distance matrix
    as.matrix() %>%
    tibble::as.tibble() %>%
-   purrr::map_dbl(rABMP::Calculate.Competition.Index, i = seq_along(.), dbh = current$DBH, max_dist = max_dist) %>% # calculate CI for each tree
+   purrr::map_dbl(rABMP::calculate_competition_index,
+                  i = seq_along(.),
+                  dbh = current$DBH, max_dist = max_dist) %>% # calculate CI for each tree
    as.double()
 
-  if(standardized == T){
+  if(standardized == TRUE){
     competition <- competition / max(competition) # standarize results
   }
 

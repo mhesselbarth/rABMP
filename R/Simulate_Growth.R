@@ -14,7 +14,7 @@ simulate_growth <- function(input){
     tidyr::unnest() %>%
     dplyr::filter(Type != "Dead" & i == max(i)) %>% # only living trees of the current time step
     dplyr::mutate(DBH = DBH + purrr::pmap_dbl(., function(Species, DBH, CI,...){
-              rABMP::Growth.Function.Species(species=Species, dbh=DBH) * (1-CI)}), # add increase to current DBH
+              rABMP::growth_function_species(species = Species, dbh = DBH) * (1 - CI)}), # add increase to current DBH
            i = i + 1, # update timestep
            Type = dplyr::case_when(DBH <= 10 ~ "Sapling", # update type
                      DBH > 10 ~ "Adult")) %>%

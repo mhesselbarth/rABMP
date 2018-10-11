@@ -12,7 +12,7 @@ calculate_competition_index <- function(distance, i, dbh, max_dist, type = "Epan
   sum(dplyr::if_else(distance < max_dist, # check for all distances within max_dist
                   true = dplyr::if_else(distance == 0, # distance == 0 is the diagonal of the distance matrix
                                       true = 0, # no competition on itself
-                                      false = rABMP::Competition.Kernel(distance = distance, # calculate CI index
+                                      false = rABMP::competition_kernel(distance = distance, # calculate CI index
                                                                       dbh = dbh[i],
                                                                       max_dist = max_dist)),
                   false = 0)) # distance above max_dist

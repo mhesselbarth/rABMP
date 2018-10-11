@@ -13,7 +13,7 @@
 random_coordinates <- function(species, n = NULL, max_dist = 80, number_samples = 1000000){
 
   result <- tibble::tibble(Proposed = runif(number_samples, min = 0, max = max_dist)) %>% # random numbers between 0 and max dispersal distance
-    dplyr::mutate(Target = Seed.Kernel(species = species, distance = Proposed, max_dist = max_dist), # probability of random number according to seed dipersal
+    dplyr::mutate(Target = seed_kernel(species = species, distance = Proposed, max_dist = max_dist), # probability of random number according to seed dipersal
                   Random = runif(number_samples, min = 0, max = 1), # test value
                   Accept = dplyr::case_when(Random <= Target / max(Target, na.rm = TRUE) ~ TRUE, # set TRUE for numbers that fit distribution
                                           TRUE ~ FALSE)) %>%

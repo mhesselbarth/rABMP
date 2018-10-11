@@ -15,7 +15,7 @@ simulate_seed_dispersal <- function(input, threshold = 30){
     tidyr::unnest() %>%
     dplyr::filter(Type == "Adult" & i == max(i) & DBH > threshold) %>%
     dplyr::mutate(No_seedlings = purrr::pmap_dbl(., function(Species, DBH, ...){
-    rABMP::Number.Seeds(species = Species, dbh = DBH)}))
+    rABMP::number_seeds(species = Species, dbh = DBH)}))
 
   # current_i <- living %>%
   #   dplyr::select(i) %>%
@@ -24,17 +24,17 @@ simulate_seed_dispersal <- function(input, threshold = 30){
   random_coords <- living %>%
     dplyr::select(Species) %>%
     unique() %>%
-    purrr::pmap_dfr(., function(Species){tibble(Coordinates = rABMP::Random.Coordinates(species = Species),
+    purrr::pmap_dfr(., function(Species){tibble(Coordinates = rABMP::random_coordinates(species = Species),
                                                 Species = Species)}) %>%
     tidyr::nest(-Species)
 
 
   system.time(seedlings <- living %>%
     purrr::pmap_dfr(function(x, y, Species, i, DBH, ...){
-      number_seedlings <- rABMP::Number.Seeds(species = Species, dbh = DBH)
+      number_seedlings <- rABMP::number_seeds(species = Species, dbh = DBH)
 
-      tibble::tibble(x = x + rABMP::Random.Coordinates(species = Species, n = number_seedlings),
-                     y = y + rABMP::Random.Coordinates(species = Species, n = number_seedlings),
+      tibble::tibble(x = x + rABMP::random_coordinates(species = Species, n = number_seedlings),
+                     y = y + rABMP::random_coordinates(species = Species, n = number_seedlings),
                      Species = Species,
                      i = i,
                      Type = 'Seedling',
