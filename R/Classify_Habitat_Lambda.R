@@ -14,7 +14,7 @@
 #' #' habitats_beech <- Classify.Habitats.Lambda(pattern=pattern_1999, species="Beech")
 #' #'
 #' #' @export
-#' Classify.Habitats.Lambda <- function(pattern, species, kernel="epanechnikov", sigma=50, resolution=20, n=5, method="jenks"){
+#' classify_habitats_lambda <- function(pattern, species, kernel="epanechnikov", sigma=50, resolution=20, n=5, method="jenks"){
 #'
 #'   pattern_species <- spatstat::subset.ppp(pattern, Species==species)
 #'   lambda_species <- spatstat::density.ppp(pattern_species, kernel=kernel, sigma=sigma)

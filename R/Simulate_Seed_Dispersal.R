@@ -9,7 +9,7 @@
 #' }
 #'
 #' @export
-Simulate.Seed.Dispersal <- function(input, threshold = 30){
+simulate_seed_dispersal <- function(input, threshold = 30){
 
   living <- input %>%
     tidyr::unnest() %>%

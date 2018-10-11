@@ -8,7 +8,7 @@
 #' }
 #'
 #' @export
-Mortality.Probability <- function(species, dbh){
+mortality_probability <- function(species, dbh){
 
 
   if(species == "Beech"){

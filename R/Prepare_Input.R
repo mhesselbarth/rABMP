@@ -10,7 +10,7 @@
 #' @param dbh [\code{string(1)}]\cr String with name of column containing the DBH as dbl
 #'
 #' @export
-Prepare.Input <- function(input, x, y, species, type, dbh){
+prepare_input <- function(input, x, y, species, type, dbh){
 
   input$CI <- 0 # initialize competition index
   input$i <- 0 # initialize time step counter

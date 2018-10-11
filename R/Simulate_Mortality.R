@@ -8,7 +8,7 @@
 #' }
 #'
 #' @export
-Simulate.Mortality <- function(input){ # Not working currently! Something's wrong in Mortalitaty.Probability()
+simulate_mortality <- function(input){ # Not working currently! Something's wrong in Mortalitaty.Probability()
 
   past <- input %>% # data of previous time steps
     tidyr::unnest() %>%

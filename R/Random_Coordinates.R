@@ -10,7 +10,7 @@
 #' the fit to the seed kernel
 #'
 #' @export
-Random.Coordinates <- function(species, n = NULL, max_dist = 80, number_samples = 1000000){
+random_coordinates <- function(species, n = NULL, max_dist = 80, number_samples = 1000000){
 
   result <- tibble::tibble(Proposed = runif(number_samples, min = 0, max = max_dist)) %>% # random numbers between 0 and max dispersal distance
     dplyr::mutate(Target = Seed.Kernel(species = species, distance = Proposed, max_dist = max_dist), # probability of random number according to seed dipersal

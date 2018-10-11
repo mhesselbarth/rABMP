@@ -9,7 +9,7 @@
 #' }
 #'
 #' @export
-Number.Seeds <- function(species, dbh){
+number_seeds <- function(species, dbh){
 
   if(species == "Beech"){
     # no_seeds <- 121.22 * (dbh / 30) ^ 2

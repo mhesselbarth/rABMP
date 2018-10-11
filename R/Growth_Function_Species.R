@@ -6,7 +6,7 @@
 #' @return Numeric with size increase for each point
 #'
 #' @export
-Growth.Function.Species <- function(dbh, species){
+growth_function_species <- function(dbh, species){
 
   if(species == "Beech"){increase <- dbh * 0.005367 + 0.017436}
 

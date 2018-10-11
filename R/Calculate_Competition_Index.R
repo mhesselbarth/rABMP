@@ -8,7 +8,7 @@
 #' @param type [\code{string(1)}]\cr Kernel type to use (either "Fractional", "Exponential" or "Epanechnikov")
 #'
 #' @export
-Calculate.Competition.Index <- function(distance, i, dbh, max_dist, type = "Epanechnikov"){
+calculate_competition_index <- function(distance, i, dbh, max_dist, type = "Epanechnikov"){
   sum(dplyr::if_else(distance < max_dist, # check for all distances within max_dist
                   true = dplyr::if_else(distance == 0, # distance == 0 is the diagonal of the distance matrix
                                       true = 0, # no competition on itself

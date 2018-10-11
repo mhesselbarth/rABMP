@@ -5,7 +5,7 @@
 #' @return Vector with size increase for each point
 #'
 #' @export
-Simulate.Growth <- function(input){
+simulate_growth <- function(input){
 
   past <- input %>% # save the data of previous time step
     tidyr::unnest()

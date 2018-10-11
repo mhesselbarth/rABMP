@@ -10,7 +10,7 @@
 #' }
 #'
 #' @export
-Update.Competition.Index <- function(input, standardized = T, max_dist = 30){
+update_competition_index <- function(input, standardized = T, max_dist = 30){
 
   past <- input %>% # data of previous time steps
     tidyr::unnest() %>%

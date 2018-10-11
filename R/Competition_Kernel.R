@@ -8,7 +8,7 @@
 #' @param type [\code{string(1)}]\cr Kernel type to use (either "Fractional", "Exponential" or "Epanechnikov")
 #'
 #' @export
-Competition.Kernel <- function(distance, dbh, max_dist, type = "Epanechnikov"){
+competition_kernel <- function(distance, dbh, max_dist, type = "Epanechnikov"){
 
   if(type == "Fractional"){
     alpha <- 3.24074
