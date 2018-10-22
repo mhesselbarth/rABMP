@@ -19,7 +19,7 @@ number_seeds <- function(species, dbh){
     no_seeds <- exp(beta) * (pi * (dbh/2)^2 / 10000)
     }
 
-  else if(species == "Ash"){no_seeds <- 26.18 * (dbh / 30) ^ 2}
+  else if(species == "Ash"){no_seeds <- 26.18 * (dbh / 30) ^ 2 +5}
 
   else if(species == "Sycamore"){no_seeds <- 182.42 * (dbh/30) ^ 2}
 
