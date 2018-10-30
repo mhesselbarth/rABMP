@@ -7,18 +7,17 @@
 prepare_input(input, x, y, species, type, dbh)
 }
 \arguments{
-\item{input}{[\code{tibble(1)}]\cr Tibble with input data}
+\item{input}{Tibble with input data}
 
-\item{x}{[\code{string(1)}]\cr String with  name of column containing the x-coordinate as dbl}
+\item{x}{String with  name of column containing the x-coordinate}
 
-\item{y}{[\code{string(1)}]\cr String with  name of column containing the y-coordinate as dbl}
+\item{y}{String with  name of column containing the y-coordinate}
 
-\item{species}{[\code{string(1)}]\cr String with  name of column containing the species}
+\item{species}{String with  name of column containing the species}
 
-\item{type}{[\code{string(1)}]\cr String with  name of column containing the type as string.
-\cr The types must be 'Adult', 'Seedlings' and 'Dead'}
+\item{type}{String with  name of column containing the type as string}
 
-\item{dbh}{[\code{string(1)}]\cr String with name of column containing the DBH as dbl}
+\item{dbh}{String with name of column containing the DBH as dbl}
 }
 \description{
 Function to prepare the input dataframe in a tibble with the structure needed by all functions

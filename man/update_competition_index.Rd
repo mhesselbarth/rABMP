@@ -2,19 +2,25 @@
 % Please edit documentation in R/update_competition_index.R
 \name{update_competition_index}
 \alias{update_competition_index}
-\title{Update competition index}
+\title{update_competition_index}
 \usage{
-update_competition_index(input, standardized = T, max_dist = 30)
+update_competition_index(input, type = "epanechnikov", max_dist = 30,
+  standardized = TRUE)
 }
 \arguments{
-\item{input}{[\code{tibble(1)}]\cr Tibble with input data}
+\item{input}{Tibble with input data}
 
-\item{standardized}{[\code{logical(1)}]\cr Standardize maximum CI to 1}
+\item{type}{Kernel type to use (either "fractional", "exponential" or "epanechnikov")}
 
-\item{max_dist}{[\code{numeric(1)}]\cr Maximum interaction distance between trees}
+\item{max_dist}{Maximum interaction distance between trees}
+
+\item{standardized}{Standardize maximum CI to 1}
 }
 \description{
-The function updates the competition index of the provided pattern a kernel.
+update_competition_index
+}
+\details{
+Update the competition index
 }
 \references{
 \itemize{

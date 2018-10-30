@@ -8,15 +8,14 @@ random_coordinates(species, n = NULL, max_dist = 80,
   number_samples = 1e+06)
 }
 \arguments{
-\item{species}{[\code{string(1)}]\cr Species of tree}
+\item{species}{Species of tree}
 
-\item{n}{[\code{numeric(1)}]\cr Number of random coordinates}
+\item{n}{Number of random coordinates}
 
-\item{max_dist}{[\code{numeric(1)}]\cr Maximum distance of seed dispersal}
+\item{max_dist}{Maximum distance of seed dispersal}
 
-\item{number_samples}{[\code{numeric(1)}]\cr Starting number of random coordinates checked against
-the seed kernal function. A higher number will decrease the speed of the function but increase
-the fit to the seed kernel}
+\item{number_samples}{Starting number of random coordinates checked against the seed kernal function.
+A higher number will decrease the speed of the function but increase the fit to the seed kernel}
 }
 \description{
 Create Random coordinates depending on seed kernel function

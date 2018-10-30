@@ -2,12 +2,11 @@
 #'
 #' Create Random coordinates depending on seed kernel function
 #'
-#' @param species [\code{string(1)}]\cr Species of tree
-#' @param n [\code{numeric(1)}]\cr Number of random coordinates
-#' @param max_dist [\code{numeric(1)}]\cr Maximum distance of seed dispersal
-#' @param number_samples [\code{numeric(1)}]\cr Starting number of random coordinates checked against
-#' the seed kernal function. A higher number will decrease the speed of the function but increase
-#' the fit to the seed kernel
+#' @param species Species of tree
+#' @param n Number of random coordinates
+#' @param max_dist Maximum distance of seed dispersal
+#' @param number_samples Starting number of random coordinates checked against the seed kernal function.
+#' A higher number will decrease the speed of the function but increase the fit to the seed kernel
 #'
 #' @export
 random_coordinates <- function(species, n = NULL, max_dist = 80, number_samples = 1000000){
