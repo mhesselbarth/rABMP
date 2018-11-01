@@ -15,8 +15,8 @@ simulate_growth <- function(input){
 
   # calculate growth
   growth <- purrr::map2_dbl(current_living$species, current_living$dbh,
-                            function(x, y) growth_function_species(species = x,
-                                                                   dbh = y))
+                            function(x, y) rABMP::growth_function_species(species = x,
+                                                                          dbh = y))
 
   # update tibble
   current_living <- dplyr::mutate(current_living,

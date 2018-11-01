@@ -25,13 +25,22 @@ simulate_seed_dispersal <- function(input, threshold = 30){
 
   # Number of seedlings for each tree
   no_seedlings <- purrr::map2_dbl(current_living$species, current_living$dbh,
-                                  function(x, y) number_seeds(species = x,
-                                                              dbh = y))
+                                  function(x, y) rABMP::number_seeds(species = x,
+                                                                     dbh = y))
 
-  # Here it gets tricky...need to add random coords to starting coord and return tibble
-  purrr::map2(current_living$species, no_seedlings,
-              function(x, y) random_coordinates(species = x,
-                                                n = y))
+  # Get r
+  distance_seedlings_x <- purrr::map2(current_living$species, no_seedlings,
+                                      function(species, n, x_coord) {
+                                        distance_x <- rABMP::random_distance(species = species, n = n)
+                                        # coords_x <- x_coord + distance_x
+                                        })
+
+  distance_seedlings_y <- purrr::map2(current_living$species, no_seedlings,
+                                      function(x, y) rABMP::random_distance(species = x, n = y))
+
+  seedlings_x <- purrr::map2(current_living$x, distance_seedlings_x, function(x, y) x + y)
+  seedlings_y <- purrr::map2(current_living$y, distance_seedlings_y, function(x, y) x + y)
+
 
 
   # tibble::tibble(x = x + rABMP::random_coordinates(species = Species, n = number_seedlings),

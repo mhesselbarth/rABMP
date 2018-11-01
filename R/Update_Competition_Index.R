@@ -30,10 +30,10 @@ update_competition_index <- function(input,
   # calculate competition for every col in distance matrix (equals rows of current)
   competition <- purrr::map_dbl(seq_len(ncol(distance_matrix)), function(i) {
 
-    sum(calculate_competition_index(distance = as.numeric(distance_matrix[, i]),
-                                               dbh = current$dbh,
-                                               max_dist = max_dist,
-                                               type = type))
+    sum(rABMP::calculate_competition_index(distance = as.numeric(distance_matrix[, i]),
+                                           dbh = current$dbh,
+                                           max_dist = max_dist,
+                                           type = type))
   })
 
   # standarize results to max(competition) = 1
