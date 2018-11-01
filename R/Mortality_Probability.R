@@ -10,7 +10,6 @@
 #' @export
 mortality_probability <- function(species, dbh){
 
-
   if(species == "Beech"){
     dbh_inc <- exp(-3.4 + 2.1 * (1 - exp(-(-0.00035) * dbh ^ 2.5)))
 

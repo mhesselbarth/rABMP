@@ -1,12 +1,12 @@
 #' Growth function
 #'
 #' Internal help function that contains all growing functions for each species
-#' @param dbh [\code{numeric(1)}]\cr DBH of target plant
-#' @param species [\code{string(1)}]\cr Name of the species
+#' @param species Name of the species
+#' @param dbh DBH of target plant
 #' @return Numeric with size increase for each point
 #'
 #' @export
-growth_function_species <- function(dbh, species){
+growth_function_species <- function(species, dbh){
 
   if(species == "Beech"){increase <- dbh * 0.005367 + 0.017436}
 

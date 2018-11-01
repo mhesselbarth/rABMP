@@ -4,12 +4,12 @@
 \alias{growth_function_species}
 \title{Growth function}
 \usage{
-growth_function_species(dbh, species)
+growth_function_species(species, dbh)
 }
 \arguments{
-\item{dbh}{[\code{numeric(1)}]\cr DBH of target plant}
+\item{species}{Name of the species}
 
-\item{species}{[\code{string(1)}]\cr Name of the species}
+\item{dbh}{DBH of target plant}
 }
 \value{
 Numeric with size increase for each point

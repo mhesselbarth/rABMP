@@ -1,9 +1,9 @@
 #' Seed kernel
 #'
 #' The kernel function
-#' @param species [\code{string(1)}]\cr Species of tree
-#' @param distance [\code{numeric(1)}]\cr Distance r from mother tree
-#' @param max_dist [\code{numeric(1)}]\cr Maximum distance of seed dispersal
+#' @param species Species of tree
+#' @param distance Distance r from mother tree
+#' @param max_dist Maximum distance of seed dispersal
 #' @references \itemize{
 #' \item Ribbens, E., Silander, J.A., Pacala, S.W., 1994. Seedling recruitment in forests: Calibrating models to predict patterns of tree seedling dispersion. Ecology 75, 1794–1806.
 #' \item Millerón, M., De Heredia, U.L., Lorenzo, Z., Alonso, J., Dounavi, A., Gil, L., Nanos, N., 2013. Assessment of spatial discordance of primary and effective seed dispersal of European beech (Fagus sylvatica L.) by ecological and genetic methods. Mol. Ecol. 22, 1531–1545.

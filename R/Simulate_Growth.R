@@ -7,20 +7,29 @@
 #' @export
 simulate_growth <- function(input){
 
-  past <- input %>% # save the data of previous time step
-    tidyr::unnest()
+  # unnest data
+  input_unnested <- tidyr::unnest(input)
 
-  result <- input %>%
-    tidyr::unnest() %>%
-    dplyr::filter(Type != "Dead" & i == max(i)) %>% # only living trees of the current time step
-    dplyr::mutate(DBH = DBH + purrr::pmap_dbl(., function(Species, DBH, CI,...){
-              rABMP::growth_function_species(species = Species, dbh = DBH) * (1 - CI)}), # add increase to current DBH
-           i = i + 1, # update timestep
-           Type = dplyr::case_when(DBH <= 10 ~ "Sapling", # update type
-                     DBH > 10 ~ "Adult")) %>%
-    dplyr::bind_rows(past) %>% # combine with data of of previous time step
-    tidyr::nest(-c(x, y, Species), .key = "Data") %>%
-    dplyr::mutate(Data=purrr::map(Data, function(x){dplyr::arrange(x, i)})) # order data in increasing i
+  # only get living trees of current timestep
+  current_living <- dplyr::filter(input_unnested, type != "Dead" & i == max(i))
+
+  # calculate growth
+  growth <- purrr::map2_dbl(current_living$species, current_living$dbh,
+                            function(x, y) rABMP::growth_function_species(species = x,
+                                                                          dbh = y))
+
+  # update tibble
+  current_living <- dplyr::mutate(current_living,
+                                  i = i + 1, # update timestep
+                                  dbh = dbh + growth * (1 - ci), # add increase to current DBH
+                                  type = dplyr::case_when(dbh <= 10 ~ "Sapling", # update type
+                                                          dbh > 10 ~ "Adult"))
+
+  # combine tibbles
+  full_updated <- dplyr::bind_rows(current_living, input_unnested)
+
+  # nest tibble
+  result <- tidyr::nest(full_updated, -c(id, x, y, species), .key = "data")
 
   return(result)
 }

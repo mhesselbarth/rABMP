@@ -1,19 +1,49 @@
-#' Calculate competition index
+#' calculate_competition_index
 #'
-#' Internal help function to calculate the CI for a focal tree to use with purrr::map()
-#' @param distance [\code{numeric(n)}]\cr Vector with distances to all neighbouring trees n
-#' @param i [\code{numeric(1)}]\cr Counter of the focal tree
-#' @param dbh [\code{numeric(n)}] Vector with DBHs of all neighbouring trees n. Will be indexed by i
-#' @param max_dist [\code{numeric(1)}]\cr Maximum interaction distance between trees
-#' @param type [\code{string(1)}]\cr Kernel type to use (either "Fractional", "Exponential" or "Epanechnikov")
+#' @details
+#' Function to calculate competition
+#'
+#' @param distance Vector of distances between focal tree and all others
+#' @param dbh Vector with dbh in same order as distance
+#' @param max_dist Maximum interaction distance. Used to standartize values to 0-1 for Epanechnikov kernel
+#' @param type Kernel type to use (either "fractional", "exponential" or "epanechnikov")
 #'
 #' @export
-calculate_competition_index <- function(distance, i, dbh, max_dist, type = "Epanechnikov"){
-  sum(dplyr::if_else(distance < max_dist, # check for all distances within max_dist
-                  true = dplyr::if_else(distance == 0, # distance == 0 is the diagonal of the distance matrix
-                                      true = 0, # no competition on itself
-                                      false = rABMP::competition_kernel(distance = distance, # calculate CI index
-                                                                      dbh = dbh[i],
-                                                                      max_dist = max_dist)),
-                  false = 0)) # distance above max_dist
+calculate_competition_index <- function(distance, dbh, max_dist, type = "epanechnikov"){
+
+  if(type == "fractional"){
+
+    alpha <- 3.24074
+    beta <- 1.05879
+    competition <- (dbh ^ alpha) / (1 + ((distance / beta) ^ 2))
+
+    competition[which(distance > max_dist | distance == 0)] <- 0
+
+  }
+
+  else if(type == "exponential"){
+
+    alpha <- 1.45772
+    beta <- 0.52339
+    competition <- (dbh ^ alpha) * exp( - (distance / (dbh ^ beta)))
+
+    competition[which(distance > max_dist | distance == 0)] <- 0
+  }
+
+  else if(type == "epanechnikov"){
+
+    distance_standardized <- distance / max_dist # standarize to max_dist=1
+    kernel <- (3 / 4) * (1 - (distance_standardized ^ 2))
+    competition <- kernel * dbh
+
+    competition[which(distance > max_dist | distance == 0)] <- 0
+  }
+
+  else{
+    print("Please select valid kernel ('Fractional', 'Exponential' or 'Epanechnikov') - returning CI=0")
+    competition <- 0
+  }
+
+  return(competition)
 }
+

@@ -2,17 +2,20 @@
 % Please edit documentation in R/simulate_seed_dispersal.R
 \name{simulate_seed_dispersal}
 \alias{simulate_seed_dispersal}
-\title{Seed dispersal (not running)}
+\title{simulate_seed_dispersal}
 \usage{
 simulate_seed_dispersal(input, threshold = 30)
 }
 \arguments{
-\item{input}{[\code{tibble(1)}]\cr Tibble with input data}
+\item{input}{Tibble with input data}
 
-\item{threshold}{[\code{numeric(1)}]\cr Minimum DBH threshold for reproduction}
+\item{threshold}{Minimum DBH threshold for reproduction}
 }
 \description{
-The function simulates seed dispersal
+simulate_seed_dispersal
+}
+\details{
+Simulate seed dispersal
 }
 \references{
 \itemize{
