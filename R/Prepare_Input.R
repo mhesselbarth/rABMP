@@ -13,11 +13,12 @@ prepare_input <- function(input, x, y, species, type, dbh){
 
   input$ci <- 0 # initialize competition index
   input$i <- 0 # initialize time step counter
+  input$id <- seq(1:nrow(input))
 
-  input_ordered <- input[c(c(x, y, species, type, dbh), "ci", "i")] # order columns
-  names(input_ordered) <- c("x", "y", "species", "type", "dbh", "ci", "i") # name columns
+  input_ordered <- input[c("id", c(x, y, species, type, dbh), "ci", "i")] # order columns
+  names(input_ordered) <- c("id", "x", "y", "species", "type", "dbh", "ci", "i") # name columns
 
-  input_nested <- tidyr::nest(input_ordered, -c(species, x, y), .key = "data") # nest data
+  input_nested <- tidyr::nest(input_ordered, -c(id, x, y, species), .key = "data") # nest data
 
   result <- dplyr::mutate(input_nested,
                           data = purrr::map(data, function(input){input <- input[c("i", "type", "dbh", "ci")]})) # order columns of nested data
