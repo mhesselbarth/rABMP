@@ -18,6 +18,7 @@ simulate_mortality <- function(input, threshold = 0.25, time_steps = 3){ # Not w
   input_unnested <- tidyr::unnest(input)
 
   # only get living trees of current timestep above threshold
+  # maybe we need to distinguish between tree species and adults and seedlings
   current_living <- dplyr::filter(input_unnested,
                                   type != "Dead",
                                   i >= max(i) - time_steps)
