@@ -3,7 +3,7 @@
 #' @details
 #' Simulate seed dispersal
 #'
-#' @param input  Tibble with input data
+#' @param input Tibble with input data
 #' @param threshold Minimum DBH threshold for reproduction
 #'
 #' @references \itemize{
@@ -22,6 +22,9 @@ simulate_seed_dispersal <- function(input, threshold = 30){
                                   type != "Dead",
                                   i == max(i),
                                   dbh > threshold)
+
+  # get most recent time step
+  i <- max(current_living$i)
 
   # Number of seedlings for each tree
   no_seedlings <- purrr::map2_dbl(current_living$species, current_living$dbh,
