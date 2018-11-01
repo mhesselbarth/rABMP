@@ -55,7 +55,7 @@ simulate_seed_dispersal <- function(input, threshold = 30){
 
   result <- dplyr::bind_rows(input_unnested, seedlings)
 
-  result <- tidyr::nest(result, -c(x, y, species), .key="data")
+  result <- tidyr::nest(result, -c(id, x, y, species), .key="data")
 
   return(result)
 }

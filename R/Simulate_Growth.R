@@ -29,7 +29,7 @@ simulate_growth <- function(input){
   full_updated <- dplyr::bind_rows(current_living, input_unnested)
 
   # nest tibble
-  result <- tidyr::nest(full_updated, -c(x, y, species), .key = "data")
+  result <- tidyr::nest(full_updated, -c(id, x, y, species), .key = "data")
 
   return(result)
 }
