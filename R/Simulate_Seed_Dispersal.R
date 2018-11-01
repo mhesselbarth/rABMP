@@ -28,46 +28,31 @@ simulate_seed_dispersal <- function(input, threshold = 30){
                                   function(x, y) rABMP::number_seeds(species = x,
                                                                      dbh = y))
 
-  # Get r
-  distance_seedlings_x <- purrr::map2(current_living$species, no_seedlings,
-                                      function(species, n, x_coord) {
+  # Reduce seedlings because of browsing and general mortality
+  no_seedlings <- floor(no_seedlings * 0.3) # parameter needs update, just random number right now
+
+  # Create seedlings
+  seedlings <- purrr::pmap_dfr(list(current_living$species, no_seedlings, current_living$x, current_living$y),
+                                      function(species, n, x_coord, y_coord) {
                                         distance_x <- rABMP::random_distance(species = species, n = n)
-                                        # coords_x <- x_coord + distance_x
+                                        coords_x <- x_coord + distance_x
+
+                                        distance_y <- rABMP::random_distance(species = species, n = n)
+                                        coords_y <- y_coord + distance_y
+
+                                        tibble::tibble(x = coords_x,
+                                                       y = coords_y,
+                                                       species = species,
+                                                       i = i,
+                                                       type = "Seedling",
+                                                       dbh = 1.0,
+                                                       ci = 0.0)
                                         })
 
-  distance_seedlings_y <- purrr::map2(current_living$species, no_seedlings,
-                                      function(x, y) rABMP::random_distance(species = x, n = y))
 
-  seedlings_x <- purrr::map2(current_living$x, distance_seedlings_x, function(x, y) x + y)
-  seedlings_y <- purrr::map2(current_living$y, distance_seedlings_y, function(x, y) x + y)
+  result <- dplyr::bind_rows(input_unnested, seedlings)
 
-
-
-  # tibble::tibble(x = x + rABMP::random_coordinates(species = Species, n = number_seedlings),
-  #                y = y + rABMP::random_coordinates(species = Species, n = number_seedlings),
-  #                Species = Species,
-  #                i = i,
-  #                Type = 'Seedling',
-  #                DBH = 1.0,
-  #                CI = 0.0)
-
-    # seedlings <- living %>%
-    #   purrr::pmap_dfr(., function(x, y, Species, i, No_seedlings, ...){
-    #     tibble::tibble(x = x + sample_n(dplyr::filter(tidyr::unnest(random_coords), Species == Species), size = 1)$Coordinates,
-    #                    y = y + sample_n(dplyr::filter(tidyr::unnest(random_coords
-    #                                                                 ), Species == Species), size = 1)$Coordinates,
-    #                    Species = Species,
-    #                    i = i,
-    #                    Type = 'Seedling',
-    #                    DBH = 1.0,
-    #                    CI = 0.0)})
-
-
-
-  # result <- input %>%
-  #   tidyr::unnest() %>%
-  #   dplyr::bind_rows(seedlings) %>%
-  #   tidyr::nest(-c(x,y, Species), .key="Data")
+  result <- tidyr::nest(result, -c(x, y, species), .key="data")
 
   return(result)
 }

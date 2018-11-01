@@ -9,17 +9,17 @@ data_trees <- prepare_input(input = example_input_data,
 
 data_trees <- data_trees[1:10, ]
 
-years <- 5
+years <- 3
 
 for(i in 1:years){
   data_trees <- update_competition_index(input = data_trees, standardized = TRUE)
   data_trees <- simulate_growth(input = data_trees)
-  # trees <- simulate_seed_dispersal(input = data_trees) # Bug somewhere
-  # trees <- simulate_mortality(data_trees) # Bug somewhere
+  data_trees <- simulate_seed_dispersal(input = data_trees) # Bug somewhere
+  # data_trees <- simulate_mortality(data_trees) # Bug somewhere
   print(paste0(i, " from ", years, " runs done"))
 }
 
-data_trees$data[[1]]
+data_trees$data[[155]]
 # A tibble: 11 x 4
 # i Type    DBH     CI
 # <dbl> <chr> <dbl>  <dbl>
