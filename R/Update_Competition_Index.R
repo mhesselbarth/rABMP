@@ -1,43 +1,62 @@
-#' Update competition index
+#' update_competition_index
 #'
-#' The function updates the competition index of the provided pattern a kernel.
-#' @param input [\code{tibble(1)}]\cr Tibble with input data
-#' @param standardized [\code{logical(1)}]\cr Standardize maximum CI to 1
-#' @param max_dist [\code{numeric(1)}]\cr Maximum interaction distance between trees
+#' @details
+#' Update the competition index
+#'
+#' @param input Tibble with input data
+#' @param type Kernel type to use (either "fractional", "exponential" or "epanechnikov")
+#' @param max_dist Maximum interaction distance between trees
+#' @param standardized Standardize maximum CI to 1
+#'
 #' @references \itemize{
 #' \item Pommerening, A., LeMay, V., Stoyan, D., 2011. Model-based analysis of the influence of ecological processes on forest point pattern formation-A case study. Ecol. Modell. 222, 666–678.
 #' \item Pommerening, A., Maleki, K., 2014. Differences between competition kernels and traditional size-ratio based competition indices used in forest ecology. For. Ecol. Manage. 331, 135–143.
 #' }
 #'
 #' @export
-update_competition_index <- function(input, standardized = T, max_dist = 30){
+update_competition_index <- function(input,
+                                     type = "exponential",
+                                     max_dist = 30,
+                                     standardized){
 
-  past <- input %>% # data of previous time steps
-    tidyr::unnest() %>%
-    dplyr::filter(i != max(i))
+  input_unnested <- tidyr::unnest(input) # unnest data
 
-  current <- input %>% # data of current time steps
-    tidyr::unnest() %>%
-    dplyr::filter(i == max(i))
+  past <- dplyr::filter(input_unnested, i != max(i)) # data of past time steps
 
-  competition <- current %>%
-   dplyr::select(x, y) %>% # get distances between all individuals
-   dist() %>% # distance matrix
-   as.matrix() %>%
-   tibble::as.tibble() %>%
-   purrr::map_dbl(rABMP::calculate_competition_index,
-                  i = seq_along(.),
-                  dbh = current$DBH, max_dist = max_dist) %>% # calculate CI for each tree
-   as.double()
+  current <- dplyr::filter(input_unnested, i == max(i)) # data of current time step
 
-  if(standardized == TRUE){
-    competition <- competition / max(competition) # standarize results
+ # distance_matrix <- as.matrix(dist(dplyr::select(current, x, y)))# distance between all trees
+
+  coordinates <- dplyr::select(current, x, y)
+  competition <- rep(NA, length(coordinates$x))
+  for(i in 1:length(coordinates$x)){
+  distance <-  pointDistance(c(coordinates$x[i], coordinates$y[i]), coordinates, lonlat = F)
+  competition[i] <-  sum(calculate_competition_index(distance = distance,
+                              dbh = current$dbh,
+                              max_dist = max_dist,
+                              type = type))
   }
 
-  result <- current %>%
-    dplyr::mutate(CI = competition) %>% # update CI
-    dplyr::bind_rows(past) %>% # combine with data of previous time steps
-    tidyr::nest(-c(x, y, Species), .key="Data")
+
+
+  # calculate competition for every col in distance matrix (equals rows of current)
+
+  alpha <- 1.45772
+  comp_trans <- competition/(current$dbh^alpha+competition) # pommerening 2014: transformation of competition index which includes size of affected tree
+                                                              # scaled between 0 and 1
+  # standarize results to max(competition) = 1
+  if(standardized == TRUE){
+     competition <- competition / max(competition)
+   }
+
+  # update tibble
+  current <- dplyr::mutate(current, ci = comp_trans)
+
+  # combine tibbles
+  full_updated <- dplyr::bind_rows(current, past)
+
+  # nest tibble
+  result <- tidyr::nest(full_updated, -c(id, x, y, species), .key="data")
 
   return(result)
 }

@@ -1,0 +1,14 @@
+globalVariables(c(
+  "Accept",
+  "DBH",
+  "Data",
+  "Proposed",
+  "Species",
+  "Type",
+  "dist",
+  "i",
+  "runif",
+  "sample_n",
+  "tibble",
+  "x",
+  "y"))

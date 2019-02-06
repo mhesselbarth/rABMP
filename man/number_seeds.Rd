@@ -7,9 +7,9 @@
 number_seeds(species, dbh)
 }
 \arguments{
-\item{species}{[\code{string(1)}]\cr Species of tree}
+\item{species}{Species of tree}
 
-\item{dbh}{[\code{numeric(1)}]\cr DBH of tree}
+\item{dbh}{DBH of tree}
 }
 \description{
 The function calculates the number of seeds for each tree depending on the DBH

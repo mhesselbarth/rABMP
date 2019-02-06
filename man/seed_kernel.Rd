@@ -7,11 +7,11 @@
 seed_kernel(species, distance, max_dist)
 }
 \arguments{
-\item{species}{[\code{string(1)}]\cr Species of tree}
+\item{species}{Species of tree}
 
-\item{distance}{[\code{numeric(1)}]\cr Distance r from mother tree}
+\item{distance}{Distance r from mother tree}
 
-\item{max_dist}{[\code{numeric(1)}]\cr Maximum distance of seed dispersal}
+\item{max_dist}{Maximum distance of seed dispersal}
 }
 \description{
 The kernel function

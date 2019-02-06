@@ -4,15 +4,16 @@
 \alias{growth_function_species}
 \title{Growth function}
 \usage{
-growth_function_species(dbh, species)
+growth_function_species(dbh)
 }
 \arguments{
-\item{dbh}{[\code{numeric(1)}]\cr DBH of target plant}
-
-\item{species}{[\code{string(1)}]\cr Name of the species}
+\item{dbh}{DBH of target plant}
 }
 \value{
 Numeric with size increase for each point
+
+Chapman-Richards growth function, parameter from Pommerening: Differences between competition
+kernels and traditional size-ration based competition indices used in forest ecology
 }
 \description{
 Internal help function that contains all growing functions for each species

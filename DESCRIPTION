@@ -9,9 +9,9 @@ License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Depends:
-  R (>= 3.4.0), 
+  R (>= 3.1)
+Imports:
   magrittr,
   spatstat,
   tidyverse
-Imports:
 RoxygenNote: 6.1.0

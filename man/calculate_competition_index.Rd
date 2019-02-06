@@ -2,22 +2,23 @@
 % Please edit documentation in R/Calculate_Competition_Index.R
 \name{calculate_competition_index}
 \alias{calculate_competition_index}
-\title{Calculate competition index}
+\title{calculate_competition_index}
 \usage{
-calculate_competition_index(distance, i, dbh, max_dist,
-  type = "Epanechnikov")
+calculate_competition_index(distance, dbh, max_dist,
+  type = "exponential")
 }
 \arguments{
-\item{distance}{[\code{numeric(n)}]\cr Vector with distances to all neighbouring trees n}
+\item{distance}{Vector of distances between focal tree and all others}
 
-\item{i}{[\code{numeric(1)}]\cr Counter of the focal tree}
+\item{dbh}{Vector with dbh in same order as distance}
 
-\item{dbh}{[\code{numeric(n)}] Vector with DBHs of all neighbouring trees n. Will be indexed by i}
+\item{max_dist}{Maximum interaction distance. Used to standartize values to 0-1 for Epanechnikov kernel}
 
-\item{max_dist}{[\code{numeric(1)}]\cr Maximum interaction distance between trees}
-
-\item{type}{[\code{string(1)}]\cr Kernel type to use (either "Fractional", "Exponential" or "Epanechnikov")}
+\item{type}{Kernel type to use (either "fractional", "exponential" or "epanechnikov")}
 }
 \description{
-Internal help function to calculate the CI for a focal tree to use with purrr::map()
+calculate_competition_index
+}
+\details{
+Function to calculate competition
 }
