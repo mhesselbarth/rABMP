@@ -9,7 +9,7 @@
 #' @param type Kernel type to use (either "fractional", "exponential" or "epanechnikov")
 #'
 #' @export
-calculate_competition_index <- function(distance, dbh, max_dist, type = "epanechnikov"){
+calculate_competition_index <- function(distance, dbh, max_dist, type = "exponential"){
 
   if(type == "fractional"){
 
@@ -18,6 +18,8 @@ calculate_competition_index <- function(distance, dbh, max_dist, type = "epanech
     competition <- (dbh ^ alpha) / (1 + ((distance / beta) ^ 2))
 
     competition[which(distance > max_dist | distance == 0)] <- 0
+
+
 
   }
 
@@ -28,6 +30,8 @@ calculate_competition_index <- function(distance, dbh, max_dist, type = "epanech
     competition <- (dbh ^ alpha) * exp( - (distance / (dbh ^ beta)))
 
     competition[which(distance > max_dist | distance == 0)] <- 0
+
+
   }
 
   else if(type == "epanechnikov"){

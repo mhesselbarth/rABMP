@@ -12,52 +12,55 @@
 #' }
 #'
 #' @export
-simulate_mortality <- function(input, threshold = 0.25, time_steps = 3){ # Not working currently! Something's wrong in Mortalitaty.Probability()
+simulate_mortality <- function(input) {
 
-  # unnest data
   input_unnested <- tidyr::unnest(input)
 
-  # only get living trees of current timestep above threshold
-  # maybe we need to distinguish between tree species and adults and seedlings
-  current_living <- dplyr::filter(input_unnested,
-                                  type != "Dead",
-                                  i >= max(i) - time_steps)
+  current_living <- dplyr::filter(input_unnested, type != "Dead", i == max(i))
 
-  # group according to id
-  current_living_grouped <- dplyr::group_by(current_living, id)
+  mortality_prob <- current_living %>% purrr::pmap_dbl(., function(species, dbh, ...) {mortality_probability(species = species, dbh = dbh)})
 
-  # calculate increase
-  increase_dbh <- dplyr::summarise(current_living_grouped, increase = abs(sum(diff(dbh))))
 
-  # which trees had an increase below the threshold
-  ids_below_thres <- dplyr::filter(increase_dbh, increase < threshold)[[1]]
 
-  # update type to dead of most recent timestep
-  updated <- dplyr::mutate(input_unnested, type = dplyr::case_when(id %in% ids_below_thres & i == max(i) ~ "Dead",
-                                                                   id %in% ids_below_thres & i != max(i) ~ type,
-                                                                   !(id %in% ids_below_thres) ~ type))
+   # current_living$mortality <-mortality_prob
+  # current_living$mortality <- mortality_prob
+  #   plot(mortality[species=="Beech"] ~ dbh[species=="Beech"], data = current_living, col ="black",
+  #       ylim=c(0, 0.1), xlab="dbh", ylab="mortality probability")
+  #  points(mortality[species=="Ash"] ~ dbh[species=="Ash"], data = current_living, col ="darkred")
+  #  points(mortality[species=="Hornbeam"] ~ dbh[species=="Hornbeam"], data = current_living, col ="darkgreen")
+  #  legend("topright", legend=c("Beech", "Ash", "Hornbeam"), col=c("black", "darkred", "darkgreen"), pch=1)
+  #
 
-  # nest tibble
+  n <- length(mortality_prob)
+  random <- runif(n)
+  current_living$dead <- random <  mortality_prob
+  current_living <- dplyr::mutate(current_living,
+                                  type = dplyr::case_when(dead == TRUE ~ "Dead",
+                                                          dead != TRUE ~ type))
+
+  current_living <- subset(current_living, select = c(id, type) )
+
+
+  combined <- dplyr::left_join(input_unnested, current_living, by = "id")
+
+  for(x in 1:length(combined$id)) {
+    if(is.na(combined$type.y[x])==T) (combined$type.y[x] = combined$type.x[x]) #check for NAs
+  }
+
+  for(a in 1:length(combined$id)) {
+    if(combined$type.x[a] != combined$type.y[a] && combined$i[a]==max(combined$i)) (combined$type.x[a] = combined$type.y[a]) #update type for dead trees
+  }
+
+  updated <- subset(combined, select = -c(type.y)) # delete second type column
+  names(updated)[6] <- paste("type") # replace type.x by type
   result <- tidyr::nest(updated, -c(id, x, y, species), .key = "data")
 
+
   return(result)
+
+
 }
 
-# past <- input %>% # data of previous time steps
-#   tidyr::unnest() %>%
-#   dplyr::filter(i != max(i))
-#
-# current <- input %>% # data of current time steps
-#   tidyr::unnest() %>%
-#   dplyr::filter(i == max(i))
-#
-# x <- current %>%
-#   purrr::pmap_dbl(., function(Species, DBH, ...){rABMP::mortality_probability(species = Species, dbh = DBH)})
-#
-# for(i in 1:pattern$n){
-#   dbh_i <- pattern$marks$DBH[i]
-#   species_i <- as.character(pattern$marks$Species[i])
-#
-#   mortality_prob <- rABMP::mortality_probability(species=species_i, dbh=dbh_i)
-#   if(runif(1)<mortality_prob){pattern$marks$Type[i] <- "dead"}
-# }
+
+
+

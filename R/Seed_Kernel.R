@@ -15,15 +15,15 @@ seed_kernel <- function(species, distance, max_dist){
   n <- 0
 
   if(species == "Beech"){
-    # kernel_species <- exp(-3.412413 / 10 ^ 5 * distance ^ 3)
-    # for(i in 0:max_dist){
-    #   n <- n + exp(-3.412413 / 10 ^ 5 * i ^ 3) # n <- integrate(function(r){exp(-3.412413/10^5*r^3)}, lower=0, upper=Inf)$value
-    # }
-    # kernel_return <- (1 / n) * kernel_species
+    kernel_species <- exp(-3.412413 / 10 ^ 5 * distance ^ 3)
+    for(i in 0:max_dist){
+    n <- n + exp(-3.412413 / 10 ^ 5 * i ^ 3) # n <- integrate(function(r){exp(-3.412413/10^5*r^3)}, lower=0, upper=Inf)$value
+    }
+    kernel_return <- (1 / n) * kernel_species
 
     # Probability based on Milleron et al. (2013) Year 2007
-    beta <- runif(n = 1, min = 197.9, max =  244.7)
-    kernel_return <- 1 / (pi * beta * (1 + (distance^2 / beta))^2)
+    #beta <- runif(n = 1, min = 197.9, max =  244.7)
+    #kernel_return <- 1 / (pi * beta * (1 + (distance^2 / beta))^2)
 
   }
 

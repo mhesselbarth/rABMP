@@ -15,9 +15,9 @@
 #'
 #' @export
 update_competition_index <- function(input,
-                                     type = "epanechnikov",
+                                     type = "exponential",
                                      max_dist = 30,
-                                     standardized = TRUE){
+                                     standardized){
 
   input_unnested <- tidyr::unnest(input) # unnest data
 
@@ -25,24 +25,32 @@ update_competition_index <- function(input,
 
   current <- dplyr::filter(input_unnested, i == max(i)) # data of current time step
 
-  distance_matrix <- as.matrix(dist(dplyr::select(current, x, y))) # distance between all trees
+ # distance_matrix <- as.matrix(dist(dplyr::select(current, x, y)))# distance between all trees
 
-  # calculate competition for every col in distance matrix (equals rows of current)
-  competition <- purrr::map_dbl(seq_len(ncol(distance_matrix)), function(i) {
-
-    sum(rABMP::calculate_competition_index(distance = as.numeric(distance_matrix[, i]),
-                                           dbh = current$dbh,
-                                           max_dist = max_dist,
-                                           type = type))
-  })
-
-  # standarize results to max(competition) = 1
-  if(standardized == TRUE){
-    competition <- competition / max(competition)
+  coordinates <- dplyr::select(current, x, y)
+  competition <- rep(NA, length(coordinates$x))
+  for(i in 1:length(coordinates$x)){
+  distance <-  pointDistance(c(coordinates$x[i], coordinates$y[i]), coordinates, lonlat = F)
+  competition[i] <-  sum(calculate_competition_index(distance = distance,
+                              dbh = current$dbh,
+                              max_dist = max_dist,
+                              type = type))
   }
 
+
+
+  # calculate competition for every col in distance matrix (equals rows of current)
+
+  alpha <- 1.45772
+  comp_trans <- competition/(current$dbh^alpha+competition) # pommerening 2014: transformation of competition index which includes size of affected tree
+                                                              # scaled between 0 and 1
+  # standarize results to max(competition) = 1
+  if(standardized == TRUE){
+     competition <- competition / max(competition)
+   }
+
   # update tibble
-  current <- dplyr::mutate(current, ci = competition)
+  current <- dplyr::mutate(current, ci = comp_trans)
 
   # combine tibbles
   full_updated <- dplyr::bind_rows(current, past)

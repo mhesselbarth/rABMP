@@ -30,9 +30,23 @@ simulate_seed_dispersal <- function(input, threshold = 30){
   no_seedlings <- purrr::map2_dbl(current_living$species, current_living$dbh,
                                   function(x, y) rABMP::number_seeds(species = x,
                                                                      dbh = y))
+#creates boxplot with number of seedlings per species
+  # current_living$no_seedlings <- no_seedlings
+  # library(ggplot2)
+  # boxplot <- ggplot(data=current_living, aes(x=species, y=no_seedlings))+ geom_boxplot()
+  # boxplot + labs(y = "number of seeds")
+
+#creates curves with number of seeds per species
+# plot(no_seedlings[species=="Beech"] ~ dbh[species=="Beech"], data = current_living, xlab="dbh", ylab="number of seeds")
+# points(no_seedlings[species=="Ash"] ~ dbh[species=="Ash"], data = current_living, col="darkred")
+# points(no_seedlings[species=="Sycamore"] ~ dbh[species=="Sycamore"], data = current_living, col="darkgreen")
+# legend("topright", legend=c("Beech", "Ash", "Hornbeam"), col=c("black", "darkred", "darkgreen"), pch=1)
 
   # Reduce seedlings because of browsing and general mortality
-  no_seedlings <- floor(no_seedlings * 0.3) # parameter needs update, just random number right now
+
+  no_seedlings <- floor(no_seedlings * runif(1, 0.812, 0.83)) #Bilek et al 2009: zwischen 17 und 18.8 % der Bucheckern waren leer
+  no_seedlings <- floor(no_seedlings * 0.0236) #Bilek et al 2009: nur 2,36 % der vollen Bucheckern überlebten das erste jahr,für alle Arten gleich?
+
 
   # Create seedlings
   seedlings <- purrr::pmap_dfr(list(current_living$species, no_seedlings, current_living$x, current_living$y),
@@ -60,6 +74,9 @@ simulate_seed_dispersal <- function(input, threshold = 30){
   return(result)
 }
 
-
-
-
+# plot(current_living$x, current_living$y, pch=16, xaxt='n', yaxt='n', ann=FALSE)
+# points(seedlings$x, seedlings$y, col="gray")
+#
+#
+# plot(result$x, result$y, col="gray", xaxt='n', yaxt='n', ann=FALSE)
+# points(current_living$x, current_living$y, pch=16)

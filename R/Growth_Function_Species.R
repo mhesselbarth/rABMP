@@ -1,26 +1,25 @@
 #' Growth function
 #'
 #' Internal help function that contains all growing functions for each species
-#' @param species Name of the species
 #' @param dbh DBH of target plant
 #' @return Numeric with size increase for each point
 #'
+#' Chapman-Richards growth function, parameter from Pommerening: Differences between competition
+#' kernels and traditional size-ration based competition indices used in forest ecology
+#'
 #' @export
-growth_function_species <- function(species, dbh){
+growth_function_species <- function(dbh){
 
-  if(species == "Beech"){increase <- dbh * 0.005367 + 0.017436}
 
-  else if(species == "Ash"){increase <- dbh * 0.00534 + 0.12778}
 
-  else if(species == "Hornbeam"){increase <- dbh * 0.004008 - 0.052462}
+  A <- 75.03706
+  k <- 0.02700
+  p <- 3.41053
 
-  else if(species == "Sycamore"){increase <- dbh * 0.004856 - 0.083668}
+  increase <- A*k*p*exp(-k*dbh)*(1-exp(-k*dbh))^(p-1)
 
-  else if(species == "others"){increase <- dbh * 0.004100 + 0.002149}
-
-  else{print("Warning: No growth function for species availaibe - increase=0")}
 
   return(increase)
 }
 
-# Wrong functions, calculated for 1999-2007 and not just  one year
+
