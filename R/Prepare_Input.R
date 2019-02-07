@@ -1,27 +1,47 @@
-#' Prepare Input
+#' prepare_input
 #'
-#' Function to prepare the input dataframe in a tibble with the structure needed by all functions
-#' @param input Tibble with input data
-#' @param x String with  name of column containing the x-coordinate
-#' @param y String with  name of column containing the y-coordinate
-#' @param type String with  name of column containing the type as string
-#' @param species String with  name of column containing the species
-#' @param dbh String with name of column containing the DBH as dbl
+#' @description Prepare input
+
+#' @param input input dataframe
+#' @param x name of column containing the x-coordinate
+#' @param y name of column containing the y-coordinate
+#' @param type name of column containing the type as string
+#' @param species name of column containing the species
+#' @param dbh name of column containing the DBH as dbl
+#'
+#' @details
+#' The function modifies the structures of the input dataframe. This includes renameing
+#' of the coloumns and nesting the data.
+#'
+#' @return tibble
+#'
+#' @examples
+#' names(example_input_data)
+#' prepare_input(input = example_input_data, x = "x_coord", y = "y_coord", species = "spec", type = "Class", dbh = "bhd")
+#'
+#' @aliases prepare_input
+#' @rdname prepare_input
 #'
 #' @export
 prepare_input <- function(input, x, y, species, type, dbh){
 
-  input$ci <- 0 # initialize competition index
-  input$i <- 0 # initialize time step counter
+  # initialize competition index
+  input$ci <- 0
+
+  # initialize time step counter
+  input$i <- 0
+
+  # add id
   input$id <- seq(1:nrow(input))
 
-  input_ordered <- input[c("id", c(x, y, species, type, dbh), "ci", "i")] # order columns
-  names(input_ordered) <- c("id", "x", "y", "species", "type", "dbh", "ci", "i") # name columns
+  # order columns
+  input <- input[c("id", "i", c(x, y, species, type, dbh), "ci")]
 
-  input_nested <- tidyr::nest(input_ordered, -c(id, x, y, species), .key = "data") # nest data
+  # name columns
+  names(input) <- c("id", "i", "x", "y", "species", "type", "dbh", "ci")
 
-  result <- dplyr::mutate(input_nested,
-                          data = purrr::map(data, function(input){input <- input[c("i", "type", "dbh", "ci")]})) # order columns of nested data
+  # nest data
+  input <- tidyr::nest(input, -c(id, x, y, species), .key = "data")
 
-  return(result)
+  return(input)
 }

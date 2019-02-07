@@ -2,7 +2,7 @@
 # Create example data set #
 ###########################
 
-library(rABMP)
+library(rabmp)
 library(dplyr)
 library(raster)
 set.seed(42)

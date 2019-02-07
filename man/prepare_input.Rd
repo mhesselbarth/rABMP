@@ -2,23 +2,35 @@
 % Please edit documentation in R/Prepare_Input.R
 \name{prepare_input}
 \alias{prepare_input}
-\title{Prepare Input}
+\title{prepare_input}
 \usage{
 prepare_input(input, x, y, species, type, dbh)
 }
 \arguments{
-\item{input}{Tibble with input data}
+\item{input}{input dataframe}
 
-\item{x}{String with  name of column containing the x-coordinate}
+\item{x}{name of column containing the x-coordinate}
 
-\item{y}{String with  name of column containing the y-coordinate}
+\item{y}{name of column containing the y-coordinate}
 
-\item{species}{String with  name of column containing the species}
+\item{species}{name of column containing the species}
 
-\item{type}{String with  name of column containing the type as string}
+\item{type}{name of column containing the type as string}
 
-\item{dbh}{String with name of column containing the DBH as dbl}
+\item{dbh}{name of column containing the DBH as dbl}
+}
+\value{
+tibble
 }
 \description{
-Function to prepare the input dataframe in a tibble with the structure needed by all functions
+Prepare input
+}
+\details{
+The function modifies the structures of the input dataframe. This includes renameing
+of the coloumns and nesting the data.
+}
+\examples{
+names(example_input_data)
+prepare_input(input = example_input_data, x = "x_coord", y = "y_coord", species = "spec", type = "Class", dbh = "bhd")
+
 }

@@ -15,7 +15,7 @@ simulate_growth <- function(input){
 
   # calculate growth
 #  growth <- purrr::map_dbl(current_living$dbh,
- #                         function(x) rABMP::growth_function_species(dbh = x))
+ #                         function(x) rabmp::growth_function_species(dbh = x))
   # growth <- apply(current_living$dbh, 1,  FUN = growth_function_species(dbh = x))
 
   growth <- growth_function_species(dbh = current_living$dbh)

@@ -28,7 +28,7 @@ simulate_seed_dispersal <- function(input, threshold = 30){
 
   # Number of seedlings for each tree
   no_seedlings <- purrr::map2_dbl(current_living$species, current_living$dbh,
-                                  function(x, y) rABMP::number_seeds(species = x,
+                                  function(x, y) rabmp::number_seeds(species = x,
                                                                      dbh = y))
 #creates boxplot with number of seedlings per species
   # current_living$no_seedlings <- no_seedlings
@@ -51,10 +51,10 @@ simulate_seed_dispersal <- function(input, threshold = 30){
   # Create seedlings
   seedlings <- purrr::pmap_dfr(list(current_living$species, no_seedlings, current_living$x, current_living$y),
                                       function(species, n, x_coord, y_coord) {
-                                        distance_x <- rABMP::random_distance(species = species, n = n)
+                                        distance_x <- rabmp::random_distance(species = species, n = n)
                                         coords_x <- x_coord + distance_x
 
-                                        distance_y <- rABMP::random_distance(species = species, n = n)
+                                        distance_y <- rabmp::random_distance(species = species, n = n)
                                         coords_y <- y_coord + distance_y
 
                                         tibble::tibble(x = coords_x,
