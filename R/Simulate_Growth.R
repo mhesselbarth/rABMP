@@ -18,7 +18,7 @@
 #'
 #' @references
 #' Pommerening, A., Maleki, K., 2014. Differences between competition kernels and
-#' traditional size-ratio based competition indices used in forest ecology. For. Ecol. Manage. 331, 135–143.
+#' traditional size-ratio based competition indices used in forest ecology. For. Ecol. Manage. 331, 135-143.
 #'
 #' @export
 simulate_growth <- function(input){
@@ -64,5 +64,5 @@ simulate_growth <- function(input){
   # nest tibble
   input <- tidyr::nest(input, -c(id, x, y, species), .key = "data")
 
-  return(result)
+  return(input)
 }

@@ -24,16 +24,16 @@
 #'
 #' @references
 #' Pommerening, A., LeMay, V., Stoyan, D., 2011. Model-based analysis of the influence
-#' of ecological processes on forest point pattern formation-A case study. Ecol. Modell. 222, 666–678.
+#' of ecological processes on forest point pattern formation-A case study. Ecol. Modell. 222, 666-678.
 #'
 #' Pommerening, A., Maleki, K., 2014. Differences between competition kernels and
-#' traditional size-ratio based competition indices used in forest ecology. For. Ecol. Manage. 331, 135–143.
+#' traditional size-ratio based competition indices used in forest ecology. For. Ecol. Manage. 331, 135-143.
 #'
 #' @export
 simulate_ci <- function(input,
-                      type = "exponential",
-                      max_dist = 30,
-                      standardized = TRUE){
+                        type = "exponential",
+                        max_dist = 30,
+                        standardized = TRUE){
 
   # unnest data
   input <- tidyr::unnest(input)

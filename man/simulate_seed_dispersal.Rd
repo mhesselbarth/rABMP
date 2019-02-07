@@ -12,14 +12,13 @@ simulate_seed_dispersal(input, threshold = 30)
 \item{threshold}{Minimum DBH threshold for reproduction}
 }
 \description{
-simulate_seed_dispersal
-}
-\details{
 Simulate seed dispersal
 }
 \references{
-\itemize{
-\item Clark, J.S., Silman, M., Kern, R., Macklin, E., HilleRisLambers, J., 1999. Seed dispersal near and far: Patterns across temperate and tropical forests. Ecology 80, 1475–1494.
-\item Millerón, M., De Heredia, U.L., Lorenzo, Z., Alonso, J., Dounavi, A., Gil, L., Nanos, N., 2013. Assessment of spatial discordance of primary and effective seed dispersal of European beech (Fagus sylvatica L.) by ecological and genetic methods. Mol. Ecol. 22, 1531–1545.
-}
+Clark, J.S., Silman, M., Kern, R., Macklin, E., HilleRisLambers, J., 1999. Seed
+dispersal near and far: Patterns across temperate and tropical forests. Ecology 80, 1475-1494.
+
+Millerón, M., De Heredia, U.L., Lorenzo, Z., Alonso, J., Dounavi, A., Gil, L.,
+Nanos, N., 2013. Assessment of spatial discordance of primary and effective seed
+dispersal of European beech (Fagus sylvatica L.) by ecological and genetic methods. Mol. Ecol. 22, 1531-1545.
 }
