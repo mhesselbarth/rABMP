@@ -25,6 +25,9 @@
 #' @export
 prepare_input <- function(input, x, y, species, type, dbh){
 
+  # convert to tibble
+  input <- tibble::as_tibble(input)
+
   # initialize competition index
   input$ci <- 0
 

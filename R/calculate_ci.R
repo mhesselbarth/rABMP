@@ -15,7 +15,6 @@
 #' @return vector
 #'
 #' @examples
-#' add examples
 #'
 #' @aliases calculate_ci
 #' @rdname calculate_ci

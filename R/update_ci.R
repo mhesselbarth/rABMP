@@ -36,13 +36,13 @@ update_ci <- function(input,
                       standardized = TRUE){
 
   # unnest data
-  input_unnested <- tidyr::unnest(input)
+  input <- tidyr::unnest(input)
 
   # data of past time steps
-  past <- input_unnested[which(input_unnested$i != max(input_unnested$i)), ]
+  past <- input[which(input$i != max(input$i)), ]
 
   # data of current time step
-  current <- input_unnested[which(input_unnested$i == max(input_unnested$i)), ]
+  current <- input[which(input$i == max(input$i)), ]
 
     # get coordinates
   coordinates <- matrix(c(current$x, current$y), ncol = 2)
@@ -54,10 +54,10 @@ update_ci <- function(input,
   competition <- rep(x = NA, times = number_tress)
 
   # loop through all points
+  # maybe use Rcpp?
   for(i in 1:number_tress) {
 
     # calculate distance between current point and all other points
-    # maybe use Rcpp?
     distance <- get_distance(point_a = coordinates[i ,, drop = FALSE],
                              point_b = coordinates)
 
@@ -89,10 +89,10 @@ update_ci <- function(input,
   current$ci <- competition
 
   # combine tibbles
-  full_updated <- dplyr::bind_rows(current, past)
+  input <- dplyr::bind_rows(current, past)
 
   # nest tibble
-  result <- tidyr::nest(full_updated, -c(id, x, y, species), .key="data")
+  input <- tidyr::nest(input, -c(id, x, y, species), .key="data")
 
-  return(result)
+  return(input)
 }

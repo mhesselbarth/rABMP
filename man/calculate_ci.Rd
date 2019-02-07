@@ -27,7 +27,6 @@ neighbours. Neigbours with a distance larger than \code{max_dist} are not consid
 It is used to standartize values to 0-1 for Epanechnikov kernel
 }
 \examples{
-add examples
 
 }
 \references{
