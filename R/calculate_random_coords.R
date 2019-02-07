@@ -9,7 +9,7 @@
 #' A higher number will decrease the speed of the function but increase the fit to the seed kernel
 #'
 #' @export
-random_distance <- function(species, n = NULL, max_dist = 80, number_samples = 1000000){
+calculate_random_coords <- function(species, n = NULL, max_dist = 80, number_samples = 1000000){
 
   # random numbers between 0 and max dispersal distance
   proposed_coords <- tibble::tibble(proposed = runif(number_samples,
@@ -17,9 +17,9 @@ random_distance <- function(species, n = NULL, max_dist = 80, number_samples = 1
 
   # Create coordinates according to kernel
   proposed_coords <- dplyr::mutate(proposed_coords,
-                                   target = rABMP::seed_kernel(species = species,
-                                                               distance = proposed,
-                                                               max_dist = max_dist), # probability of random number according to seed dipersal
+                                   target = rabmp::calculate_seed_kernel(species = species,
+                                                                         distance = proposed,
+                                                                         max_dist = max_dist), # probability of random number according to seed dipersal
                                    random = runif(number_samples, min = 0, max = 1), # test value
                                    accept = dplyr::case_when(random <= target / max(target, na.rm = TRUE) ~ TRUE, # set TRUE for numbers that fit distribution
                                                              TRUE ~ FALSE))

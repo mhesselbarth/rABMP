@@ -10,7 +10,7 @@
 #' }
 #'
 #' @export
-seed_kernel <- function(species, distance, max_dist){
+calculate_seed_kernel <- function(species, distance, max_dist){
   # Rather us integrate than loop to get normalizer ?
   n <- 0
 
