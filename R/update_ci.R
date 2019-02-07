@@ -58,8 +58,8 @@ update_ci <- function(input,
   for(i in 1:number_tress) {
 
     # calculate distance between current point and all other points
-    distance <- get_distance(point_a = coordinates[i ,, drop = FALSE],
-                             point_b = coordinates)
+    distance <- calculate_distance(point_a = coordinates[i ,, drop = FALSE],
+                                   point_b = coordinates)
 
     # only distances below threshold and not to itself
     dbh <- current$dbh[which(distance < max_dist & distance != 0)]

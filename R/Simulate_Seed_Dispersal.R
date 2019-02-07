@@ -50,7 +50,9 @@ simulate_seed_dispersal <- function(input, threshold = 30){
   # MH: This certainly needs a major speed-update!
   seedlings <- purrr::pmap_dfr(list(current_living$species, no_seedlings, current_living$x, current_living$y),
                                       function(species, n, x_coord, y_coord) {
+
                                         distance_x <- rabmp::random_distance(species = species, n = n)
+
                                         coords_x <- x_coord + distance_x
 
                                         distance_y <- rabmp::random_distance(species = species, n = n)
