@@ -1,4 +1,4 @@
-#' update_ci
+#' simulate_ci
 #'
 #' @description Update competition index
 #'
@@ -17,10 +17,10 @@
 #' @examples
 #' names(example_input_data)
 #' df_tress <- prepare_input(input = example_input_data, x = "x_coord", y = "y_coord", species = "spec", type = "Class", dbh = "bhd")
-#' update_ci(input = df_tress)
+#' simulate_ci(input = df_tress)
 #'
-#' @aliases update_ci
-#' @rdname update_ci
+#' @aliases simulate_ci
+#' @rdname simulate_ci
 #'
 #' @references
 #' Pommerening, A., LeMay, V., Stoyan, D., 2011. Model-based analysis of the influence
@@ -30,7 +30,7 @@
 #' traditional size-ratio based competition indices used in forest ecology. For. Ecol. Manage. 331, 135–143.
 #'
 #' @export
-update_ci <- function(input,
+simulate_ci <- function(input,
                       type = "exponential",
                       max_dist = 30,
                       standardized = TRUE){
