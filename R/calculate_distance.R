@@ -1,6 +1,6 @@
-#' get_distance
+#' calculate_distance
 #'
-#' @description Get distance between two sets of points
+#' @description Calculate distance
 #'
 #' @param point_a coordinates of first (set of) point(s)
 #' @param point_b coordinates of second (set of) point(s)
@@ -21,8 +21,8 @@
 #' bench::mark(calculate_distance(points_a, points_b), raster::pointDistance(points_a, points_b, lonlat = FALSE))
 #' }
 #'
-#' @aliases get_distance
-#' @rdname get_distance
+#' @aliases calculate_distance
+#' @rdname calculate_distance
 #'
 #' @export
 calculate_distance <- function(point_a, point_b) {
