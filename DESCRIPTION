@@ -14,7 +14,8 @@ Imports:
     dplyr,
     spatstat,
     tibble,
-    tidyr
+    tidyr,
+    Rcpps
 Suggests:
   knitr, 
   rmarkdown
@@ -22,3 +23,4 @@ RoxygenNote: 6.1.1
 VignetteBuilder: knitr
 Encoding: UTF-8
 LazyData: true
+LinkingTo: Rcpp

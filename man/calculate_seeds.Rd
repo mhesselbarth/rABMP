@@ -7,16 +7,31 @@
 calculate_seeds(species, dbh)
 }
 \arguments{
-\item{species}{Species of tree}
+\item{species}{current species}
 
-\item{dbh}{DBH of tree}
+\item{dbh}{dbh of current tree}
+}
+\value{
+vector
 }
 \description{
-The function calculates the number of seeds for each tree depending on the DBH
+Calculate number of seeds
+}
+\details{
+Calculates the number of produced seeds for each tree (without reduction for
+seed mortality).
+}
+\examples{
+
 }
 \references{
-\itemize{
-\item Ribbens, E., Silander, J.A., Pacala, S.W., 1994. Seedling recruitment in forests: Calibratiing models to predict patterns of tree seedling dispersion. Ecology 75, 1794–1806.
-\item Millerón, M., De Heredia, U.L., Lorenzo, Z., Alonso, J., Dounavi, A., Gil, L., Nanos, N., 2013. Assessment of spatial discordance of primary and effective seed dispersal of European beech (Fagus sylvatica L.) by ecological and genetic methods. Mol. Ecol. 22, 1531–1545.
-}
+Clark, J.S., Silman, M., Kern, R., Macklin, E., HilleRisLambers, J., 1999. Seed
+dispersal near and far: Patterns across temperate and tropical forests. Ecology 80, 1475-1494.
+
+Millerón, M., De Heredia, U.L., Lorenzo, Z., Alonso, J., Dounavi, A., Gil, L.,
+Nanos, N., 2013. Assessment of spatial discordance of primary and effective seed
+dispersal of European beech (Fagus sylvatica L.) by ecological and genetic methods. Mol. Ecol. 22, 1531-1545.
+
+Ribbens, E., Silander, J. A., & Pacala, S. W. (1994). Seedling recruitment in forests:
+Calibrating models to predict patterns of tree seedling dispersion. Ecology, 75(6), 1794-1806.
 }
