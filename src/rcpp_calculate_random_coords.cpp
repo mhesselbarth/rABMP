@@ -59,46 +59,37 @@ NumericVector rcpp_calculate_random_coords(double n,
   return sample(proposed, n);
 }
 
-// // [[Rcpp::export]]
-// NumericMatrix rcpp_calculate_seedlings(NumericMatrix coords,
-//                                        NumericVector n,
-//                                        StringVector species) {
-//
-//   int nrow = coords.nrow();
-//
-//   int seedlings_total = sum(n);
-//
-//   int row_counter = 0;
-//
-//   NumericMatrix seedlings(seedlings_total, 2);
-//
-//   for(int i = 0; i < nrow; i++) {
-//
-//     int number_seedlings = n[i];
-//
-//     // Rcout << "The species is " << species[i] << std::endl;
-//
-//     for(int j = 0; j < number_seedlings; j++) {
-//
-//       NumericVector random_x = rcpp_calculate_random_coords(n = 1, species = species(i));
-//
-//       NumericVector random_y = rcpp_calculate_random_coords(n = 1, species = species(i));
-//
-//       // seedlings(row_counter, 0) = coords(i, 0) + random_x[0];
-//       // seedlings(row_counter, 1) = coords(i, 1) + random_y[0];
-//       // seedlings[row_counter, 2] = species[i];
-//     }
-//   }
-//
-//   return(seedlings);
-// }
+// [[Rcpp::export]]
+NumericMatrix rcpp_calculate_seedlings(NumericMatrix coords,
+                                       NumericVector no,
+                                       StringVector species) {
+
+  int nrow = coords.nrow();
+
+  int seedlings_total = sum(no);
+
+  int row_counter = 0;
+
+  NumericMatrix seedlings(seedlings_total, 2);
+
+  for(int i = 0; i < nrow; i++) {
+
+    NumericVector random_x = rcpp_calculate_random_coords(no[i], species[i]);
+
+    NumericVector random_y = rcpp_calculate_random_coords(no[i], species[i]);
+
+    seedlings(row_counter, 0) = coords(i, 0) + random_x[0];
+
+    seedlings(row_counter, 1) = coords(i, 1) + random_y[0];
+
+    row_counter++;
+  }
+
+  return seedlings;
+}
+
+
 
 /*** R
-
-rcpp_calculate_random_coords(n = 1, species = "Ash")
-
-rcpp_calculate_seedlings(coords = as.matrix(current_living[1:10, 2:3]),
-                         n = no_seedlings[1:10],
-                         species = current_living$species[1:10])
 
 */

@@ -9,3 +9,7 @@ rcpp_calculate_random_coords <- function(n, species, n_proposed = 1000000L, max_
     .Call('_rabmp_rcpp_calculate_random_coords', PACKAGE = 'rabmp', n, species, n_proposed, max_dist)
 }
 
+rcpp_calculate_seedlings <- function(coords, no, species) {
+    .Call('_rabmp_rcpp_calculate_seedlings', PACKAGE = 'rabmp', coords, no, species)
+}
+

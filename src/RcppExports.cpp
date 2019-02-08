@@ -33,10 +33,24 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// rcpp_calculate_seedlings
+NumericMatrix rcpp_calculate_seedlings(NumericMatrix coords, NumericVector no, StringVector species);
+RcppExport SEXP _rabmp_rcpp_calculate_seedlings(SEXP coordsSEXP, SEXP noSEXP, SEXP speciesSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type coords(coordsSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type no(noSEXP);
+    Rcpp::traits::input_parameter< StringVector >::type species(speciesSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_calculate_seedlings(coords, no, species));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_rabmp_rcpp_calculate_ci", (DL_FUNC) &_rabmp_rcpp_calculate_ci, 4},
     {"_rabmp_rcpp_calculate_random_coords", (DL_FUNC) &_rabmp_rcpp_calculate_random_coords, 4},
+    {"_rabmp_rcpp_calculate_seedlings", (DL_FUNC) &_rabmp_rcpp_calculate_seedlings, 3},
     {NULL, NULL, 0}
 };
 
