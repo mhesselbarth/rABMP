@@ -15,8 +15,7 @@ Imports:
     spatstat,
     tibble,
     tidyr,
-    Rcpp,
-    RcppArmadillo 
+    Rcpps
 Suggests:
   knitr, 
   rmarkdown
