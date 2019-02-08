@@ -66,6 +66,7 @@ simulate_seed_dispersal <- function(input, threshold = 30){
 
   # create seedlings
   # MH: This certainly needs a major speed-update!
+  # MH: There is a bug currently, random_distances are always positive (half negative here or in Rcpp???)
   seedlings <- purrr::pmap_dfr(list(current_living$species, no_seedlings, current_living$x, current_living$y),
                                       function(species, n, x_coord, y_coord) {
 
@@ -74,6 +75,7 @@ simulate_seed_dispersal <- function(input, threshold = 30){
                                         coords_x <- x_coord + distance_x
 
                                         distance_y <- rabmp::calculate_random_coords(species = species, n = n)
+
                                         coords_y <- y_coord + distance_y
 
                                         tibble::tibble(x = coords_x,

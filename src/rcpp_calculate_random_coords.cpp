@@ -56,6 +56,14 @@ NumericVector rcpp_calculate_random_coords(double n,
 
   proposed = proposed[target <= (kernel / max(kernel))];
 
+  LogicalVector change_id = runif(proposed.size(), 0, 1) <= 0.5;
+
+  NumericVector proposed_negative = proposed[change_id];
+
+  proposed_negative = proposed_negative * -1;
+
+  proposed[change_id] = proposed_negative;
+
   return sample(proposed, n);
 }
 
@@ -91,5 +99,8 @@ NumericMatrix rcpp_calculate_seedlings(NumericMatrix coords,
 
 
 /*** R
-
+bench::mark(
+  rcpp_calculate_random_coords(n = 10, species = "Beech"),
+  calculate_random_coords(n = 10, species = "Beech"),
+  check = FALSE, relative = TRUE, iterations = 100)
 */
