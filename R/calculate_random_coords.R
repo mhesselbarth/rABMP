@@ -17,11 +17,11 @@ calculate_random_coords <- function(species, n = NULL, max_dist = 80, number_sam
 
   # Create coordinates according to kernel
   proposed_coords <- dplyr::mutate(proposed_coords,
-                                   target = rabmp::calculate_seed_kernel(species = species,
+                                   kernel = rabmp::calculate_seed_kernel(species = species,
                                                                          distance = proposed,
                                                                          max_dist = max_dist), # probability of random number according to seed dipersal
-                                   random = runif(number_samples, min = 0, max = 1), # test value
-                                   accept = dplyr::case_when(random <= target / max(target, na.rm = TRUE) ~ TRUE, # set TRUE for numbers that fit distribution
+                                   target = runif(number_samples, min = 0, max = 1), # test value
+                                   accept = dplyr::case_when(target <= kernel / max(kernel, na.rm = TRUE) ~ TRUE, # set TRUE for numbers that fit distribution
                                                              TRUE ~ FALSE))
 
   coords_filterd <- dplyr::filter(proposed_coords, accept == TRUE) # only coordinates that fit the distribution

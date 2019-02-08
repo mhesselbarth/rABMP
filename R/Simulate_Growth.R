@@ -29,11 +29,6 @@ simulate_growth <- function(input){
   # only get living trees of current timestep
   current_living <- input[which(input$type != "Dead" & input$i == max(input$i)), ]
 
-  # calculate (potential) growth
-  # growth <- purrr::map_dbl(current_living$dbh,
-  #                          function(x) rabmp::growth_function_species(dbh = x))
-  # growth <- apply(current_living$dbh, 1,  FUN = growth_function_species(dbh = x))
-
   growth <- calculate_growth(dbh = current_living$dbh)
 
   # current_living$pot.growth <- growth
@@ -47,7 +42,7 @@ simulate_growth <- function(input){
   # plot(y[higher=="FALSE"] ~ x[higher=="FALSE"], data=current_living)
   # points(y[higher=="TRUE"] ~ x[higher=="TRUE"], data=current_living, col="red")
 
-  # mabye put the growth * v *(1 - ci) part in line 21/22 to have all in the same place
+  # MH: mabye put the growth * v *(1 - ci) part in line 21/22 to have all in the same place
   v <- 3.33278 # for exponential type
 
   # update tibble

@@ -33,35 +33,3 @@ calculate_growth <- function(dbh){
 
   return(increase)
 }
-
-
-
-#' calculate_ci
-#'
-#' @description Calculate competition index
-#'
-#' @param distance distance between focal tree and all others
-#' @param dbh DBH of trees
-#' @param max_dist maximum interaction distance
-#' @param type kernel type to use (either "fractional", "exponential" or "epanechnikov")
-#'
-#' @details
-#' Calculate competition index based on distances to neighbouring trees and dbh of
-#' neighbours. Neigbours with a distance larger than \code{max_dist} are not considered.
-#' It is used to standartize values to 0-1 for Epanechnikov kernel
-#'
-#' @return vector
-#'
-#' @examples
-#' add examples
-#'
-#' @aliases calculate_ci
-#' @rdname calculate_ci
-#'
-#' @references
-#' Pommerening, A., LeMay, V., Stoyan, D., 2011. Model-based analysis of the influence
-#' of ecological processes on forest point pattern formation-A case study. Ecol. Modell. 222, 666–678.
-#'
-#' Pommerening, A., Maleki, K., 2014. Differences between competition kernels and
-#' traditional size-ratio based competition indices used in forest ecology. For. Ecol. Manage. 331, 135–143.
-#'

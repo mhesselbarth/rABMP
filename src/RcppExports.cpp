@@ -19,9 +19,24 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// rcpp_calculate_random_coords
+NumericVector rcpp_calculate_random_coords(double n, String species, int n_proposed, double max_dist);
+RcppExport SEXP _rabmp_rcpp_calculate_random_coords(SEXP nSEXP, SEXP speciesSEXP, SEXP n_proposedSEXP, SEXP max_distSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< double >::type n(nSEXP);
+    Rcpp::traits::input_parameter< String >::type species(speciesSEXP);
+    Rcpp::traits::input_parameter< int >::type n_proposed(n_proposedSEXP);
+    Rcpp::traits::input_parameter< double >::type max_dist(max_distSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_calculate_random_coords(n, species, n_proposed, max_dist));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_rabmp_rcpp_calculate_ci", (DL_FUNC) &_rabmp_rcpp_calculate_ci, 4},
+    {"_rabmp_rcpp_calculate_random_coords", (DL_FUNC) &_rabmp_rcpp_calculate_random_coords, 4},
     {NULL, NULL, 0}
 };
 

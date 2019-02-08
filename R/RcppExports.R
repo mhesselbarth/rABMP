@@ -5,3 +5,7 @@ rcpp_calculate_ci <- function(matrix, max_dist, alpha, beta) {
     .Call('_rabmp_rcpp_calculate_ci', PACKAGE = 'rabmp', matrix, max_dist, alpha, beta)
 }
 
+rcpp_calculate_random_coords <- function(n, species, n_proposed = 1000000L, max_dist = 80) {
+    .Call('_rabmp_rcpp_calculate_random_coords', PACKAGE = 'rabmp', n, species, n_proposed, max_dist)
+}
+

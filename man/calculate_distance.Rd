@@ -2,8 +2,7 @@
 % Please edit documentation in R/calculate_distance.R
 \name{calculate_distance}
 \alias{calculate_distance}
-\alias{get_distance}
-\title{get_distance}
+\title{calculate_distance}
 \usage{
 calculate_distance(point_a, point_b)
 }
@@ -16,7 +15,7 @@ calculate_distance(point_a, point_b)
 vector
 }
 \description{
-Get distance between two sets of points
+Calculate distance
 }
 \details{
 Calculate the distance between two (set of) point(s). Coordinates must be a
