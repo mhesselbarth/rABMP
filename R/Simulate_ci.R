@@ -44,34 +44,39 @@ simulate_ci <- function(input,
   # data of current time step
   current <- input[which(input$i == max(input$i)), ]
 
-    # get coordinates
-  coordinates <- matrix(c(current$x, current$y), ncol = 2)
+  # calculate CI
+  competition <- rcpp_calculate_ci(matrix = as.matrix(input[, c(2, 3, 7)]),
+                                   max_dist = max_dist,
+                                   alpha = 1.45772, beta = 0.52339)
 
-  # get number of trees in current data
-  number_tress <- nrow(current)
-
-  # initialise vector for competition
-  competition <- rep(x = NA, times = number_tress)
-
-  # loop through all points
-  # maybe use Rcpp?
-  for(i in 1:number_tress) {
-
-    # calculate distance between current point and all other points
-    distance <- calculate_distance(point_a = coordinates[i ,, drop = FALSE],
-                                   point_b = coordinates)
-
-    # only distances below threshold and not to itself
-    dbh <- current$dbh[which(distance < max_dist & distance != 0)]
-
-    distance <- distance[which(distance < max_dist & distance != 0)]
-
-    # calculate competition of current tree
-    competition[i] <- sum(calculate_ci(distance = distance,
-                                       dbh = dbh,
-                                       max_dist = max_dist,
-                                       type = type))
-  }
+  # # get coordinates
+  # coordinates <- matrix(c(current$x, current$y), ncol = 2)
+  #
+  # # get number of trees in current data
+  # number_tress <- nrow(current)
+  #
+  # # initialise vector for competition
+  # competition <- rep(x = NA, times = number_tress)
+  #
+  # # loop through all points
+  # # maybe use Rcpp?
+  # for(i in 1:number_tress) {
+  #
+  #   # calculate distance between current point and all other points
+  #   distance <- calculate_distance(point_a = coordinates[i ,, drop = FALSE],
+  #                                  point_b = coordinates)
+  #
+  #   # only distances below threshold and not to itself
+  #   dbh <- current$dbh[which(distance < max_dist & distance != 0)]
+  #
+  #   distance <- distance[which(distance < max_dist & distance != 0)]
+  #
+  #   # calculate competition of current tree
+  #   competition[i] <- sum(calculate_ci(distance = distance,
+  #                                      dbh = dbh,
+  #                                      max_dist = max_dist,
+  #                                      type = type))
+  # }
 
   # pommerening 2014: transformation of competition index which includes size of affected tree
   # scaled between 0 and 1
