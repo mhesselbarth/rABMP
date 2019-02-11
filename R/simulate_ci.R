@@ -45,7 +45,7 @@ simulate_ci <- function(input,
   current <- input[which(input$i == max(input$i)), ]
 
   # calculate CI
-  competition <- rcpp_calculate_ci(matrix = as.matrix(input[, c(2, 3, 7)]),
+  competition <- rcpp_calculate_ci(matrix = as.matrix(current[, c(2, 3, 7)]),
                                    max_dist = max_dist,
                                    alpha = 1.45772, beta = 0.52339)
 

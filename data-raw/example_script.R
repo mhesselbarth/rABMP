@@ -19,14 +19,14 @@ data_trees <- rabmp::prepare_input(input = input_data,
 data_trees <- data_trees[0:200, ]
 
 # set number of simulation years
-years <- 1
+years <- 5
 
 for(i in 1:years){
   data_trees <- simulate_ci(data_trees)
   data_trees <- simulate_growth(data_trees)
-  data_trees <- simulate_seed_dispersal(data_trees)
+  # data_trees <- simulate_seed_dispersal(data_trees)
   data_trees <- simulate_mortality(data_trees) # Bug somewhere
-  # print(paste0(i, " from ", years, " runs done"))
+  print(paste0(i, " from ", years, " runs done"))
 }
 
 data_trees$data[1:20]
