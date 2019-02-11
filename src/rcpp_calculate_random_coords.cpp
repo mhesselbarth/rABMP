@@ -56,40 +56,55 @@ NumericVector rcpp_calculate_random_coords(double n,
 
   proposed = proposed[target <= (kernel / max(kernel))];
 
+  LogicalVector change_id = runif(proposed.size(), 0, 1) <= 0.5;
+
+  NumericVector proposed_negative = proposed[change_id];
+
+  proposed_negative = proposed_negative * -1;
+
+  proposed[change_id] = proposed_negative;
+
   return sample(proposed, n);
 }
 
 // [[Rcpp::export]]
 NumericMatrix rcpp_calculate_seedlings(NumericMatrix coords,
-                                       NumericVector no,
+                                       NumericVector number,
                                        StringVector species) {
 
+  // get number of trees
   int nrow = coords.nrow();
 
-  int seedlings_total = sum(no);
+  // get number of total seeds
+  int seedlings_total = sum(number);
 
-  int row_counter = 0;
+  int counter = 0;
 
+  // initialise matrix
   NumericMatrix seedlings(seedlings_total, 2);
 
   for(int i = 0; i < nrow; i++) {
 
-    NumericVector random_x = rcpp_calculate_random_coords(no[i], species[i]);
+    NumericVector random_x = rcpp_calculate_random_coords(number[i], species[i]);
 
-    NumericVector random_y = rcpp_calculate_random_coords(no[i], species[i]);
+    NumericVector random_y = rcpp_calculate_random_coords(number[i], species[i]);
 
-    seedlings(row_counter, 0) = coords(i, 0) + random_x[0];
+    for(int j = 0; j < number[i]; j++){
 
-    seedlings(row_counter, 1) = coords(i, 1) + random_y[0];
+      seedlings(counter, 0) = coords(i, 0) + random_x[0];
 
-    row_counter++;
+      seedlings(counter, 1) = coords(i, 1) + random_y[0];
+
+      counter++;
+    }
   }
 
   return seedlings;
 }
 
-
-
 /*** R
-
+bench::mark(
+  rcpp_calculate_random_coords(n = 25, species = "Beech"),
+  calculate_random_coords(n = 25, species = "Beech"),
+  check = FALSE, relative = TRUE, iterations = 100)
 */

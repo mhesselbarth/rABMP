@@ -8,41 +8,61 @@
 #' }
 #'
 #' @export
-mortality_probability <- function(species, dbh){
-
+calculate_mortality_probability <- function(species, dbh){
 
   if(species == "Beech"){
-    dbh_inc <- exp(-3.4 + 2.1 * (1 - exp(-(-0.00035) * dbh ^ 2.5)))
 
-    logit_early <- dplyr::if_else(condition = is.na(1.8 + (-2.1)*log(dbh + 8) + (dbh_inc * -1.4)),
-                                  true = 0, false = 1.8 + (-2.1)*log(dbh + 8) + (dbh_inc * -1.4))
+    # calculate dbh increase
+    dbh_inc <- exp(-3.4 + 2.1 * (1 - exp(-(-0.00035) * dbh ^ 2.5 ) ) )
 
+    # calculate logit for "early phase"
+    logit_early <- ifelse(test = is.na(1.8 + (-2.1)*log(dbh + 8) + (dbh_inc * -1.4)),
+                          yes = 0, no = 1.8 + (-2.1)*log(dbh + 8) + (dbh_inc * -1.4))
+
+    # calculate logit for late phase
     logit_late <- -8.9 + (dbh * 0.052)
 
+    # sum both logits
     p_early <- 1 / (1 + exp(-logit_early))
     p_late <- 1 / (1 + exp(-logit_late))
+
+    # calculate prob
     p <- p_early + p_late
-
-
   }
 
   else if(species == "Ash"){
+
+    # calculate logit
     logit <- 1.3 + (log(dbh) * -1.6)
+
+    # calculate prob
     p <- 1 / (1 + exp(-logit))
   }
 
   else if(species == "Hornbeam"){
+
+    # calculate logit
     logit <- -2.8 + (dbh * -0.051)
+
+    # calculate prob
     p <- 1 / (1 + exp(-logit))
   }
 
   else if(species == "Sycamore"){
+
+    # calculate logit
     logit <- -8.9 + (dbh * 0.052)
+
+    # calculate prob
     p <- 1 / (1 + exp(-logit))
   }
 
   else if(species == "others"){
+
+    # calculate logit
     logit <- -8.9 + (dbh * 0.052)
+
+    # calculate prob
     p <- 1 / (1 + exp(-logit))
   }
 

@@ -44,60 +44,39 @@ simulate_seed_dispersal <- function(input, threshold = 30){
                                   input$dbh > threshold), ]
 
   # Number of seedlings for each tree
-  no_seedlings <- calculate_seeds(species = current_living$species,
-                                  dbh = current_living$dbh)
+  number_seedlings <- calculate_seeds(species = current_living$species,
+                                      dbh = current_living$dbh)
 
-  # # creates boxplot with number of seedlings per species
-  # current_living$no_seedlings <- no_seedlings
-  # library(ggplot2)
-  # boxplot <- ggplot(data=current_living, aes(x=species, y=no_seedlings))+ geom_boxplot()
-  # boxplot + labs(y = "number of seeds")
-  #
-  # # creates curves with number of seeds per species
-  # plot(no_seedlings[species=="Beech"] ~ dbh[species=="Beech"], data = current_living, xlab="dbh", ylab="number of seeds")
-  # points(no_seedlings[species=="Ash"] ~ dbh[species=="Ash"], data = current_living, col="darkred")
-  # points(no_seedlings[species=="Sycamore"] ~ dbh[species=="Sycamore"], data = current_living, col="darkgreen")
-  # legend("topright", legend=c("Beech", "Ash", "Hornbeam"), col=c("black", "darkred", "darkgreen"), pch=1)
+  number_seedlings <- floor(number_seedlings * runif(n = 1, min = 0.812, max = 0.83) * 0.0236)
 
-  # Reduce seedlings because of browsing and general mortality
-  # Bilek et al 2009: zwischen 17 und 18.8 % der Bucheckern waren leer
-  # Bilek et al 2009: nur 2,36 % der vollen Bucheckern überlebten das erste jahr,für alle Arten gleich?
-  no_seedlings <- floor(no_seedlings * runif(n = 1, min = 0.812, max = 0.83) * 0.0236)
+  # which trees produce surviving seedlings?
+  id <- which(number_seedlings > 0)
+
+  # only number seedlings > 0
+  number_seedlings <- number_seedlings[id]
+
+  species <- current_living$species[id]
 
   # create seedlings
-  # MH: This certainly needs a major speed-update!
-  seedlings <- purrr::pmap_dfr(list(current_living$species, no_seedlings, current_living$x, current_living$y),
-                                      function(species, n, x_coord, y_coord) {
+  seedlings <- rcpp_calculate_seedlings(coords = as.matrix(current_living[id, 2:3]),
+                                        number = number_seedlings,
+                                        species = species)
 
-                                        distance_x <- rcpp_calculate_random_coords(species = species, n = n)
-
-                                        coords_x <- x_coord + distance_x
-
-                                        distance_y <- rabmp::calculate_random_coords(species = species, n = n)
-                                        coords_y <- y_coord + distance_y
-
-                                        tibble::tibble(x = coords_x,
-                                                       y = coords_y,
-                                                       species = species,
-                                                       i = max_i,
-                                                       type = "Seedling",
-                                                       dbh = 1.0,
-                                                       ci = 0.0)
-                                        })
-
+  seedlings <- tibble::tibble(x = seedlings[, 1],
+                              y = seedlings[, 2],
+                              species = rep(x = species, times = number_seedlings),
+                              i = max_i,
+                              type = "Seedling",
+                              dbh = 1.0,
+                              ci = 0.0)
 
   # combine to one data frame
-  result <- dplyr::bind_rows(input_unnested, seedlings)
+  result <- dplyr::bind_rows(input, seedlings)
 
   # nest dataframe
   result <- tidyr::nest(result, -c(id, x, y, species), .key="data")
 
+  result$id <- seq(1:nrow(result))
+
   return(result)
 }
-
-# plot(current_living$x, current_living$y, pch=16, xaxt='n', yaxt='n', ann=FALSE)
-# points(seedlings$x, seedlings$y, col="gray")
-#
-#
-# plot(result$x, result$y, col="gray", xaxt='n', yaxt='n', ann=FALSE)
-# points(current_living$x, current_living$y, pch=16)
