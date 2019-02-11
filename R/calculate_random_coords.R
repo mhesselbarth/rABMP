@@ -8,7 +8,7 @@
 #' @param number_samples Starting number of random coordinates checked against the seed kernal function.
 #' A higher number will decrease the speed of the function but increase the fit to the seed kernel
 #'
-#' @export
+#' DO NOT EXPORT
 calculate_random_coords <- function(species, n = NULL, max_dist = 80, number_samples = 1000000){
 
   # random numbers between 0 and max dispersal distance

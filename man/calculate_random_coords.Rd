@@ -15,7 +15,9 @@ calculate_random_coords(species, n = NULL, max_dist = 80,
 \item{max_dist}{Maximum distance of seed dispersal}
 
 \item{number_samples}{Starting number of random coordinates checked against the seed kernal function.
-A higher number will decrease the speed of the function but increase the fit to the seed kernel}
+A higher number will decrease the speed of the function but increase the fit to the seed kernel
+
+DO NOT EXPORT}
 }
 \description{
 random_distance

@@ -5,18 +5,6 @@
 
 using namespace Rcpp;
 
-// rcpp_calculate_mortality_probs
-NumericVector rcpp_calculate_mortality_probs(StringVector species, NumericVector dbh);
-RcppExport SEXP _rabmp_rcpp_calculate_mortality_probs(SEXP speciesSEXP, SEXP dbhSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< StringVector >::type species(speciesSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type dbh(dbhSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_calculate_mortality_probs(species, dbh));
-    return rcpp_result_gen;
-END_RCPP
-}
 // rcpp_calculate_ci
 NumericVector rcpp_calculate_ci(NumericMatrix matrix, double max_dist, double alpha, double beta);
 RcppExport SEXP _rabmp_rcpp_calculate_ci(SEXP matrixSEXP, SEXP max_distSEXP, SEXP alphaSEXP, SEXP betaSEXP) {
@@ -28,6 +16,18 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< double >::type alpha(alphaSEXP);
     Rcpp::traits::input_parameter< double >::type beta(betaSEXP);
     rcpp_result_gen = Rcpp::wrap(rcpp_calculate_ci(matrix, max_dist, alpha, beta));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rcpp_calculate_mortality_probs
+NumericVector rcpp_calculate_mortality_probs(StringVector species, NumericVector dbh);
+RcppExport SEXP _rabmp_rcpp_calculate_mortality_probs(SEXP speciesSEXP, SEXP dbhSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< StringVector >::type species(speciesSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type dbh(dbhSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_calculate_mortality_probs(species, dbh));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -60,8 +60,8 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_rabmp_rcpp_calculate_mortality_probs", (DL_FUNC) &_rabmp_rcpp_calculate_mortality_probs, 2},
     {"_rabmp_rcpp_calculate_ci", (DL_FUNC) &_rabmp_rcpp_calculate_ci, 4},
+    {"_rabmp_rcpp_calculate_mortality_probs", (DL_FUNC) &_rabmp_rcpp_calculate_mortality_probs, 2},
     {"_rabmp_rcpp_calculate_random_coords", (DL_FUNC) &_rabmp_rcpp_calculate_random_coords, 4},
     {"_rabmp_rcpp_calculate_seedlings", (DL_FUNC) &_rabmp_rcpp_calculate_seedlings, 3},
     {NULL, NULL, 0}
