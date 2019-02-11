@@ -91,9 +91,9 @@ NumericMatrix rcpp_calculate_seedlings(NumericMatrix coords,
 
     for(int j = 0; j < number[i]; j++){
 
-      seedlings(counter, 0) = coords(i, 0) + random_x[0];
+      seedlings(counter, 0) = coords(i, 0) + random_x[j];
 
-      seedlings(counter, 1) = coords(i, 1) + random_y[0];
+      seedlings(counter, 1) = coords(i, 1) + random_y[j];
 
       counter++;
     }

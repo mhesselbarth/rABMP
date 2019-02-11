@@ -62,8 +62,12 @@ simulate_seed_dispersal <- function(input, threshold = 30){
                                         number = number_seedlings,
                                         species = species)
 
+  # create seedlings id
+  id <- seq(from = max(input$id) + 1, to = max(input$id) + nrow(seedlings))
+
   # create tibble
-  seedlings <- tibble::tibble(x = seedlings[, 1],
+  seedlings <- tibble::tibble(id = id,
+                              x = seedlings[, 1],
                               y = seedlings[, 2],
                               species = rep(x = species, times = number_seedlings),
                               i = max_i,
@@ -76,9 +80,6 @@ simulate_seed_dispersal <- function(input, threshold = 30){
 
   # nest dataframe
   result <- tidyr::nest(result, -c(id, x, y, species), .key="data")
-
-  # update ID
-  result$id <- seq(1:nrow(result))
 
   return(result)
 }
