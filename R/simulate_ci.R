@@ -53,13 +53,14 @@ simulate_ci <- function(input,
   # scaled between 0 and 1
   alpha <- 1.45772
 
+  # calculate competition
   competition <- competition / (current$dbh ^ alpha + competition)
 
   # update tibble
   current$ci <- competition
 
   # combine tibbles
-  input <- dplyr::bind_rows(current, past)
+  input <- rbind(current, past)
 
   # nest tibble
   input <- tidyr::nest(input, -c(id, x, y, species), .key="data")

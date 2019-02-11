@@ -45,7 +45,7 @@ simulate_growth <- function(input){
   current_living$type[which(current_living$dbh >10)] <- "Adult"
 
   # combine tibbles
-  input <- dplyr::bind_rows(current_living, input)
+  input <- rbind(current_living, input)
 
   # nest tibble
   input <- tidyr::nest(input, -c(id, x, y, species), .key = "data")

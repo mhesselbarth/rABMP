@@ -57,11 +57,12 @@ simulate_seed_dispersal <- function(input, threshold = 30){
 
   species <- current_living$species[id]
 
-  # create seedlings
+  # calculate seedlings coordinates
   seedlings <- rcpp_calculate_seedlings(coords = as.matrix(current_living[id, 2:3]),
                                         number = number_seedlings,
                                         species = species)
 
+  # create tibble
   seedlings <- tibble::tibble(x = seedlings[, 1],
                               y = seedlings[, 2],
                               species = rep(x = species, times = number_seedlings),
@@ -71,11 +72,12 @@ simulate_seed_dispersal <- function(input, threshold = 30){
                               ci = 0.0)
 
   # combine to one data frame
-  result <- dplyr::bind_rows(input, seedlings)
+  result <- rbind(input, seedlings)
 
   # nest dataframe
   result <- tidyr::nest(result, -c(id, x, y, species), .key="data")
 
+  # update ID
   result$id <- seq(1:nrow(result))
 
   return(result)
