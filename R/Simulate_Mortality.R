@@ -14,53 +14,28 @@
 #' @export
 simulate_mortality <- function(input) {
 
-  input_unnested <- tidyr::unnest(input)
+  # unnest data
+  input <- tidyr::unnest(input)
 
-  current_living <- dplyr::filter(input_unnested, type != "Dead", i == max(i))
+  # only get living trees of current timestep
+  current_living <- input[which(input$type != "Dead" & input$i == max(input$i)), ]
 
-  mortality_prob <- current_living %>% purrr::pmap_dbl(., function(species, dbh, ...) {mortality_probability(species = species, dbh = dbh)})
+  # calculate mortality prob
+  mortality_prob <- rcpp_calculate_mortality_probs(species = current_living$species, dbh = current_living$dbh)
 
+  # create random number for all living trees
+  random_number <- runif(n = length(mortality_prob), min = 0, max = 1)
 
+  # set all to dead if mortality prob is larger than random number
+  # MH: Is this actually what we want? Does it make a difference to random_number > mortality_prob?
+  current_living$type[which(random_number < mortality_prob)] <- "Dead"
 
-   # current_living$mortality <-mortality_prob
-  # current_living$mortality <- mortality_prob
-  #   plot(mortality[species=="Beech"] ~ dbh[species=="Beech"], data = current_living, col ="black",
-  #       ylim=c(0, 0.1), xlab="dbh", ylab="mortality probability")
-  #  points(mortality[species=="Ash"] ~ dbh[species=="Ash"], data = current_living, col ="darkred")
-  #  points(mortality[species=="Hornbeam"] ~ dbh[species=="Hornbeam"], data = current_living, col ="darkgreen")
-  #  legend("topright", legend=c("Beech", "Ash", "Hornbeam"), col=c("black", "darkred", "darkgreen"), pch=1)
-  #
+  # combine tibbles
+  # MH: Old data missing?
+  input <- dplyr::bind_rows(current_living, input[which(input$i != max(input$i)), ])
 
-  n <- length(mortality_prob)
-  random <- runif(n)
-  current_living$dead <- random <  mortality_prob
-  current_living <- dplyr::mutate(current_living,
-                                  type = dplyr::case_when(dead == TRUE ~ "Dead",
-                                                          dead != TRUE ~ type))
+  # nest tibble
+  input <- tidyr::nest(input, -c(id, x, y, species), .key = "data")
 
-  current_living <- subset(current_living, select = c(id, type) )
-
-
-  combined <- dplyr::left_join(input_unnested, current_living, by = "id")
-
-  for(x in 1:length(combined$id)) {
-    if(is.na(combined$type.y[x])==T) (combined$type.y[x] = combined$type.x[x]) #check for NAs
-  }
-
-  for(a in 1:length(combined$id)) {
-    if(combined$type.x[a] != combined$type.y[a] && combined$i[a]==max(combined$i)) (combined$type.x[a] = combined$type.y[a]) #update type for dead trees
-  }
-
-  updated <- subset(combined, select = -c(type.y)) # delete second type column
-  names(updated)[6] <- paste("type") # replace type.x by type
-  result <- tidyr::nest(updated, -c(id, x, y, species), .key = "data")
-
-
-  return(result)
-
-
+  return(input)
 }
-
-
-
-

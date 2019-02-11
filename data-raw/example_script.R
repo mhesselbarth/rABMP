@@ -24,9 +24,8 @@ years <- 1
 for(i in 1:years){
   data_trees <- simulate_ci(data_trees, standardized = FALSE)
   data_trees <- simulate_growth(data_trees)
-  # data_trees <- simulate_seed_dispersal(data_trees)
-  # data_trees$id <- seq(1:nrow(data_trees))
-  # data_trees <- simulate_mortality(data_trees) # Bug somewhere
+  data_trees <- simulate_seed_dispersal(data_trees)
+  data_trees <- simulate_mortality(data_trees) # Bug somewhere
   # print(paste0(i, " from ", years, " runs done"))
 }
 
