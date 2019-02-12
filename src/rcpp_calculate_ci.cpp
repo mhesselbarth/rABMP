@@ -31,7 +31,7 @@ NumericVector rcpp_calculate_ci(NumericMatrix matrix, double max_dist,
       distance = std::sqrt(std::pow(matrix(i, 0) - matrix(j, 0), 2) + std::pow(matrix(i, 1) - matrix(j, 1), 2));
 
       // row itself or distance greater than max_dist
-      if(distance == 0 | distance > max_dist) {
+      if(distance == 0 || distance > max_dist) {
         ci_temp = 0;
       } else {
         // calculate ci of current j

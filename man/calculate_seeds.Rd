@@ -22,6 +22,7 @@ Calculates the number of produced seeds for each tree (without reduction for
 seed mortality).
 }
 \examples{
+calculate_seeds(species = "Beech", dbh = 45.25)
 
 }
 \references{

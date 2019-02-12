@@ -31,6 +31,7 @@ of the coloumns and nesting the data.
 }
 \examples{
 names(example_input_data)
-prepare_input(input = example_input_data, x = "x_coord", y = "y_coord", species = "spec", type = "Class", dbh = "bhd")
+prepare_input(input = example_input_data, x = "x_coord", y = "y_coord",
+species = "spec", type = "Class", dbh = "bhd")
 
 }

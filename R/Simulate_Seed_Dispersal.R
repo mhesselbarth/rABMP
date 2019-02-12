@@ -12,6 +12,12 @@
 #' @return vector
 #'
 #' @examples
+#' \dontrun{
+#' names(example_input_data)
+#' df_tress <- prepare_input(input = example_input_data, x = "x_coord", y = "y_coord",
+#' species = "spec", type = "Class", dbh = "bhd")
+#' simulate_seed_dispersal(df_trees)
+#' }
 #'
 #' @aliases simulate_seed_dispersal
 #' @rdname simulate_seed_dispersal
@@ -47,7 +53,7 @@ simulate_seed_dispersal <- function(input, threshold = 30){
   number_seedlings <- calculate_seeds(species = current_living$species,
                                       dbh = current_living$dbh)
 
-  number_seedlings <- floor(number_seedlings * runif(n = 1, min = 0.812, max = 0.83) * 0.0236)
+  number_seedlings <- floor(number_seedlings * stats::runif(n = 1, min = 0.812, max = 0.83) * 0.0236)
 
   # which trees produce surviving seedlings?
   id <- which(number_seedlings > 0)

@@ -21,7 +21,7 @@ NumericVector rcpp_calculate_random_coords(double n,
 
   double alpha = 0;
 
-  if(species == "Beech" | species == "Hornbeam") {
+  if(species == "Beech") {
     alpha = 3.412413;
   }
 
@@ -31,6 +31,10 @@ NumericVector rcpp_calculate_random_coords(double n,
 
   else if(species == "Sycamore") {
     alpha = 7.435026;
+  }
+
+  else if(species == "Hornbeam") {
+    alpha = 3.412413;
   }
 
   else if(species == "others") {

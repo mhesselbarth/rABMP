@@ -16,7 +16,8 @@
 #'
 #' @examples
 #' names(example_input_data)
-#' df_tress <- prepare_input(input = example_input_data, x = "x_coord", y = "y_coord", species = "spec", type = "Class", dbh = "bhd")
+#' df_tress <- prepare_input(input = example_input_data, x = "x_coord", y = "y_coord",
+#' species = "spec", type = "Class", dbh = "bhd")
 #' simulate_ci(input = df_tress)
 #'
 #' @aliases simulate_ci

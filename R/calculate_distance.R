@@ -18,18 +18,19 @@
 #' calculate_distance(points_a, points_b)
 #'
 #' \dontrun{
-#' bench::mark(calculate_distance(points_a, points_b), raster::pointDistance(points_a, points_b, lonlat = FALSE))
+#' bench::mark(calculate_distance(points_a, points_b),
+#' raster::pointDistance(points_a, points_b, lonlat = FALSE))
 #' }
 #'
 #' @aliases calculate_distance
 #' @rdname calculate_distance
 #'
-#' @export
-calculate_distance <- function(point_a, point_b) {
-
-  if(class(point_a) != "matrix" || class(point_b) != "matrix") {
-    stop("point_a and point_b must both be a matrix.")
-  }
-
-  sqrt(((point_a[, 1] - point_b[, 1]) ^ 2 + (point_a[, 2] - point_b[, 2]) ^ 2))
-}
+#' DO NOT EXPORT
+# calculate_distance <- function(point_a, point_b) {
+#
+#   if(class(point_a) != "matrix" || class(point_b) != "matrix") {
+#     stop("point_a and point_b must both be a matrix.")
+#   }
+#
+#   sqrt(((point_a[, 1] - point_b[, 1]) ^ 2 + (point_a[, 2] - point_b[, 2]) ^ 2))
+# }

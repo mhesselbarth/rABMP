@@ -6,7 +6,8 @@
 \alias{rabmp-package}
 \title{rabmp: R agent Based Model for Plants}
 \description{
-Function to model plant growth based on agents
+Functions to model plant growth within an old-growth beech forest. All main processes (i.e. competition, 
+  growth, seed dispersal, mortality) are included.
 }
 \author{
 \strong{Maintainer}: Maximillian H.K. Hesselbarth \email{maximilian.hesselbarth@uni-goettingen.de} (0000-0003-1125-9918)

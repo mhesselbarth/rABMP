@@ -14,8 +14,6 @@
 #'
 #' @return vector
 #'
-#' @examples
-#'
 #' @aliases calculate_ci
 #' @rdname calculate_ci
 #'
@@ -26,55 +24,55 @@
 #' Pommerening, A., Maleki, K., 2014. Differences between competition kernels and
 #' traditional size-ratio based competition indices used in forest ecology. For. Ecol. Manage. 331, 135-143.
 #'
-#' @export
-calculate_ci <- function(distance, dbh, max_dist, type = "exponential"){
-
-  if(type == "fractional"){
-
-    # set parameters
-    alpha <- 3.24074
-    beta <- 1.05879
-
-    # calculate competition
-    competition <- (dbh ^ alpha) / (1 + ((distance / beta) ^ 2))
-
-    # set all above distance threshold and competition on itself to 0
-    # competition[which(distance > max_dist | distance == 0)] <- 0
-  }
-
-  else if(type == "exponential"){
-
-    # set parameters
-    alpha <- 1.45772
-    beta <- 0.52339
-
-    # calculate competition
-    competition <- (dbh ^ alpha) * exp( - (distance / (dbh ^ beta)))
-
-    # set all above distance threshold and competition on itself to 0
-    # competition[which(distance > max_dist | distance == 0)] <- 0
-  }
-
-  else if(type == "epanechnikov"){
-
-    # standarize to max_dist = 1
-    distance_standardized <- distance / max_dist
-
-    # calculate kernel value
-    kernel <- (3 / 4) * (1 - (distance_standardized ^ 2))
-
-    # weighting by dbh
-    # MH: Do we still need this?
-    competition <- kernel * dbh
-
-    # set all above distance threshold and competition on itself to 0
-    # competition[which(distance > max_dist | distance == 0)] <- 0
-  }
-
-  else{
-    print("Please select valid kernel ('Fractional', 'Exponential' or 'Epanechnikov') - returning CI=0")
-    competition <- 0
-  }
-
-  return(competition)
-}
+#' DO NOT EXPORT
+# calculate_ci <- function(distance, dbh, max_dist, type = "exponential"){
+#
+#   if(type == "fractional"){
+#
+#     # set parameters
+#     alpha <- 3.24074
+#     beta <- 1.05879
+#
+#     # calculate competition
+#     competition <- (dbh ^ alpha) / (1 + ((distance / beta) ^ 2))
+#
+#     # set all above distance threshold and competition on itself to 0
+#     # competition[which(distance > max_dist | distance == 0)] <- 0
+#   }
+#
+#   else if(type == "exponential"){
+#
+#     # set parameters
+#     alpha <- 1.45772
+#     beta <- 0.52339
+#
+#     # calculate competition
+#     competition <- (dbh ^ alpha) * exp( - (distance / (dbh ^ beta)))
+#
+#     # set all above distance threshold and competition on itself to 0
+#     # competition[which(distance > max_dist | distance == 0)] <- 0
+#   }
+#
+#   else if(type == "epanechnikov"){
+#
+#     # standarize to max_dist = 1
+#     distance_standardized <- distance / max_dist
+#
+#     # calculate kernel value
+#     kernel <- (3 / 4) * (1 - (distance_standardized ^ 2))
+#
+#     # weighting by dbh
+#     # MH: Do we still need this?
+#     competition <- kernel * dbh
+#
+#     # set all above distance threshold and competition on itself to 0
+#     # competition[which(distance > max_dist | distance == 0)] <- 0
+#   }
+#
+#   else{
+#     print("Please select valid kernel ('Fractional', 'Exponential' or 'Epanechnikov') - returning CI=0")
+#     competition <- 0
+#   }
+#
+#   return(competition)
+# }

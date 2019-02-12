@@ -8,10 +8,6 @@ simulate_mortality(input)
 }
 \arguments{
 \item{input}{Tibble with input data}
-
-\item{threshold}{Trees with an DBH increase below die}
-
-\item{time_steps}{Time frame in which DBH increase is considered}
 }
 \description{
 simulate_mortality

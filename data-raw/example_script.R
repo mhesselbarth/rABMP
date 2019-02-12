@@ -16,16 +16,16 @@ data_trees <- rabmp::prepare_input(input = input_data,
 #                             dbh = "bhd")
 
 # only 200 trees to decrease computationl time for testing
-data_trees <- data_trees[0:200, ]
+data_trees <- data_trees[0:50, ]
 
 # set number of simulation years
-years <- 5
+years <- 1
 
 for(i in 1:years){
   data_trees <- simulate_ci(data_trees)
   data_trees <- simulate_growth(data_trees)
-  # data_trees <- simulate_seed_dispersal(data_trees)
-  data_trees <- simulate_mortality(data_trees) # Bug somewhere
+  data_trees <- simulate_seed_dispersal(data_trees)
+  data_trees <- simulate_mortality(data_trees)
   print(paste0(i, " from ", years, " runs done"))
 }
 
@@ -46,4 +46,12 @@ data_trees$data[1:20]
 # 10    9. Adult  50.5 0.0823
 # 11   10. Adult  50.6 0.0823
 
+# profile function
+foo <- function(x) {
+  data_trees <- simulate_ci(x)
+  data_trees <- simulate_growth(x)
+  data_trees <- simulate_seed_dispersal(x)
+  data_trees <- simulate_mortality(x)
+}
 
+foo(data_trees)
