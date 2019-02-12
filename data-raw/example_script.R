@@ -1,25 +1,38 @@
-library(rABMP)
 
-names(rABMP::example_input_data)
+# # check names of input data
+# names(rabmp::input_data)
+#
+# # prepare input (mainly renameing and nesting)
+# data_trees <- prepare_input(input = input_data,
+#                             x = "x", y = "y",
+#                             species = "Species", type = "Type",
+#                             dbh = "DBH")
 
+# check names of input data
+names(rabmp::example_input_data)
+
+# prepare input (mainly renameing and nesting)
 data_trees <- prepare_input(input = example_input_data,
                             x = "x_coord", y = "y_coord",
                             species = "spec", type = "Class",
                             dbh = "bhd")
 
-data_trees <- data_trees[1:10, ]
+# only 200 trees to decrease computationl time for testing
+data_trees <- data_trees[0:200, ]
 
-years <- 3
+# set number of simulation years
+years <- 5
 
 for(i in 1:years){
-  data_trees <- update_competition_index(input = data_trees, standardized = TRUE)
-  data_trees <- simulate_growth(input = data_trees)
-  data_trees <- simulate_seed_dispersal(input = data_trees) # Bug somewhere
-  # data_trees <- simulate_mortality(data_trees) # Bug somewhere
+  data_trees <- simulate_ci(data_trees)
+  data_trees <- simulate_growth(data_trees)
+  data_trees <- simulate_seed_dispersal(data_trees)
+  data_trees <- simulate_mortality(data_trees)
   print(paste0(i, " from ", years, " runs done"))
 }
 
-data_trees$data[[155]]
+data_trees$data[1:20]
+
 # A tibble: 11 x 4
 # i Type    DBH     CI
 # <dbl> <chr> <dbl>  <dbl>
@@ -34,3 +47,13 @@ data_trees$data[[155]]
 #  9    8. Adult  50.3 0.0820
 # 10    9. Adult  50.5 0.0823
 # 11   10. Adult  50.6 0.0823
+
+# profile function
+foo <- function(x) {
+  data_trees <- simulate_ci(x)
+  data_trees <- simulate_growth(x)
+  data_trees <- simulate_seed_dispersal(x)
+  data_trees <- simulate_mortality(x)
+}
+
+foo(data_trees)

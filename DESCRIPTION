@@ -1,17 +1,27 @@
-Package: rABMP
+Package: rabmp
 Type: Package
 Title: R agent Based Model for Plants
 Version: 1.0.1
-Authors@R: person("Maximilian H.K.", "Hesselbarth", email = "maximilian.hesselbarth@uni-goettingen.de",
-  role = c("aut", "cre"))
-Description: Function to model plant growth based on agents
+Authors@R: c(person("Maximillian H.K.", "Hesselbarth", email = "maximilian.hesselbarth@uni-goettingen.de",
+             role = c("aut", "cre"), comment = c(ORCID = "0000-0003-1125-9918")),
+             person("Lena", "Enderle", email = "lena.enderle@stud.uni-goettingen.de", role = "aut"))
+Maintainer: Maximillian H.K. Hesselbarth <maximilian.hesselbarth@uni-goettingen.de>
+Description: Functions to model plant growth within an old-growth beech forest. All main processes (i.e. competition, 
+  growth, seed dispersal, mortality) are included.
 License: GPL-3
-Encoding: UTF-8
-LazyData: true
 Depends:
   R (>= 3.1)
 Imports:
-  magrittr,
-  spatstat,
-  tidyverse
-RoxygenNote: 6.1.0
+  tibble,
+  tidyr,
+  Rcpp
+Suggests:
+  dplyr,
+  knitr, 
+  rmarkdown, 
+  spatstat
+RoxygenNote: 6.1.1
+VignetteBuilder: knitr
+Encoding: UTF-8
+LazyData: true
+LinkingTo: Rcpp

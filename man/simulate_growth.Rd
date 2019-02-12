@@ -2,16 +2,33 @@
 % Please edit documentation in R/simulate_growth.R
 \name{simulate_growth}
 \alias{simulate_growth}
-\title{Update DBH}
+\title{simulate_growth}
 \usage{
 simulate_growth(input)
 }
 \arguments{
-\item{input}{[\code{tibble(1)}]\cr Tibble with input data}
+\item{input}{input dataframe}
 }
 \value{
-Vector with size increase for each point
+vector
 }
 \description{
-The function simulates growth of individual points
+Simulate growth
+}
+\details{
+Simulate growth by calculating the DBH increase and add it to the current DBH.
+Also, i (iteration counter) will be increase and the type re-classified based
+on the DBH: <ADD CLASSIFICATION SCHEME>
+}
+\examples{
+names(example_input_data)
+df_tress <- prepare_input(input = example_input_data, x = "x_coord", y = "y_coord",
+species = "spec", type = "Class", dbh = "bhd")
+df_trees <- simulate_ci(input = df_tress)
+simulate_growth(input = df_trees)
+
+}
+\references{
+Pommerening, A., Maleki, K., 2014. Differences between competition kernels and
+traditional size-ratio based competition indices used in forest ecology. For. Ecol. Manage. 331, 135-143.
 }

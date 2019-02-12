@@ -1,35 +1,62 @@
-#' Update DBH
+#' simulate_growth
 #'
-#' The function simulates growth of individual points
-#' @param input [\code{tibble(1)}]\cr Tibble with input data
-#' @return Vector with size increase for each point
+#' @description Simulate growth
+#'
+#' @param input input dataframe
+#'
+#' @details
+#' Simulate growth by calculating the DBH increase and add it to the current DBH.
+#' Also, i (iteration counter) will be increase and the type re-classified based
+#' on the DBH: <ADD CLASSIFICATION SCHEME>
+#'
+#' @return vector
+#'
+#' @examples
+#' names(example_input_data)
+#' df_tress <- prepare_input(input = example_input_data, x = "x_coord", y = "y_coord",
+#' species = "spec", type = "Class", dbh = "bhd")
+#' df_trees <- simulate_ci(input = df_tress)
+#' simulate_growth(input = df_trees)
+#'
+#' @aliases simulate_growth
+#' @rdname simulate_growth
+#'
+#' @references
+#' Pommerening, A., Maleki, K., 2014. Differences between competition kernels and
+#' traditional size-ratio based competition indices used in forest ecology. For. Ecol. Manage. 331, 135-143.
 #'
 #' @export
 simulate_growth <- function(input){
 
   # unnest data
-  input_unnested <- tidyr::unnest(input)
+  input <- tidyr::unnest(input)
 
   # only get living trees of current timestep
-  current_living <- dplyr::filter(input_unnested, type != "Dead" & i == max(i))
+  current_living <- input[which(input$type != "Dead" & input$i == max(input$i)), ]
 
   # calculate growth
-  growth <- purrr::map2_dbl(current_living$species, current_living$dbh,
-                            function(x, y) rABMP::growth_function_species(species = x,
-                                                                          dbh = y))
+  growth <- calculate_growth(dbh = current_living$dbh)
 
-  # update tibble
-  current_living <- dplyr::mutate(current_living,
-                                  i = i + 1, # update timestep
-                                  dbh = dbh + growth * (1 - ci), # add increase to current DBH
-                                  type = dplyr::case_when(dbh <= 10 ~ "Sapling", # update type
-                                                          dbh > 10 ~ "Adult"))
+  # for exponential type
+  v <- 3.33278
+
+  # update DBH reduced by ci
+  current_living$dbh <- current_living$dbh + growth * v *(1 - current_living$ci)
+
+  # update type below dbh <= 10 cm
+  current_living$type[which(current_living$dbh <=10)] <- "Sapling"
+
+  # update type below dbh > 10 cm
+  current_living$type[which(current_living$dbh >10)] <- "Adult"
+
+  # update timestep
+  current_living$i <- current_living$i + 1
 
   # combine tibbles
-  full_updated <- dplyr::bind_rows(current_living, input_unnested)
+  input <- rbind(current_living, input)
 
   # nest tibble
-  result <- tidyr::nest(full_updated, -c(id, x, y, species), .key = "data")
+  input <- tidyr::nest(input, -c(id, x, y, species), .key = "data")
 
-  return(result)
+  return(input)
 }
