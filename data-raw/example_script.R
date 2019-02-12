@@ -1,25 +1,27 @@
 
+# # check names of input data
+# names(rabmp::input_data)
+#
+# # prepare input (mainly renameing and nesting)
+# data_trees <- prepare_input(input = input_data,
+#                             x = "x", y = "y",
+#                             species = "Species", type = "Type",
+#                             dbh = "DBH")
+
 # check names of input data
-names(rabmp::input_data)
+names(rabmp::example_input_data)
 
 # prepare input (mainly renameing and nesting)
-data_trees <- rabmp::prepare_input(input = input_data,
-                                   x = "x", y = "y",
-                                   species = "Species", type = "Type",
-                                   dbh = "DBH")
-
-# names(rabmp::example_input_data)
-
-# data_trees <- prepare_input(input = example_input_data,
-#                             x = "x_coord", y = "y_coord",
-#                             species = "spec", type = "Class",
-#                             dbh = "bhd")
+data_trees <- prepare_input(input = example_input_data,
+                            x = "x_coord", y = "y_coord",
+                            species = "spec", type = "Class",
+                            dbh = "bhd")
 
 # only 200 trees to decrease computationl time for testing
-data_trees <- data_trees[0:50, ]
+data_trees <- data_trees[0:200, ]
 
 # set number of simulation years
-years <- 1
+years <- 5
 
 for(i in 1:years){
   data_trees <- simulate_ci(data_trees)
