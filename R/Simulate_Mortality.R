@@ -22,6 +22,7 @@ simulate_mortality <- function(input) {
 
   # calculate mortality prob
   mortality_prob <- rcpp_calculate_mortality_probs(species = current_living$species, dbh = current_living$dbh)
+  list(assign("mortality_prob", mortality_prob, envir = .GlobalEnv))
 
   # create random number for all living trees
   random_number <- runif(n = length(mortality_prob), min = 0, max = 1)
@@ -32,10 +33,11 @@ simulate_mortality <- function(input) {
 
   # combine tibbles
   # MH: Old data missing?
-  input <- rbind(current_living, input[which(input$i != max(input$i)), ])
+  input <- rbind(current_living, input[which(input$i != max(input$i) || (input$i == 0 && input$type=="Dead")), ])
 
   # nest tibble
   input <- tidyr::nest(input, -c(id, x, y, species), .key = "data")
 
   return(input)
+
 }

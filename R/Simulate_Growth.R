@@ -44,6 +44,9 @@ simulate_growth <- function(input){
   # update type below dbh > 10 cm
   current_living$type[which(current_living$dbh >10)] <- "Adult"
 
+  # update timestep
+  current_living$i <- current_living$i + 1
+
   # combine tibbles
   input <- rbind(current_living, input)
 
