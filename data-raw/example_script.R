@@ -18,7 +18,7 @@ data_trees <- prepare_input(input = example_input_data,
                             dbh = "bhd")
 
 # only 200 trees to decrease computationl time for testing
-data_trees <- data_trees[0:200, ]
+data_trees <- data_trees[0:50, ]
 
 # set number of simulation years
 years <- 5

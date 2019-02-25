@@ -32,6 +32,7 @@ simulate_mortality <- function(input) {
   # combine tibbles
   # MH: Old data missing?
   input <- rbind(current_living, input[which(input$i != max(input$i)), ])
+  # input <- rbind(current_living, input[which(input$i != max(input$i) || (input$i == 0 && input$type=="Dead")), ])
 
   # nest tibble
   input <- tidyr::nest(input, -c(id, x, y, species), .key = "data")
