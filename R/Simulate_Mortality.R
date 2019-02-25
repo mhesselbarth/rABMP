@@ -30,7 +30,7 @@ simulate_mortality <- function(input) {
   current_living$type[which(random_number < mortality_prob)] <- "Dead"
 
   # combine tibbles
-  input_new <- rbind(current_living, input[which(input$i != max(input$i)), ])
+  input <- rbind(current_living, input[which(input$i != max(input$i)), ])
 
   # nest tibble
   input <- tidyr::nest(input, -c(id, x, y, species), .key = "data")
