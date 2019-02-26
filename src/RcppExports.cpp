@@ -31,6 +31,19 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// rcpp_calculate_probability
+NumericVector rcpp_calculate_probability(int max_dist, double beta, double theta);
+RcppExport SEXP _rabmp_rcpp_calculate_probability(SEXP max_distSEXP, SEXP betaSEXP, SEXP thetaSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< int >::type max_dist(max_distSEXP);
+    Rcpp::traits::input_parameter< double >::type beta(betaSEXP);
+    Rcpp::traits::input_parameter< double >::type theta(thetaSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_calculate_probability(max_dist, beta, theta));
+    return rcpp_result_gen;
+END_RCPP
+}
 // rcpp_calculate_random_coords
 NumericVector rcpp_calculate_random_coords(double n, String species, int n_proposed, double max_dist);
 RcppExport SEXP _rabmp_rcpp_calculate_random_coords(SEXP nSEXP, SEXP speciesSEXP, SEXP n_proposedSEXP, SEXP max_distSEXP) {
@@ -58,12 +71,40 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// rcpp_calculate_seedlings_fast
+NumericMatrix rcpp_calculate_seedlings_fast(NumericMatrix coords, NumericVector number, StringVector species);
+RcppExport SEXP _rabmp_rcpp_calculate_seedlings_fast(SEXP coordsSEXP, SEXP numberSEXP, SEXP speciesSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type coords(coordsSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type number(numberSEXP);
+    Rcpp::traits::input_parameter< StringVector >::type species(speciesSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_calculate_seedlings_fast(coords, number, species));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rcpp_random_distance
+NumericVector rcpp_random_distance(int number_seeds, NumericVector probability);
+RcppExport SEXP _rabmp_rcpp_random_distance(SEXP number_seedsSEXP, SEXP probabilitySEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< int >::type number_seeds(number_seedsSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type probability(probabilitySEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_random_distance(number_seeds, probability));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_rabmp_rcpp_calculate_ci", (DL_FUNC) &_rabmp_rcpp_calculate_ci, 4},
     {"_rabmp_rcpp_calculate_mortality_probs", (DL_FUNC) &_rabmp_rcpp_calculate_mortality_probs, 2},
+    {"_rabmp_rcpp_calculate_probability", (DL_FUNC) &_rabmp_rcpp_calculate_probability, 3},
     {"_rabmp_rcpp_calculate_random_coords", (DL_FUNC) &_rabmp_rcpp_calculate_random_coords, 4},
     {"_rabmp_rcpp_calculate_seedlings", (DL_FUNC) &_rabmp_rcpp_calculate_seedlings, 3},
+    {"_rabmp_rcpp_calculate_seedlings_fast", (DL_FUNC) &_rabmp_rcpp_calculate_seedlings_fast, 3},
+    {"_rabmp_rcpp_random_distance", (DL_FUNC) &_rabmp_rcpp_random_distance, 2},
     {NULL, NULL, 0}
 };
 

@@ -9,11 +9,23 @@ rcpp_calculate_mortality_probs <- function(species, dbh) {
     .Call('_rabmp_rcpp_calculate_mortality_probs', PACKAGE = 'rabmp', species, dbh)
 }
 
+rcpp_calculate_probability <- function(max_dist, beta, theta) {
+    .Call('_rabmp_rcpp_calculate_probability', PACKAGE = 'rabmp', max_dist, beta, theta)
+}
+
 rcpp_calculate_random_coords <- function(n, species, n_proposed = 1000000L, max_dist = 80) {
     .Call('_rabmp_rcpp_calculate_random_coords', PACKAGE = 'rabmp', n, species, n_proposed, max_dist)
 }
 
 rcpp_calculate_seedlings <- function(coords, number, species) {
     .Call('_rabmp_rcpp_calculate_seedlings', PACKAGE = 'rabmp', coords, number, species)
+}
+
+rcpp_calculate_seedlings_fast <- function(coords, number, species) {
+    .Call('_rabmp_rcpp_calculate_seedlings_fast', PACKAGE = 'rabmp', coords, number, species)
+}
+
+rcpp_random_distance <- function(number_seeds, probability) {
+    .Call('_rabmp_rcpp_random_distance', PACKAGE = 'rabmp', number_seeds, probability)
 }
 

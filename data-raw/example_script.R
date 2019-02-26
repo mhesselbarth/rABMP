@@ -48,12 +48,7 @@ data_trees$data[1:20]
 # 10    9. Adult  50.5 0.0823
 # 11   10. Adult  50.6 0.0823
 
-# profile function
-foo <- function(x) {
-  data_trees <- simulate_ci(x)
-  data_trees <- simulate_growth(x)
-  data_trees <- simulate_seed_dispersal(x)
-  data_trees <- simulate_mortality(x)
-}
-
-foo(data_trees)
+bench::mark(
+  simulate_seed_dispersal(data_trees),
+  simulate_seed_dispersal(data_trees),
+  check = FALSE, relative = TRUE, iterations = 10)
