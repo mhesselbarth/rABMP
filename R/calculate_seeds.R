@@ -12,6 +12,7 @@
 #' @return vector
 #'
 #' @examples
+#' calculate_seeds(species = "Beech", dbh = 45.25)
 #'
 #' @aliases calculate_seeds
 #' @rdname calculate_seeds

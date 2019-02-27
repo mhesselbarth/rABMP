@@ -22,6 +22,12 @@ Simulates seed dispersal by first calculating the number of seeds for each tree
 and following distributing them around parental trees following a seed kernel.
 }
 \examples{
+\dontrun{
+names(example_input_data)
+df_tress <- prepare_input(input = example_input_data, x = "x_coord", y = "y_coord",
+species = "spec", type = "Class", dbh = "bhd")
+simulate_seed_dispersal(df_trees)
+}
 
 }
 \references{

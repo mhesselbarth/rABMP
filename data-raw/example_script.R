@@ -1,19 +1,21 @@
 
+# # check names of input data
+# names(rabmp::input_data)
+#
+# # prepare input (mainly renameing and nesting)
+# data_trees <- prepare_input(input = input_data,
+#                             x = "x", y = "y",
+#                             species = "Species", type = "Type",
+#                             dbh = "DBH")
+
 # check names of input data
-names(rabmp::input_data)
+names(rabmp::example_input_data)
 
 # prepare input (mainly renameing and nesting)
-data_trees <- rabmp::prepare_input(input = input_data,
-                                   x = "x", y = "y",
-                                   species = "Species", type = "Type",
-                                   dbh = "DBH")
-
-# names(rabmp::example_input_data)
-
-# data_trees <- prepare_input(input = example_input_data,
-#                             x = "x_coord", y = "y_coord",
-#                             species = "spec", type = "Class",
-#                             dbh = "bhd")
+data_trees <- prepare_input(input = example_input_data,
+                            x = "x_coord", y = "y_coord",
+                            species = "spec", type = "Class",
+                            dbh = "bhd")
 
 # only 200 trees to decrease computationl time for testing
 data_trees <- data_trees[0:50, ]
@@ -29,7 +31,7 @@ for(i in 1:years){
   print(paste0(i, " from ", years, " runs done"))
 }
 
-data_trees$data[1:20]
+# data_trees$data[1:20]
 
 data_trees_unnest <- tidyr::unnest(data_trees)
 
@@ -54,4 +56,7 @@ seedlings <- current_living[current_living$type=="Seedling", ]
 # 10    9. Adult  50.5 0.0823
 # 11   10. Adult  50.6 0.0823
 
-
+bench::mark(
+  simulate_seed_dispersal(data_trees),
+  deprecated_simulate_seed_dispersal(data_trees),
+  check = FALSE, relative = TRUE, iterations = 100)

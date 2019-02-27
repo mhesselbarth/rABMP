@@ -17,7 +17,8 @@
 #'
 #' @examples
 #' names(example_input_data)
-#' prepare_input(input = example_input_data, x = "x_coord", y = "y_coord", species = "spec", type = "Class", dbh = "bhd")
+#' prepare_input(input = example_input_data, x = "x_coord", y = "y_coord",
+#' species = "spec", type = "Class", dbh = "bhd")
 #'
 #' @aliases prepare_input
 #' @rdname prepare_input

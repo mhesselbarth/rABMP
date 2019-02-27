@@ -1,4 +1,4 @@
-#' calculate_distance
+#' deprecated_calculate_distance
 #'
 #' @description Calculate distance
 #'
@@ -15,17 +15,19 @@
 #' @examples
 #' points_a <- cbind(c(5, 1, 2, 8), c(7, 9, 2, 3))
 #' points_b <- cbind(c(3, 4, 9, 1), c(4, 8, 1, 4))
-#' calculate_distance(points_a, points_b)
+#' deprecated_calculate_distance(points_a, points_b)
 #'
 #' \dontrun{
-#' bench::mark(calculate_distance(points_a, points_b), raster::pointDistance(points_a, points_b, lonlat = FALSE))
+#' bench::mark(deprecated_calculate_distance(points_a, points_b),
+#' raster::pointDistance(points_a, points_b, lonlat = FALSE),
+#' relative = TRUE, iterations = 10000)
 #' }
 #'
-#' @aliases calculate_distance
-#' @rdname calculate_distance
+#' @aliases deprecated_calculate_distance
+#' @rdname deprecated_calculate_distance
 #'
 #' @export
-calculate_distance <- function(point_a, point_b) {
+deprecated_calculate_distance <- function(point_a, point_b) {
 
   if(class(point_a) != "matrix" || class(point_b) != "matrix") {
     stop("point_a and point_b must both be a matrix.")

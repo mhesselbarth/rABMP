@@ -12,6 +12,11 @@
 #' @return vector
 #'
 #' @examples
+#' names(example_input_data)
+#' df_tress <- prepare_input(input = example_input_data, x = "x_coord", y = "y_coord",
+#' species = "spec", type = "Class", dbh = "bhd")
+#' df_trees <- simulate_ci(input = df_tress)
+#' simulate_growth(input = df_trees)
 #'
 #' @aliases simulate_growth
 #' @rdname simulate_growth

@@ -21,6 +21,11 @@ Also, i (iteration counter) will be increase and the type re-classified based
 on the DBH: <ADD CLASSIFICATION SCHEME>
 }
 \examples{
+names(example_input_data)
+df_tress <- prepare_input(input = example_input_data, x = "x_coord", y = "y_coord",
+species = "spec", type = "Class", dbh = "bhd")
+df_trees <- simulate_ci(input = df_tress)
+simulate_growth(input = df_trees)
 
 }
 \references{

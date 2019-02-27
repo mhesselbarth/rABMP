@@ -3,15 +3,18 @@
 \docType{data}
 \name{example_input_data}
 \alias{example_input_data}
-\title{Example data set I}
+\title{Example data set}
 \format{A tibble with 1,340 rows and 5 variables:
-\describe{
-  \item{x}{x coordinate}
-  \item{y}{y coordinate}
-  \item{spec}{Species of indivdual}
-  \item{Class}{Type of individual}
-  \item{bhd}{Diameter at breast height of individual in cm}
-}}
+
+x: x coordinate
+
+y: y coordinate
+
+spec: species
+
+Class: type (e.g. "Adult")
+
+bhd: diameter at breast height}
 \usage{
 example_input_data
 }

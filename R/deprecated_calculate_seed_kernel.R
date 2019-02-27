@@ -1,16 +1,30 @@
-#' Seed kernel
+#' deprecated_calculate_seed_kernel
 #'
-#' The kernel function
-#' @param species Species of tree
-#' @param distance Distance r from mother tree
-#' @param max_dist Maximum distance of seed dispersal
-#' @references \itemize{
-#' \item Ribbens, E., Silander, J.A., Pacala, S.W., 1994. Seedling recruitment in forests: Calibrating models to predict patterns of tree seedling dispersion. Ecology 75, 1794–1806.
-#' \item Millerón, M., De Heredia, U.L., Lorenzo, Z., Alonso, J., Dounavi, A., Gil, L., Nanos, N., 2013. Assessment of spatial discordance of primary and effective seed dispersal of European beech (Fagus sylvatica L.) by ecological and genetic methods. Mol. Ecol. 22, 1531–1545.
-#' }
+#' @description Calculate seed kernel
+#'
+#' @param species Current species
+#' @param distance distance for which probability is calculated
+#' @param max_dist maximum distance
+#'
+#' @details
+#' Calculates the probability for a certain distance a species-specific
+#' seed kernel.
+#'
+#' @return vector
+#'
+#' @examples
+#' deprecated_calculate_seed_kernel(species = "Beech", distance = 10, max_dist = 120)
+#'
+#' @aliases deprecated_calculate_seed_kernel
+#' @rdname deprecated_calculate_seed_kernel
+#'
+#' @references
+#' Ribbens, E., Silander, J. A., & Pacala, S. W. (1994). Seedling recruitment in forests:
+#' Calibrating models to predict patterns of tree seedling dispersion. Ecology, 75(6), 1794-1806.
 #'
 #' @export
-calculate_seed_kernel <- function(species, distance, max_dist){
+deprecated_calculate_seed_kernel <- function(species, distance, max_dist) {
+
   # Rather us integrate than loop to get normalizer ?
   n <- 0
 
@@ -22,7 +36,7 @@ calculate_seed_kernel <- function(species, distance, max_dist){
     kernel_return <- (1 / n) * kernel_species
 
     # Probability based on Milleron et al. (2013) Year 2007
-    #beta <- runif(n = 1, min = 197.9, max =  244.7)
+    #beta <- stats::runif(n = 1, min = 197.9, max =  244.7)
     #kernel_return <- 1 / (pi * beta * (1 + (distance^2 / beta))^2)
 
   }

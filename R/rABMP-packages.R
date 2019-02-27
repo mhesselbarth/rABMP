@@ -6,16 +6,11 @@
 "_PACKAGE"
 
 globalVariables(c(
-  "Accept",
-  "DBH",
-  "Data",
-  "Proposed",
-  "Species",
-  "Type",
-  "dist",
-  "i",
+  "accept",
+  "integrate",
+  "proposed",
   "runif",
-  "sample_n",
-  "tibble",
+  "species",
+  "id",
   "x",
   "y"))
