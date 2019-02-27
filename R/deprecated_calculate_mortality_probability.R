@@ -64,7 +64,7 @@ deprecated_calculate_mortality_probability <- function(species, dbh){
   else if(species == "Sycamore"){
 
     # calculate logit
-    logit <- -8.9 + (dbh * 0.052)
+    logit <- -2.8 + (dbh * -0.051)
 
     # calculate prob
     p <- 1 / (1 + exp(-logit))
@@ -73,7 +73,7 @@ deprecated_calculate_mortality_probability <- function(species, dbh){
   else if(species == "others"){
 
     # calculate logit
-    logit <- -8.9 + (dbh * 0.052)
+    logit <- -2.8 + (dbh * -0.051)
 
     # calculate prob
     p <- 1 / (1 + exp(-logit))
