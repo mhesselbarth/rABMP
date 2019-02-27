@@ -5,7 +5,12 @@
 # nocov start
 "_PACKAGE"
 
-globalVariables(c("species",
-                  "id",
-                  "x",
-                  "y"))
+globalVariables(c(
+  "accept",
+  "integrate",
+  "proposed",
+  "runif",
+  "species",
+  "id",
+  "x",
+  "y"))

@@ -30,7 +30,6 @@ simulate_mortality <- function(input) {
   current_living$type[which(random_number < mortality_prob)] <- "Dead"
 
   # combine tibbles
-  # MH: Old data missing?
   input <- rbind(current_living, input[which(input$i != max(input$i)), ])
 
   # nest tibble
