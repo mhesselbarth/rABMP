@@ -16,7 +16,7 @@ NumericMatrix rcpp_create_seedlings(NumericMatrix coords,
   int counter = 0;
 
   // initialise matrix
-  NumericMatrix seedlings(seedlings_total, 2);
+  Rcpp::NumericMatrix seedlings(seedlings_total, 2);
 
   for(int i = 0; i < nrow; i++) {
 

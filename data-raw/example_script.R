@@ -51,4 +51,4 @@ for(i in 1:years){
 bench::mark(
   simulate_seed_dispersal(data_trees),
   deprecated_simulate_seed_dispersal(data_trees),
-  check = FALSE, relative = TRUE, iterations = 10)
+  check = FALSE, relative = TRUE, iterations = 100)

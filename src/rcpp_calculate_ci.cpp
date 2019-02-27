@@ -13,17 +13,13 @@ NumericVector rcpp_calculate_ci(NumericMatrix matrix,
   int nrow = matrix.nrow();
 
   // initialise vector for distances
-  double distance;
+  double distance = 0.0;
 
   // initialise double for temp ci value
   double ci_temp = 0.0;
 
   // initialise vector for ci value
-  NumericVector ci(nrow, 0.0);
-
-  // set parameters
-  // double alpha = 1.45772;
-  // double beta = 0.52339;
+  Rcpp::NumericVector ci(nrow, 0.0);
 
   // loop through all rows
   for(int i = 0; i < nrow; i++){
@@ -34,7 +30,7 @@ NumericVector rcpp_calculate_ci(NumericMatrix matrix,
 
       // row itself or distance greater than max_dist
       if(distance == 0 || distance > max_dist) {
-        ci_temp = 0;
+        ci_temp = 0.0;
       } else {
         // calculate ci of current j
         ci_temp = std::pow(matrix(j, 2), alpha) * std::exp(-(distance / std::pow(matrix(j, 2), beta)));
@@ -130,6 +126,8 @@ NumericVector rcpp_calculate_ci(NumericMatrix matrix,
 
 /*** R
 data <- as.matrix(rabmp::example_input_data[, c(1,2,4)])
+
+rcpp_calculate_ci(data, alpha = 1.45772, beta = 0.52339, max_dist = 30)
 
 bench::mark(rcpp_calculate_ci(data, alpha = 1.45772, beta = 0.52339, max_dist = 30),
             deprecated_calculate_ci(data, alpha = 1.45772, beta = 0.52339, max_dist = 30),

@@ -6,12 +6,14 @@ NumericVector rcpp_random_distance(int number_seeds,
                                    String species,
                                    int max_dist) {
 
-  double beta;
-  double theta;
+  // initialise parameters
+  double beta = 0.0;
+  double theta = 0.0;
 
-  // initialsie vector to store distances
-  NumericVector distance_vector(number_seeds, 0.0);
+  // initialise vector to store distances
+  Rcpp::NumericVector distance_vector(number_seeds, 0.0);
 
+  // set parameters depending on species
   if(species == "Beech") {
     beta = 3.412413 / std::pow(10, 5);
     theta = 3;
@@ -41,13 +43,14 @@ NumericVector rcpp_random_distance(int number_seeds,
     stop("Please select valid species");
   }
 
-  NumericVector probability = rcpp_calculate_probability(beta, theta, max_dist);
+  // get cumulative probability function
+  Rcpp::NumericVector probability = rcpp_calculate_probability(beta, theta, max_dist);
 
   // loop through all needed seedlings
   for(int i = 0; i < number_seeds; i++) {
 
     // counter to find probability where probability > random number
-    int counter;
+    int counter = 0;
 
     // create random uniform number between 0 - 1
     double random = runif(1, 0, 1)[0];
