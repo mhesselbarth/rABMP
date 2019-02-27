@@ -4,8 +4,10 @@ using namespace Rcpp;
 // Calculate ci index
 
 // [[Rcpp::export]]
-NumericVector rcpp_calculate_ci(NumericMatrix matrix, double max_dist,
-                                double alpha, double beta) {
+NumericVector rcpp_calculate_ci(NumericMatrix matrix,
+                                double alpha,
+                                double beta,
+                                double max_dist) {
 
   // get number of rows
   int nrow = matrix.nrow();
@@ -127,36 +129,11 @@ NumericVector rcpp_calculate_ci(NumericMatrix matrix, double max_dist,
 // }
 
 /*** R
-r_calculate_ci <- function(data, max_dist) {
-
-  ci_r <- rep(NA, nrow(data))
-
-  for(i in 1:nrow(data)) {
-
-    # calculate distance between current point and all other points
-    distance <- calculate_distance(point_a = data[i, 1:2, drop = FALSE],
-                                   point_b = data[, 1:2])
-
-    dbh <- data[which(distance < max_dist & distance != 0), 3]
-
-    distance <- distance[which(distance < max_dist & distance != 0)]
-
-    # calculate competition of current tree
-    ci_r[i] <- sum(calculate_ci(distance = distance,
-                                dbh = dbh,
-                                max_dist = max_dist,
-                                type = "exponential"))
-  }
-  return(ci_r)
-}
-
 data <- as.matrix(rabmp::example_input_data[, c(1,2,4)])
 
-bench::mark(rcpp_calculate_ci(data, max_dist = 30,
-                              alpha = 1.45772, beta = 0.52339),
-            # rcpp_calculate_ci_sugar(data, max_dist = 30),
-            r_calculate_ci(data, max_dist = 30),
-            iterations = 100, relative = TRUE)
+bench::mark(rcpp_calculate_ci(data, alpha = 1.45772, beta = 0.52339, max_dist = 30),
+            deprecated_calculate_ci(data, alpha = 1.45772, beta = 0.52339, max_dist = 30),
+            iterations = 1000, relative = TRUE)
 
 */
 

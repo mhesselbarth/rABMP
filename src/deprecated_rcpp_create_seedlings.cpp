@@ -2,10 +2,10 @@
 using namespace Rcpp;
 
 // [[Rcpp::export]]
-NumericVector rcpp_calculate_random_coords(double n,
-                                           String species,
-                                           int n_proposed = 1000000,
-                                           double max_dist = 80) {
+NumericVector deprecated_rcpp_random_distance(double n,
+                                              String species,
+                                              int n_proposed = 1000000,
+                                              double max_dist = 80) {
 
   // create proposed coordinates values
   NumericVector proposed = runif(n_proposed, 0, max_dist);
@@ -72,9 +72,9 @@ NumericVector rcpp_calculate_random_coords(double n,
 }
 
 // [[Rcpp::export]]
-NumericMatrix rcpp_calculate_seedlings(NumericMatrix coords,
-                                       NumericVector number,
-                                       StringVector species) {
+NumericMatrix deprecated_rcpp_create_seedlings(NumericMatrix coords,
+                                               NumericVector number,
+                                               StringVector species) {
 
   // get number of trees
   int nrow = coords.nrow();
@@ -89,9 +89,9 @@ NumericMatrix rcpp_calculate_seedlings(NumericMatrix coords,
 
   for(int i = 0; i < nrow; i++) {
 
-    NumericVector random_x = rcpp_calculate_random_coords(number[i], species[i]);
+    NumericVector random_x = deprecated_rcpp_random_distance(number[i], species[i]);
 
-    NumericVector random_y = rcpp_calculate_random_coords(number[i], species[i]);
+    NumericVector random_y = deprecated_rcpp_random_distance(number[i], species[i]);
 
     for(int j = 0; j < number[i]; j++){
 
@@ -108,7 +108,7 @@ NumericMatrix rcpp_calculate_seedlings(NumericMatrix coords,
 
 /*** R
 bench::mark(
-  rcpp_calculate_random_coords(n = 25, species = "Beech"),
-  calculate_random_coords(n = 25, species = "Beech"),
+  deprecated_rcpp_random_distance(n = 25, species = "Beech"),
+  deprecated_calculate_random_distance(n = 25, species = "Beech"),
   check = FALSE, relative = TRUE, iterations = 100)
 */

@@ -47,8 +47,9 @@ simulate_ci <- function(input,
 
   # calculate CI
   competition <- rcpp_calculate_ci(matrix = as.matrix(current[, c(2, 3, 7)]),
-                                   max_dist = max_dist,
-                                   alpha = 1.45772, beta = 0.52339)
+                                   alpha = 1.45772,
+                                   beta = 0.52339,
+                                   max_dist = max_dist)
 
   # pommerening 2014: transformation of competition index which includes size of affected tree
   # scaled between 0 and 1

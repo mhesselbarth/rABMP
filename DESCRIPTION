@@ -12,9 +12,9 @@ License: GPL-3
 Depends:
   R (>= 3.1)
 Imports:
+  Rcpp,
   tibble,
-  tidyr,
-  Rcpp
+  tidyr
 Suggests:
   dplyr,
   knitr, 

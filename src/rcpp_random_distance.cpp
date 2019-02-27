@@ -1,11 +1,47 @@
-#include <Rcpp.h>
-using namespace Rcpp;
+#include "rcpp_random_distance.h"
+#include "rcpp_calculate_probability.h"
 
 // [[Rcpp::export]]
-NumericVector rcpp_random_distance(int number_seeds, NumericVector probability) {
+NumericVector rcpp_random_distance(int number_seeds,
+                                   String species,
+                                   int max_dist) {
+
+  double beta;
+  double theta;
 
   // initialsie vector to store distances
   NumericVector distance_vector(number_seeds, 0.0);
+
+  if(species == "Beech") {
+    beta = 3.412413 / std::pow(10, 5);
+    theta = 3;
+  }
+
+  else if(species == "Ash") {
+    beta = 0.922805 / std::pow(10, 5);
+    theta = 3;
+  }
+
+  else if(species == "Sycamore") {
+    beta = 7.435026 / std::pow(10, 5);
+    theta = 3;
+  }
+
+  else if(species == "Hornbeam") {
+    beta = 3.412413 / std::pow(10, 5);
+    theta = 3;
+  }
+
+  else if(species == "others") {
+    beta = 3.795664 / std::pow(10, 5);
+    theta = 3;
+  }
+
+  else{
+    stop("Please select valid species");
+  }
+
+  NumericVector probability = rcpp_calculate_probability(beta, theta, max_dist);
 
   // loop through all needed seedlings
   for(int i = 0; i < number_seeds; i++) {
@@ -54,14 +90,12 @@ max_dist <- 120
 beta <- 3.412413 / 10 ^ 5
 theta <- 3
 
-prob <- rcpp_calculate_probability(max_dist = max_dist, beta = beta, theta = theta)
+rcpp_random_distance(number_seeds = 10, species = "Beech", max_dist = 120)
 
-rcpp_random_distance(number_seeds = 10, probability = prob)
+plot(density(rcpp_random_distance(number_seeds = 100000, species = "Beech", max_dist = 120)), lty = 1)
+lines(density(deprecated_rcpp_random_distance(n = 100000, species = "Beech")), lty = 2)
 
-plot(density(rcpp_calculate_random_coords(n = 100000, species = "Beech")), lty = 1)
-lines(density(rcpp_random_distance(number_seeds = 100000, probability = prob)), lty = 2)
-
-bench::mark(rcpp_random_distance(number_seeds = 100000, probability = prob),
-            rcpp_calculate_random_coords(n = 100000, species = "Beech"),
-            check = FALSE, iterations = 100, relative = TRUE)
+bench::mark(rcpp_random_distance(number_seeds = 25, species = "Beech", max_dist = 120),
+            deprecated_rcpp_random_distance(n = 25, species = "Beech"),
+            check = FALSE, iterations = 1000, relative = TRUE)
 */

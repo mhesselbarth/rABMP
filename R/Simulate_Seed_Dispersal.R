@@ -53,6 +53,7 @@ simulate_seed_dispersal <- function(input, threshold = 30){
   number_seedlings <- calculate_seeds(species = current_living$species,
                                       dbh = current_living$dbh)
 
+  # reduce seedlings according to Bilek et al. 2009
   number_seedlings <- floor(number_seedlings * stats::runif(n = 1, min = 0.812, max = 0.83) * 0.0236)
 
   # which trees produce surviving seedlings?
@@ -64,9 +65,9 @@ simulate_seed_dispersal <- function(input, threshold = 30){
   species <- current_living$species[id]
 
   # calculate seedlings coordinates
-  seedlings <- rcpp_calculate_seedlings(coords = as.matrix(current_living[id, 2:3]),
-                                        number = number_seedlings,
-                                        species = species)
+  seedlings <- rcpp_create_seedlings(coords = as.matrix(current_living[id, 2:3]),
+                                     number = number_seedlings,
+                                     species = species)
 
   # create seedlings id
   id <- seq(from = max(input$id) + 1, to = max(input$id) + nrow(seedlings))

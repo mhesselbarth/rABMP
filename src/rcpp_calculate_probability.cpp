@@ -1,11 +1,12 @@
-#include <Rcpp.h>
-using namespace Rcpp;
+#include "rcpp_calculate_probability.h"
 
 // https://github.com/LMurphy186232/Core_Model/blob/9a6cf25a466c9eea346c30e61f9c593c2b72705b/Behaviors/SpatialDisperse.cpp
 // Starting line 793
 
 // [[Rcpp::export]]
-NumericVector rcpp_calculate_probability(int max_dist, double beta, double theta) {
+NumericVector rcpp_calculate_probability(double beta,
+                                         double theta,
+                                         int max_dist) {
 
   // initialise doubles
   double probability_temp = 0.0;
@@ -43,45 +44,16 @@ NumericVector rcpp_calculate_probability(int max_dist, double beta, double theta
 }
 
 /*** R
-r_calculate_probability <- function(max_dist, beta, theta) {
-
-  probability_temp <- 0
-
-  probability <- rep(NA, max_dist)
-
-  # normalizer <- integrate(function(r) {pi * (2 * (r + 0.5)) * exp(-beta * r ^ theta)}, lower = 0, upper = Inf)$value
-  normalizer <- integrate(function(r) {exp(-beta * r ^ theta)}, lower = 0, upper = Inf)$value
-
-  normalizer <- ifelse(test = normalizer < 0.0001,
-                       yes = 0, no = 1.0 / normalizer)
-
-  for(distance in 1:max_dist) {
-
-    # probability_temp <- probability_temp + normalizer * pi * (2 * (distance + 0.5)) * exp(-beta * distance ^ theta)
-    probability_temp <- probability_temp + normalizer * exp(-beta * distance ^ theta)
-
-    probability[[distance]] <- probability_temp
-  }
-
-  # prob can't be larger than 1
-  probability[which(probability > 1)] <- 1
-
-  # last value in vector should be 1
-  probability[length(probability)] <- 1
-
-  return(probability)
-}
-
 max_dist <- 120
 beta <- 3.412413 / 10 ^ 5
 theta <- 3
 
-rcpp_calculate_probability(max_dist = max_dist, beta = beta, theta = theta)
+rcpp_calculate_probability(beta = beta, theta = theta, max_dist = max_dist)
 
-plot(x = 1:max_dist, y = r_calculate_probability(max_dist = 120, beta = beta, theta = theta), type = "l", lty = 1)
-lines(x = 1:max_dist, y = rcpp_calculate_probability(max_dist = 120, beta = beta, theta = theta), lty = 2)
+plot(x = 1:max_dist, y = rcpp_calculate_probability(max_dist = 120, beta = beta, theta = theta), lty = 1, type = "l")
+lines(x = 1:max_dist, y = deprecated_calculate_probability(max_dist = 120, beta = beta, theta = theta), lty = 2)
 
-bench::mark(r_calculate_probability(max_dist = max_dist, beta = beta, theta = theta),
-            rcpp_calculate_probability(max_dist = max_dist, beta = beta, theta = theta),
+bench::mark(rcpp_calculate_probability(max_dist = max_dist, beta = beta, theta = theta),
+            deprecated_calculate_probability(max_dist = max_dist, beta = beta, theta = theta),
             check = FALSE, relative = TRUE, iterations = 100000)
 */

@@ -31,7 +31,7 @@ for(i in 1:years){
   print(paste0(i, " from ", years, " runs done"))
 }
 
-data_trees$data[1:20]
+# data_trees$data[1:20]
 
 # A tibble: 11 x 4
 # i Type    DBH     CI
@@ -50,5 +50,5 @@ data_trees$data[1:20]
 
 bench::mark(
   simulate_seed_dispersal(data_trees),
-  simulate_seed_dispersal(data_trees),
+  deprecated_simulate_seed_dispersal(data_trees),
   check = FALSE, relative = TRUE, iterations = 10)

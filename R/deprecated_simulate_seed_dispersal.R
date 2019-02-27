@@ -1,4 +1,4 @@
-#' simulate_seed_dispersal_fast
+#' deprecated_simulate_seed_dispersal
 #'
 #' @description Simulate seed dispersal
 #'
@@ -14,13 +14,13 @@
 #' @examples
 #' \dontrun{
 #' names(example_input_data)
-#' df_tress <- prepare_input(input = example_input_data, x = "x_coord", y = "y_coord",
+#' df_trees <- prepare_input(input = example_input_data, x = "x_coord", y = "y_coord",
 #' species = "spec", type = "Class", dbh = "bhd")
-#' simulate_seed_dispersal_fast(df_trees)
+#' deprecated_simulate_seed_dispersal(df_trees)
 #' }
 #'
-#' @aliases simulate_seed_dispersal_fast
-#' @rdname simulate_seed_dispersal_fast
+#' @aliases deprecated_simulate_seed_dispersal
+#' @rdname deprecated_simulate_seed_dispersal
 #'
 #' @references
 #' Clark, J.S., Silman, M., Kern, R., Macklin, E., HilleRisLambers, J., 1999. Seed
@@ -36,7 +36,7 @@
 #' Calibrating models to predict patterns of tree seedling dispersion. Ecology, 75(6), 1794-1806.
 #'
 #' @export
-simulate_seed_dispersal_fast <- function(input, threshold = 30){
+deprecated_simulate_seed_dispersal <- function(input, threshold = 30){
 
   # unnest data
   input <- tidyr::unnest(input)
@@ -53,7 +53,6 @@ simulate_seed_dispersal_fast <- function(input, threshold = 30){
   number_seedlings <- calculate_seeds(species = current_living$species,
                                       dbh = current_living$dbh)
 
-  # reduce seedlings according to Bilek et al. 2009
   number_seedlings <- floor(number_seedlings * stats::runif(n = 1, min = 0.812, max = 0.83) * 0.0236)
 
   # which trees produce surviving seedlings?
@@ -65,9 +64,9 @@ simulate_seed_dispersal_fast <- function(input, threshold = 30){
   species <- current_living$species[id]
 
   # calculate seedlings coordinates
-  seedlings <- rcpp_calculate_seedlings_fast(coords = as.matrix(current_living[id, 2:3]),
-                                             number = number_seedlings,
-                                             species = species)
+  seedlings <- deprecated_rcpp_create_seedlings(coords = as.matrix(current_living[id, 2:3]),
+                                                number = number_seedlings,
+                                                species = species)
 
   # create seedlings id
   id <- seq(from = max(input$id) + 1, to = max(input$id) + nrow(seedlings))

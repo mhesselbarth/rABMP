@@ -1,7 +1,6 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
-
 // [[Rcpp::export]]
 NumericVector rcpp_calculate_mortality_probs(StringVector species,
                                              NumericVector dbh) {
@@ -80,8 +79,15 @@ NumericVector rcpp_calculate_mortality_probs(StringVector species,
   return probs;
 }
 
-
-
 /*** R
-rcpp_calculate_mortality_probs(species = current_living$species, dbh = current_living$dbh)
+species <- rabmp::example_input_data$spec
+dbh <- rabmp::example_input_data$bhd
+
+rcpp_calculate_mortality_probs(species = species, dbh = dbh)
+
+vec_deprecated_calculate_mortality_probability <- Vectorize(deprecated_calculate_mortality_probability)
+
+bench::mark(rcpp_calculate_mortality_probs(species = species, dbh = dbh),
+            vec_deprecated_calculate_mortality_probability(species = species, dbh = dbh),
+            check = FALSE, relative = TRUE, iterations = 1000)
 */
