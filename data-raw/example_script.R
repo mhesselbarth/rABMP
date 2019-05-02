@@ -52,3 +52,13 @@ bench::mark(
   simulate_seed_dispersal(data_trees),
   deprecated_simulate_seed_dispersal(data_trees),
   check = FALSE, relative = TRUE, iterations = 100)
+
+foo <- function(data) {
+  data_trees <- simulate_ci(data)
+  data_trees <- simulate_growth(data)
+  data_trees <- simulate_seed_dispersal(data)
+  data_trees <- simulate_mortality(data)
+}
+
+profvis::profvis({foo(data_trees)})
+profvis::profvis({simulate_ci(data_trees)})

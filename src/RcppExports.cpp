@@ -46,6 +46,34 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// rcpp_calculate_distance
+NumericVector rcpp_calculate_distance(double current_x, double current_y, NumericVector other_x, NumericVector other_y);
+RcppExport SEXP _rabmp_rcpp_calculate_distance(SEXP current_xSEXP, SEXP current_ySEXP, SEXP other_xSEXP, SEXP other_ySEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< double >::type current_x(current_xSEXP);
+    Rcpp::traits::input_parameter< double >::type current_y(current_ySEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type other_x(other_xSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type other_y(other_ySEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_calculate_distance(current_x, current_y, other_x, other_y));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rcpp_calculate_ci_sugar
+NumericVector rcpp_calculate_ci_sugar(NumericMatrix matrix, double alpha, double beta, double max_dist);
+RcppExport SEXP _rabmp_rcpp_calculate_ci_sugar(SEXP matrixSEXP, SEXP alphaSEXP, SEXP betaSEXP, SEXP max_distSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type matrix(matrixSEXP);
+    Rcpp::traits::input_parameter< double >::type alpha(alphaSEXP);
+    Rcpp::traits::input_parameter< double >::type beta(betaSEXP);
+    Rcpp::traits::input_parameter< double >::type max_dist(max_distSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_calculate_ci_sugar(matrix, alpha, beta, max_dist));
+    return rcpp_result_gen;
+END_RCPP
+}
 // rcpp_calculate_mortality_probs
 NumericVector rcpp_calculate_mortality_probs(StringVector species, NumericVector dbh);
 RcppExport SEXP _rabmp_rcpp_calculate_mortality_probs(SEXP speciesSEXP, SEXP dbhSEXP) {
@@ -102,6 +130,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"_rabmp_deprecated_rcpp_random_distance", (DL_FUNC) &_rabmp_deprecated_rcpp_random_distance, 4},
     {"_rabmp_deprecated_rcpp_create_seedlings", (DL_FUNC) &_rabmp_deprecated_rcpp_create_seedlings, 3},
     {"_rabmp_rcpp_calculate_ci", (DL_FUNC) &_rabmp_rcpp_calculate_ci, 4},
+    {"_rabmp_rcpp_calculate_distance", (DL_FUNC) &_rabmp_rcpp_calculate_distance, 4},
+    {"_rabmp_rcpp_calculate_ci_sugar", (DL_FUNC) &_rabmp_rcpp_calculate_ci_sugar, 4},
     {"_rabmp_rcpp_calculate_mortality_probs", (DL_FUNC) &_rabmp_rcpp_calculate_mortality_probs, 2},
     {"_rabmp_rcpp_calculate_probability", (DL_FUNC) &_rabmp_rcpp_calculate_probability, 3},
     {"_rabmp_rcpp_create_seedlings", (DL_FUNC) &_rabmp_rcpp_create_seedlings, 3},

@@ -13,6 +13,14 @@ rcpp_calculate_ci <- function(matrix, alpha, beta, max_dist) {
     .Call('_rabmp_rcpp_calculate_ci', PACKAGE = 'rabmp', matrix, alpha, beta, max_dist)
 }
 
+rcpp_calculate_distance <- function(current_x, current_y, other_x, other_y) {
+    .Call('_rabmp_rcpp_calculate_distance', PACKAGE = 'rabmp', current_x, current_y, other_x, other_y)
+}
+
+rcpp_calculate_ci_sugar <- function(matrix, alpha, beta, max_dist) {
+    .Call('_rabmp_rcpp_calculate_ci_sugar', PACKAGE = 'rabmp', matrix, alpha, beta, max_dist)
+}
+
 rcpp_calculate_mortality_probs <- function(species, dbh) {
     .Call('_rabmp_rcpp_calculate_mortality_probs', PACKAGE = 'rabmp', species, dbh)
 }
