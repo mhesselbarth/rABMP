@@ -1,28 +1,38 @@
-#' Mortality function
+#' simulate_mortality
 #'
+#' @details
 #' Function to model mortality of trees
-#' @param pattern [\code{ppp(1)}]\cr Point pattern object of the spatstat package
-#' @param dbh [\code{String(1)}]\cr Name of the DBH mark
+#'
+#' @param input Tibble with input data
+#'
 #' @references \itemize{
 #' \item Holzwarth, F., Kahl, A., Bauhus, J., Wirth, C., 2013. Many ways to die - partitioning tree mortality dynamics in a near-natural mixed deciduous forest. J. Ecol. 101, 220–230.
 #' }
-#' @examples
-#' Enter Example
 #'
 #' @export
-Simulate.Mortality <- function(pattern, dbh="DBH"){
+simulate_mortality <- function(input) {
 
-  for(i in 1:pattern$n){
-    dbh_i <- pattern$marks$DBH[i]
-    species_i <- as.character(pattern$marks$Species[i])
+  # unnest data
+  input <- tidyr::unnest(input)
 
-    mortality_prob <- Mortality.Probability(species=species_i, dbh=dbh_i)
-    if(runif(1)<mortality_prob){pattern$marks$Type[i] <- "dead"}
-  }
+  # only get living trees of current timestep
+  current_living <- input[which(input$type != "Dead" & input$i == max(input$i)), ]
 
-  return(pattern)
+  # calculate mortality prob
+  mortality_prob <- rcpp_calculate_mortality_probs(species = current_living$species,
+                                                   dbh = current_living$dbh)
+
+  # create random number for all living trees
+  random_number <- stats::runif(n = length(mortality_prob), min = 0, max = 1)
+
+  # set all to dead if mortality prob is larger than random number
+  current_living$type[which(random_number < mortality_prob)] <- "Dead"
+
+  # combine tibbles
+  input <- rbind(current_living, input[which(input$i != max(input$i)), ])
+
+  # nest tibble
+  input <- tidyr::nest(input, -c(id, x, y, species), .key = "data")
+
+  return(input)
 }
-
-
-
-?log

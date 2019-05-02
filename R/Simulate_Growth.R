@@ -1,38 +1,63 @@
-#' Update DBH
+#' simulate_growth
 #'
-#' The function simulates growth of individual points
-#' @param pattern [\code{ppp(1)}]\cr Point pattern object of the spatstat package
-#' @param year [\code{Numeric(1)}]\cr Year of simulation
-#' @param mark [\code{String(1)}]\cr Name of the mark
-#' @param ci [\code{String(1)}]\cr Name of the competition index
-#' @return Vector with size increase for each point
+#' @description Simulate growth
+#'
+#' @param input input dataframe
+#'
+#' @details
+#' Simulate growth by calculating the DBH increase and add it to the current DBH.
+#' Also, i (iteration counter) will be increase and the type re-classified based
+#' on the DBH: trees with a DBH smaller than 10 cm get the type 'Sapling' and trees
+#' with a DBH over 10 cm the type 'Adult'
+#'
+#' @return vector
+#'
 #' @examples
-#' CI <- Competition.Index(pattern=pattern_living_trees, DBH="DBH_13", sigma=25)
+#' names(example_input_data)
+#' df_tress <- prepare_input(input = example_input_data, x = "x_coord", y = "y_coord",
+#' species = "spec", type = "Class", dbh = "bhd")
+#' df_trees <- simulate_ci(input = df_tress)
+#' simulate_growth(input = df_trees)
+#'
+#' @aliases simulate_growth
+#' @rdname simulate_growth
+#'
+#' @references
+#' Pommerening, A., Maleki, K., 2014. Differences between competition kernels and
+#' traditional size-ratio based competition indices used in forest ecology. For. Ecol. Manage. 331, 135-143.
 #'
 #' @export
-Simulate.Growth <- function(pattern, year, dbh, ci){
+simulate_growth <- function(input){
 
-  pattern$marks[paste0("Year_", year-1)] <- pattern$marks[dbh] # Save old DBH value
-  pattern_dead <- spatstat::subset.ppp(pattern, Type=="dead")
-  pattern_living <- spatstat::subset.ppp(pattern, Type!="dead")
+  # unnest data
+  input <- tidyr::unnest(input)
 
-  increase_total <- rep(0, pattern_living$n) # Vector for all points
+  # only get living trees of current timestep
+  current_living <- input[which(input$type != "Dead" & input$i == max(input$i)), ]
 
-  for(i in 1:pattern_living$n){ # Loop over all points in pattern
-    species <- as.character(pattern_living[i]$marks$Species) # Species of point
-    dbh_i <- as.numeric(pattern_living[i]$marks[dbh]) # DBH of point
-    ci_factor <- as.numeric(pattern_living[i]$marks[ci]) # Competition factor of point
-    increase_i <- Growth.Function.Species(dbh=dbh_i, species=species) # DBH increase of point
-    increase_i <- increase_i * (1-(ci_factor)) # Influence of competition on growth
-    increase_total[i] <- increase_i # Vector for all points
-  }
+  # calculate growth
+  growth <- calculate_growth(dbh = current_living$dbh)
 
-  pattern_living$marks[dbh] <- pattern_living$marks[dbh] + increase_total # Update DBH
+  # for exponential type
+  v <- 3.33278
 
-  pattern_all <- spatstat::superimpose(pattern_dead, pattern_living, W=pattern$window)
+  # update DBH reduced by ci
+  current_living$dbh <- current_living$dbh + growth * v *(1 - current_living$ci)
 
-  return(pattern)
+  # update type below dbh <= 10 cm
+  current_living$type[which(current_living$dbh <=10)] <- "Sapling"
+
+  # update type below dbh > 10 cm
+  current_living$type[which(current_living$dbh >10)] <- "Adult"
+
+  # update timestep
+  current_living$i <- current_living$i + 1
+
+  # combine tibbles
+  input <- rbind(current_living, input)
+
+  # nest tibble
+  input <- tidyr::nest(input, -c(id, x, y, species), .key = "data")
+
+  return(input)
 }
-
-
-
