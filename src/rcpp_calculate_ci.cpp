@@ -136,5 +136,3 @@ bench::mark(rcpp_calculate_ci(data, alpha = 1.45772, beta = 0.52339, max_dist = 
             iterations = 1000, relative = TRUE)
 
 */
-
-

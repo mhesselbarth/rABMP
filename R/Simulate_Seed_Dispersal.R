@@ -23,17 +23,13 @@
 #' @rdname simulate_seed_dispersal
 #'
 #' @references
-#' Clark, J.S., Silman, M., Kern, R., Macklin, E., HilleRisLambers, J., 1999. Seed
-#' dispersal near and far: Patterns across temperate and tropical forests. Ecology 80, 1475-1494.
-#'
-#' Bilek 2009 Paper
-#'
-#' Millerón, M., De Heredia, U.L., Lorenzo, Z., Alonso, J., Dounavi, A., Gil, L.,
-#' Nanos, N., 2013. Assessment of spatial discordance of primary and effective seed
-#' dispersal of European beech (Fagus sylvatica L.) by ecological and genetic methods. Mol. Ecol. 22, 1531-1545.
 #'
 #' Ribbens, E., Silander, J. A., & Pacala, S. W. (1994). Seedling recruitment in forests:
 #' Calibrating models to predict patterns of tree seedling dispersion. Ecology, 75(6), 1794-1806.
+#'
+#' Bilek, L., Remes, J., Zahradnik, D., 2009. Natural regeneration of senescent even-
+#' aged beech (Fagus sylvatica L.) stands under the conditions of Central Bohemua.
+#' Journal of Forest Science 55(4), 145-155
 #'
 #' @export
 simulate_seed_dispersal <- function(input, threshold = 30){
@@ -72,6 +68,9 @@ simulate_seed_dispersal <- function(input, threshold = 30){
   # create seedlings id
   id <- seq(from = max(input$id) + 1, to = max(input$id) + nrow(seedlings))
 
+  # create random dbh
+  random_dbh <- stats::runif(n = length(id), min = 0.2, max = 0.8)
+
   # create tibble
   seedlings <- tibble::tibble(id = id,
                               x = seedlings[, 1],
@@ -79,7 +78,7 @@ simulate_seed_dispersal <- function(input, threshold = 30){
                               species = rep(x = species, times = number_seedlings),
                               i = max_i,
                               type = "Seedling",
-                              dbh = 1.0,
+                              dbh = random_dbh,
                               ci = 0.0)
 
   # combine to one data frame

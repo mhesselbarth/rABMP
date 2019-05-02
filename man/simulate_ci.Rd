@@ -4,17 +4,12 @@
 \alias{simulate_ci}
 \title{simulate_ci}
 \usage{
-simulate_ci(input, type = "exponential", max_dist = 30,
-  standardized = TRUE)
+simulate_ci(input, max_dist = 30)
 }
 \arguments{
 \item{input}{input dataframe}
 
-\item{type}{kernel type (either "fractional", "exponential" or "epanechnikov")}
-
 \item{max_dist}{maximum interaction distance between trees}
-
-\item{standardized}{standardize maximum CI to 1}
 }
 \value{
 tibble
@@ -35,9 +30,6 @@ simulate_ci(input = df_tress)
 
 }
 \references{
-Pommerening, A., LeMay, V., Stoyan, D., 2011. Model-based analysis of the influence
-of ecological processes on forest point pattern formation-A case study. Ecol. Modell. 222, 666-678.
-
 Pommerening, A., Maleki, K., 2014. Differences between competition kernels and
 traditional size-ratio based competition indices used in forest ecology. For. Ecol. Manage. 331, 135-143.
 }

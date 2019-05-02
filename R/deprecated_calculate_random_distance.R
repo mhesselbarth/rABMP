@@ -37,7 +37,7 @@ deprecated_calculate_random_distance <- function(species, n = NULL, max_dist = 8
                                    target = stats::runif(number_samples, min = 0, max = 1), # test value
                                    accept = dplyr::case_when(target <= kernel / max(kernel, na.rm = TRUE) ~ TRUE, # set TRUE for numbers that fit distribution
                                                              TRUE ~ FALSE))
-#
+  #
   coords_filterd <- dplyr::filter(proposed_coords, accept == TRUE) # only coordinates that fit the distribution
 
   # Distance in both directions
@@ -50,4 +50,3 @@ deprecated_calculate_random_distance <- function(species, n = NULL, max_dist = 8
 
   return(result)
 }
-

@@ -18,7 +18,8 @@ Simulate growth
 \details{
 Simulate growth by calculating the DBH increase and add it to the current DBH.
 Also, i (iteration counter) will be increase and the type re-classified based
-on the DBH: <ADD CLASSIFICATION SCHEME>
+on the DBH: trees with a DBH smaller than 10 cm get the type 'Sapling' and trees
+with a DBH over 10 cm the type 'Adult'
 }
 \examples{
 names(example_input_data)
