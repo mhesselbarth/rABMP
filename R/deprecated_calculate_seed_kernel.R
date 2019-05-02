@@ -31,7 +31,7 @@ deprecated_calculate_seed_kernel <- function(species, distance, max_dist) {
   if(species == "Beech"){
     kernel_species <- exp(-3.412413 / 10 ^ 5 * distance ^ 3)
     for(i in 0:max_dist){
-    n <- n + exp(-3.412413 / 10 ^ 5 * i ^ 3) # n <- integrate(function(r){exp(-3.412413/10^5*r^3)}, lower=0, upper=Inf)$value
+      n <- n + exp(-3.412413 / 10 ^ 5 * i ^ 3) # n <- integrate(function(r){exp(-3.412413/10^5*r^3)}, lower=0, upper=Inf)$value
     }
     kernel_return <- (1 / n) * kernel_species
 

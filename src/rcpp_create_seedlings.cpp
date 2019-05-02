@@ -12,7 +12,7 @@ NumericMatrix rcpp_create_seedlings(NumericMatrix coords,
   // get number of total seeds
   int seedlings_total = sum(number);
 
-  // initialise counter because each row will get several new seeldings
+  // initialise counter because each row will get several new seedlings
   int counter = 0;
 
   // initialise matrix
@@ -45,6 +45,11 @@ number <- c(5, 1, 7, 4, 2)
 species <- c("Beech", "Beech", "Ash", "Hornbeam", "Sycamore")
 
 rcpp_create_seedlings(coords = coords, number = number, species = species)
+
+bench::mark(rcpp_create_seedlings(coords = coords, number = number, species = species),
+            deprecated_rcpp_create_seedlings(coords = coords, number = number, species = species),
+            check = FALSE, relative = TRUE, iterations = 100)
+
 
 bench::mark(rcpp_create_seedlings(coords = coords, number = number, species = species),
             deprecated_rcpp_create_seedlings(coords = coords, number = number, species = species),

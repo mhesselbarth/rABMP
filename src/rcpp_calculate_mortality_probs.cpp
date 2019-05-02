@@ -97,4 +97,5 @@ vec_deprecated_calculate_mortality_probability <- Vectorize(deprecated_calculate
 bench::mark(rcpp_calculate_mortality_probs(species = species, dbh = dbh),
             vec_deprecated_calculate_mortality_probability(species = species, dbh = dbh),
             check = FALSE, relative = TRUE, iterations = 1000)
+
 */

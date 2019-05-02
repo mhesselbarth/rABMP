@@ -3,9 +3,7 @@
 #' @description Update competition index
 #'
 #' @param input input dataframe
-#' @param type kernel type (either "fractional", "exponential" or "epanechnikov")
 #' @param max_dist maximum interaction distance between trees
-#' @param standardized standardize maximum CI to 1
 #'
 #' @details
 #' The function calculated a compeition index using a kernel. Competition depends on
@@ -24,17 +22,11 @@
 #' @rdname simulate_ci
 #'
 #' @references
-#' Pommerening, A., LeMay, V., Stoyan, D., 2011. Model-based analysis of the influence
-#' of ecological processes on forest point pattern formation-A case study. Ecol. Modell. 222, 666-678.
-#'
 #' Pommerening, A., Maleki, K., 2014. Differences between competition kernels and
 #' traditional size-ratio based competition indices used in forest ecology. For. Ecol. Manage. 331, 135-143.
 #'
 #' @export
-simulate_ci <- function(input,
-                        type = "exponential",
-                        max_dist = 30,
-                        standardized = TRUE){
+simulate_ci <- function(input, max_dist = 30){
 
   # unnest data
   input <- tidyr::unnest(input)
@@ -51,11 +43,9 @@ simulate_ci <- function(input,
                                    beta = 0.52339,
                                    max_dist = max_dist)
 
-  # pommerening 2014: transformation of competition index which includes size of affected tree
+  # transformation of competition index which includes size of focal tree
   # scaled between 0 and 1
   alpha <- 1.45772
-
-  # calculate competition
   competition <- competition / (current$dbh ^ alpha + competition)
 
   # update tibble
