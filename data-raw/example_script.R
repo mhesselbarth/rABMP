@@ -18,7 +18,7 @@ data_trees <- prepare_input(input = example_input_data,
                             dbh = "bhd")
 
 # only 200 trees to decrease computationl time for testing
-data_trees <- data_trees[0:50, ]
+# data_trees <- data_trees[0:50, ]
 
 # set number of simulation years
 years <- 15
@@ -38,7 +38,7 @@ data_trees_unnest <- tidyr::unnest(data_trees)
 write.table(data_trees_unnest,file = "model_output1.txt")
 
 current_living <- data_trees_unnest[which(data_trees_unnest$type != "Dead" & data_trees_unnest$i == max(data_trees_unnest$i)), ]
-seedlings <- current_living[current_living$type=="Seedling", ]
+seedlings <- current_living[current_living$type == "Seedling", ]
 
 
 # A tibble: 11 x 4
