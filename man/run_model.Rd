@@ -10,6 +10,8 @@ run_model(data, years, verbose = TRUE)
 \item{data}{Input data frame.}
 
 \item{years}{Timesteps (years) the model runs.}
+
+\item{verbose}{Print progress report.}
 }
 \value{
 tibble
@@ -22,7 +24,8 @@ Wrapper function to run the model. Executes (i) simulate_ci (ii) simulate_growth
 (iii) simulate_seed_dispersal (iv) simulate_mortality
 }
 \examples{
-data_trees <- prepare_input(input = example_input_data, x = "x_coord", y = "y_coord", species = "spec", type = "Class", dbh = "bhd")
+data_trees <- prepare_input(input = example_input_data, x = "x_coord", y = "y_coord",
+species = "spec", type = "Class", dbh = "bhd")
 
 run_model(data = data_trees, years = 3)
 

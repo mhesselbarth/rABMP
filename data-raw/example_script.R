@@ -49,7 +49,7 @@ result <- run_model(data_trees, years = years)
 #  9    8. Adult  50.3 0.0820
 # 10    9. Adult  50.5 0.0823
 # 11   10. Adult  50.6 0.0823
-
+#
 # bench::mark(
 #   simulate_seed_dispersal(data_trees),
 #   deprecated_simulate_seed_dispersal(data_trees),

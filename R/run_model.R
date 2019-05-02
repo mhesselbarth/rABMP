@@ -4,6 +4,7 @@
 #'
 #' @param data Input data frame.
 #' @param years Timesteps (years) the model runs.
+#' @param verbose Print progress report.
 #'
 #' @details
 #' Wrapper function to run the model. Executes (i) simulate_ci (ii) simulate_growth
@@ -12,7 +13,8 @@
 #' @return tibble
 #'
 #' @examples
-#' data_trees <- prepare_input(input = example_input_data, x = "x_coord", y = "y_coord", species = "spec", type = "Class", dbh = "bhd")
+#' data_trees <- prepare_input(input = example_input_data, x = "x_coord", y = "y_coord",
+#' species = "spec", type = "Class", dbh = "bhd")
 #'
 #' run_model(data = data_trees, years = 3)
 #'
@@ -37,5 +39,5 @@ run_model <- function(data, years, verbose = TRUE) {
     message("")
   }
 
-  return(data_trees)
+  return(data)
 }
