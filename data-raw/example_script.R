@@ -23,7 +23,7 @@ data_trees <- data_trees[0:50, ]
 # set number of simulation years
 years <- 5
 
-for(i in 1:years){
+for (i in 1:years) {
   data_trees <- simulate_ci(data_trees)
   data_trees <- simulate_growth(data_trees)
   data_trees <- simulate_seed_dispersal(data_trees)
