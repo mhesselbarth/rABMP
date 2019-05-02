@@ -74,7 +74,7 @@ NumericVector rcpp_calculate_mortality_probs(StringVector species,
 
     else if(species[i] == "others") {
 
-      logit = -8.9 + (dbh[i] * 0.052);
+      logit = -2.8 + (dbh[i] * -0.051);
 
       p = 1 / (1 + std::exp(-logit));
     }
