@@ -23,6 +23,7 @@
 #' @rdname simulate_seed_dispersal
 #'
 #' @references
+#'
 #' Ribbens, E., Silander, J. A., & Pacala, S. W. (1994). Seedling recruitment in forests:
 #' Calibrating models to predict patterns of tree seedling dispersion. Ecology, 75(6), 1794-1806.
 #'
@@ -54,9 +55,6 @@ simulate_seed_dispersal <- function(input, threshold = 30){
   # which trees produce surviving seedlings?
   id <- which(number_seedlings > 0)
 
-  # create random dbh
-  random_dbh <- stats::runif(n = length(id), min = 0.2, max = 0.8)
-
   # only number seedlings > 0
   number_seedlings <- number_seedlings[id]
 
@@ -69,6 +67,9 @@ simulate_seed_dispersal <- function(input, threshold = 30){
 
   # create seedlings id
   id <- seq(from = max(input$id) + 1, to = max(input$id) + nrow(seedlings))
+
+  # create random dbh
+  random_dbh <- stats::runif(n = length(id), min = 0.2, max = 0.8)
 
   # create tibble
   seedlings <- tibble::tibble(id = id,

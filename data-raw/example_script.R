@@ -18,29 +18,23 @@ data_trees <- prepare_input(input = example_input_data,
                             dbh = "bhd")
 
 # only 200 trees to decrease computationl time for testing
-data_trees <- data_trees[0:50, ]
+# data_trees <- data_trees[0:50, ]
 
 # set number of simulation years
-years <- 15
+years <- 5
 
-for (i in 1:years) {
-  data_trees <- simulate_ci(data_trees)
-  data_trees <- simulate_growth(data_trees)
-  data_trees <- simulate_seed_dispersal(data_trees)
-  data_trees <- simulate_mortality(data_trees)
-  print(paste0(i, " from ", years, " runs done"))
-}
+result <- run_model(data_trees, years = years)
 
 # data_trees$data[1:20]
-
-data_trees_unnest <- tidyr::unnest(data_trees)
-
-write.table(data_trees_unnest,file = "model_output1.txt")
-
-current_living <- data_trees_unnest[which(data_trees_unnest$type != "Dead" & data_trees_unnest$i == max(data_trees_unnest$i)), ]
-seedlings <- current_living[current_living$type=="Seedling", ]
-
-
+#
+# data_trees_unnest <- tidyr::unnest(data_trees)
+#
+# write.table(data_trees_unnest,file = "model_output1.txt")
+#
+# current_living <- data_trees_unnest[which(data_trees_unnest$type != "Dead" & data_trees_unnest$i == max(data_trees_unnest$i)), ]
+# seedlings <- current_living[current_living$type == "Seedling", ]
+#
+#
 # A tibble: 11 x 4
 # i Type    DBH     CI
 # <dbl> <chr> <dbl>  <dbl>
@@ -55,18 +49,18 @@ seedlings <- current_living[current_living$type=="Seedling", ]
 #  9    8. Adult  50.3 0.0820
 # 10    9. Adult  50.5 0.0823
 # 11   10. Adult  50.6 0.0823
-
-bench::mark(
-  simulate_seed_dispersal(data_trees),
-  deprecated_simulate_seed_dispersal(data_trees),
-  check = FALSE, relative = TRUE, iterations = 100)
-
-foo <- function(data) {
-  data_trees <- simulate_ci(data)
-  data_trees <- simulate_growth(data)
-  data_trees <- simulate_seed_dispersal(data)
-  data_trees <- simulate_mortality(data)
-}
-
-profvis::profvis({foo(data_trees)})
-profvis::profvis({simulate_ci(data_trees)})
+#
+# bench::mark(
+#   simulate_seed_dispersal(data_trees),
+#   deprecated_simulate_seed_dispersal(data_trees),
+#   check = FALSE, relative = TRUE, iterations = 100)
+#
+# foo <- function(data) {
+#   data_trees <- simulate_ci(data)
+#   data_trees <- simulate_growth(data)
+#   data_trees <- simulate_seed_dispersal(data)
+#   data_trees <- simulate_mortality(data)
+# }
+#
+# profvis::profvis({foo(data_trees)})
+# profvis::profvis({simulate_ci(data_trees)})
