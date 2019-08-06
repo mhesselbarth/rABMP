@@ -5,6 +5,9 @@
 #' @details
 #' Construct a list with all default paramerts for run_model.
 #'
+#' @param verbose Logical if true information is printed.
+#' @param ... Possibility to change the value of parameters.
+#'
 #' @return list
 #'
 #' @examples
@@ -33,7 +36,7 @@
 #' Ecology, 75(6), 1794-1806.
 #'
 #' @export
-construct_parameters <- function() {
+construct_parameters <- function(verbose = TRUE, ...) {
 
   # simulate_ci
   alpha <- 1.45772
@@ -71,7 +74,52 @@ construct_parameters <- function() {
   int_others <- -2.8
   dbh_others <- -0.051
 
-  result <- mget(ls())
+  # combine all parameters to list
+  parameters <- mget(ls())
 
-  return(result)
+  # get all parameters that should be changed
+  parameters_change <- list(...)
+
+  # there are parameters to change
+  if (length(parameters_change) > 0) {
+
+    # check if only valid parameters should be changed
+    if (!all(names(parameters_change) %in% names(parameters))) {
+
+      stop("Not all provided parameters are present in the model.",
+           call. = FALSE)
+    }
+
+    # print how many parameters are changed
+    if (verbose) {
+
+      # less than three: actually print names
+      if (length(parameters_change) <= 5) {
+
+        message("> Changing the following parameter(s): ",
+                paste0(names(parameters_change), collapse = ", "))
+      }
+
+      # more than 5: only print number of changes
+      else {
+
+        message("> Changing ", length(parameters_change), " parameters.")
+      }
+    }
+
+    # change parameters
+    parameters[names(parameters_change)] <- parameters_change
+  }
+
+  # no changes
+  else {
+
+    if (verbose) {
+
+      message("> Using default values.")
+    }
+  }
+
+  # return result
+  return(parameters)
 }

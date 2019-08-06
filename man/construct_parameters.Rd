@@ -4,7 +4,12 @@
 \alias{construct_parameters}
 \title{construct_parameters}
 \usage{
-construct_parameters()
+construct_parameters(verbose = TRUE, ...)
+}
+\arguments{
+\item{verbose}{Logical if true information is printed.}
+
+\item{...}{Possibility to change the value of parameters.}
 }
 \value{
 list

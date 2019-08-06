@@ -4,8 +4,8 @@
 #'
 #' @param data Dataframe with input data.
 #' @param years Numeric timesteps (years) the model runs.
+#' @param ... Possibility to change the value of parameters.
 #' @param verbose If TRUE, prints progress report.
-#' @param parameters List with all parameters. See details for more information.
 #'
 #' @details
 #' Wrapper function to run the model. Executes (i) simulate_ci (ii) simulate_growth
@@ -28,14 +28,9 @@
 #' @rdname run_model
 #'
 #' @export
-run_model <- function(data, years, parameters = NULL, verbose = TRUE) {
+run_model <- function(data, years, ..., verbose = TRUE) {
 
-  if (is.null(parameters)) {
-
-    message("> Using default parameters.")
-
-    parameters <- construct_parameters()
-  }
+  parameters <- construct_parameters(..., verbose = verbose)
 
   for (i in 1:years) {
     data <- rabmp::simulate_ci(data, parameters = parameters)

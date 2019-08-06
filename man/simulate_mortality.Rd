@@ -4,10 +4,12 @@
 \alias{simulate_mortality}
 \title{simulate_mortality}
 \usage{
-simulate_mortality(data)
+simulate_mortality(data, parameters)
 }
 \arguments{
 \item{data}{Dataframe with input data.}
+
+\item{parameters}{List with all parameters.}
 }
 \value{
 tibble

@@ -4,14 +4,14 @@
 \alias{run_model}
 \title{run_model}
 \usage{
-run_model(data, years, parameters = NULL, verbose = TRUE)
+run_model(data, years, ..., verbose = TRUE)
 }
 \arguments{
 \item{data}{Dataframe with input data.}
 
 \item{years}{Numeric timesteps (years) the model runs.}
 
-\item{parameters}{List with all parameters. See details for more information.}
+\item{...}{Possibility to change the value of parameters.}
 
 \item{verbose}{If TRUE, prints progress report.}
 }
@@ -33,7 +33,7 @@ Parameters include ....
 data_trees <- prepare_data(data = example_input_data,
 x = "x_coord", y = "y_coord", species = "spec", type = "Class", dbh = "bhd")
 
-run_model(data = data_trees, years = 5)
+result <- run_model(data = data_trees, years = 5)
 }
 
 }
