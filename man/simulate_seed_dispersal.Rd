@@ -4,12 +4,12 @@
 \alias{simulate_seed_dispersal}
 \title{simulate_seed_dispersal}
 \usage{
-simulate_seed_dispersal(data, threshold = 30)
+simulate_seed_dispersal(data, parameters)
 }
 \arguments{
 \item{data}{Dataframe with input data.}
 
-\item{threshold}{Numerich with minimum DBH threshold for reproduction.}
+\item{parameters}{List with all parameters.}
 }
 \value{
 tibble

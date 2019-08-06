@@ -4,10 +4,12 @@
 \alias{simulate_ci}
 \title{simulate_ci}
 \usage{
-simulate_ci(data, max_dist = 30)
+simulate_ci(data, parameters)
 }
 \arguments{
 \item{data}{Dataframe with input data.}
+
+\item{parameters}{List with all parameters.}
 
 \item{max_dist}{Numeric with maximum interaction distance between trees.}
 }
@@ -27,7 +29,8 @@ are standardized to 0 <= CI <= 1.
 names(example_input_data)
 df_trees <- prepare_data(data = example_input_data, x = "x_coord", y = "y_coord",
 species = "spec", type = "Class", dbh = "bhd")
-simulate_ci(data = df_trees)
+parameters <- construct_parameters()
+simulate_ci(data = df_trees, parameters = parameters)
 }
 
 }

@@ -4,10 +4,12 @@
 \alias{simulate_growth}
 \title{simulate_growth}
 \usage{
-simulate_growth(data)
+simulate_growth(data, parameters)
 }
 \arguments{
 \item{data}{Dataframe with input data.}
+
+\item{parameters}{List with all parameters.}
 }
 \value{
 tibble
@@ -27,7 +29,8 @@ names(example_input_data)
 df_tress <- prepare_data(data = example_input_data, x = "x_coord", y = "y_coord",
 species = "spec", type = "Class", dbh = "bhd")
 df_trees <- simulate_ci(data = df_tress)
-simulate_growth(data = df_trees)
+parameters <- construct_parameters()
+simulate_growth(data = df_trees, parameters = parameters)
 }
 
 }

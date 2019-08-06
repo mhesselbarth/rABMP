@@ -4,7 +4,7 @@
 \alias{run_model}
 \title{run_model}
 \usage{
-run_model(data, years, parameters, verbose = TRUE)
+run_model(data, years, parameters = NULL, verbose = TRUE)
 }
 \arguments{
 \item{data}{Dataframe with input data.}
@@ -19,7 +19,7 @@ run_model(data, years, parameters, verbose = TRUE)
 tibble
 }
 \description{
-Run the modeld
+Run the model
 }
 \details{
 Wrapper function to run the model. Executes (i) simulate_ci (ii) simulate_growth
@@ -33,7 +33,7 @@ Parameters include ....
 data_trees <- prepare_data(data = example_input_data,
 x = "x_coord", y = "y_coord", species = "spec", type = "Class", dbh = "bhd")
 
-run_model(data = data_trees, years = 10)
+run_model(data = data_trees, years = 5)
 }
 
 }
