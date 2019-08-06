@@ -46,7 +46,8 @@ simulate_seed_dispersal <- function(data, parameters){
 
   # Number of seedlings for each tree
   number_seedlings <- rabmp::calculate_number_seeds(species = current_living$species,
-                                                    dbh = current_living$dbh)
+                                                    dbh = current_living$dbh,
+                                                    parameters = parameters)
 
   # reduce seedlings according to Bilek et al. 2009
   number_seedlings <- floor(number_seedlings *

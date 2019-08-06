@@ -61,14 +61,23 @@ BEGIN_RCPP
 END_RCPP
 }
 // rcpp_calculate_mortality_probs
-NumericVector rcpp_calculate_mortality_probs(StringVector species, NumericVector dbh);
-RcppExport SEXP _rabmp_rcpp_calculate_mortality_probs(SEXP speciesSEXP, SEXP dbhSEXP) {
+NumericVector rcpp_calculate_mortality_probs(StringVector species, NumericVector dbh, double int_beech_early, double dbh_beech_early, double int_beech_late, double dbh_beech_late, double dinc_beech, double int_ash, double dbh_ash, double int_others, double dbh_others);
+RcppExport SEXP _rabmp_rcpp_calculate_mortality_probs(SEXP speciesSEXP, SEXP dbhSEXP, SEXP int_beech_earlySEXP, SEXP dbh_beech_earlySEXP, SEXP int_beech_lateSEXP, SEXP dbh_beech_lateSEXP, SEXP dinc_beechSEXP, SEXP int_ashSEXP, SEXP dbh_ashSEXP, SEXP int_othersSEXP, SEXP dbh_othersSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< StringVector >::type species(speciesSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type dbh(dbhSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_calculate_mortality_probs(species, dbh));
+    Rcpp::traits::input_parameter< double >::type int_beech_early(int_beech_earlySEXP);
+    Rcpp::traits::input_parameter< double >::type dbh_beech_early(dbh_beech_earlySEXP);
+    Rcpp::traits::input_parameter< double >::type int_beech_late(int_beech_lateSEXP);
+    Rcpp::traits::input_parameter< double >::type dbh_beech_late(dbh_beech_lateSEXP);
+    Rcpp::traits::input_parameter< double >::type dinc_beech(dinc_beechSEXP);
+    Rcpp::traits::input_parameter< double >::type int_ash(int_ashSEXP);
+    Rcpp::traits::input_parameter< double >::type dbh_ash(dbh_ashSEXP);
+    Rcpp::traits::input_parameter< double >::type int_others(int_othersSEXP);
+    Rcpp::traits::input_parameter< double >::type dbh_others(dbh_othersSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_calculate_mortality_probs(species, dbh, int_beech_early, dbh_beech_early, int_beech_late, dbh_beech_late, dinc_beech, int_ash, dbh_ash, int_others, dbh_others));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -104,7 +113,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_rabmp_rcpp_calculate_distance", (DL_FUNC) &_rabmp_rcpp_calculate_distance, 4},
     {"_rabmp_rcpp_calculate_ci_sugar", (DL_FUNC) &_rabmp_rcpp_calculate_ci_sugar, 4},
     {"_rabmp_rcpp_calculate_distance_probability", (DL_FUNC) &_rabmp_rcpp_calculate_distance_probability, 3},
-    {"_rabmp_rcpp_calculate_mortality_probs", (DL_FUNC) &_rabmp_rcpp_calculate_mortality_probs, 2},
+    {"_rabmp_rcpp_calculate_mortality_probs", (DL_FUNC) &_rabmp_rcpp_calculate_mortality_probs, 11},
     {"_rabmp_rcpp_create_seedlings", (DL_FUNC) &_rabmp_rcpp_create_seedlings, 3},
     {"_rabmp_rcpp_random_distance", (DL_FUNC) &_rabmp_rcpp_random_distance, 3},
     {NULL, NULL, 0}

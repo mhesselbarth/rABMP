@@ -17,8 +17,8 @@ rcpp_calculate_distance_probability <- function(beta, theta, max_dist) {
     .Call('_rabmp_rcpp_calculate_distance_probability', PACKAGE = 'rabmp', beta, theta, max_dist)
 }
 
-rcpp_calculate_mortality_probs <- function(species, dbh) {
-    .Call('_rabmp_rcpp_calculate_mortality_probs', PACKAGE = 'rabmp', species, dbh)
+rcpp_calculate_mortality_probs <- function(species, dbh, int_beech_early, dbh_beech_early, int_beech_late, dbh_beech_late, dinc_beech, int_ash, dbh_ash, int_others, dbh_others) {
+    .Call('_rabmp_rcpp_calculate_mortality_probs', PACKAGE = 'rabmp', species, dbh, int_beech_early, dbh_beech_early, int_beech_late, dbh_beech_late, dinc_beech, int_ash, dbh_ash, int_others, dbh_others)
 }
 
 rcpp_create_seedlings <- function(coords, number, species) {

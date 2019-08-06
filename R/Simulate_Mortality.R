@@ -7,6 +7,7 @@
 #' probability depends on the species and the DBH.
 #'
 #' @param data Dataframe with input data.
+#' @param parameters List with all parameters.
 #'
 #' @return tibble
 #'
@@ -24,7 +25,7 @@
 #' J. Ecol. 101, 220–230.
 #'
 #' @export
-simulate_mortality <- function(data) {
+simulate_mortality <- function(data, parameters) {
 
   # unnest data
   data <- tidyr::unnest(data)
@@ -34,7 +35,16 @@ simulate_mortality <- function(data) {
 
   # calculate mortality prob
   mortality_prob <- rcpp_calculate_mortality_probs(species = current_living$species,
-                                                   dbh = current_living$dbh)
+                                                   dbh = current_living$dbh,
+                                                   int_beech_early = parameters$int_beech_early,
+                                                   dbh_beech_early = parameters$dbh_beech_early,
+                                                   int_beech_late = parameters$int_beech_late,
+                                                   dbh_beech_late = parameters$dbh_beech_late,
+                                                   dinc_beech = parameters$dinc_beech,
+                                                   int_ash = parameters$int_ash,
+                                                   dbh_ash = parameters$dbh_ash,
+                                                   int_others = parameters$int_others,
+                                                   dbh_others = parameters$dbh_others)
 
   # create random number for all living trees
   random_number <- stats::runif(n = length(mortality_prob), min = 0, max = 1)

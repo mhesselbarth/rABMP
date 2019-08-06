@@ -61,7 +61,15 @@ construct_parameters <- function() {
   str_others <- mean(str_beech, str_ash, str_sycamore, str_hornbeam)
 
   # simulate mortality (rcpp_calculate_mortality_probs)
-  # Holzwarth et al. 2013
+  int_beech_early <- 1.8
+  dbh_beech_early <- -2.1
+  int_beech_late <- -8.9
+  dbh_beech_late <- 0.052
+  dinc_beech <- -1.4
+  int_ash <- 1.3
+  dbh_ash <- -1.6
+  int_others <- -2.8
+  dbh_others <- -0.051
 
   result <- mget(ls())
 
