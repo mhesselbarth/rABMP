@@ -1,5 +1,5 @@
 #include "rcpp_random_distance.h"
-#include "rcpp_calculate_probability.h"
+#include "rcpp_calculate_distance_probability.h"
 
 // [[Rcpp::export]]
 NumericVector rcpp_random_distance(int number_seeds,
@@ -44,7 +44,7 @@ NumericVector rcpp_random_distance(int number_seeds,
   }
 
   // get cumulative probability function
-  Rcpp::NumericVector probability = rcpp_calculate_probability(beta, theta, max_dist);
+  Rcpp::NumericVector probability = rcpp_calculate_distance_probability(beta, theta, max_dist);
 
   // loop through all needed seedlings
   for(int i = 0; i < number_seeds; i++) {

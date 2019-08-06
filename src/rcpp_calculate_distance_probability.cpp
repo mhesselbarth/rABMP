@@ -1,12 +1,12 @@
-#include "rcpp_calculate_probability.h"
+#include "rcpp_calculate_distance_probability.h"
 
 // https://github.com/LMurphy186232/Core_Model/blob/9a6cf25a466c9eea346c30e61f9c593c2b72705b/Behaviors/SpatialDisperse.cpp
 // Starting line 793
 
 // [[Rcpp::export]]
-NumericVector rcpp_calculate_probability(double beta,
-                                         double theta,
-                                         int max_dist) {
+NumericVector rcpp_calculate_distance_probability(double beta,
+                                                  double theta,
+                                                  int max_dist) {
 
   // initialise doubles
   double probability_temp = 0.0;

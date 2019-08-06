@@ -1,7 +1,4 @@
-#include <Rcpp.h>
-using namespace Rcpp;
-
-// Calculate ci index
+#include "rcpp_calculate_ci.h"
 
 // [[Rcpp::export]]
 NumericVector rcpp_calculate_ci(NumericMatrix matrix,

@@ -3,7 +3,6 @@
 #' @description Update competition index
 #'
 #' @param data Dataframe with input data.
-#' @param max_dist Numeric with maximum interaction distance between trees.
 #' @param parameters List with all parameters.
 #'
 #' @details

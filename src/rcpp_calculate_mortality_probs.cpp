@@ -1,5 +1,4 @@
-#include <Rcpp.h>
-using namespace Rcpp;
+#include "rcpp_calculate_mortality_probs.h"
 
 // [[Rcpp::export]]
 NumericVector rcpp_calculate_mortality_probs(StringVector species,

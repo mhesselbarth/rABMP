@@ -10,8 +10,6 @@ simulate_ci(data, parameters)
 \item{data}{Dataframe with input data.}
 
 \item{parameters}{List with all parameters.}
-
-\item{max_dist}{Numeric with maximum interaction distance between trees.}
 }
 \value{
 tibble
