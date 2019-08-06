@@ -1,0 +1,63 @@
+#' construct_parameters
+#'
+#' @description Construct parameters
+#'
+#' @details
+#' Construct a list with all default paramerts for run_model.
+#'
+#' @return list
+#'
+#' @examples
+#' \dontrun{
+#' construct_parameters()
+#' }
+#'
+#' @aliases construct_parameters
+#' @rdname construct_parameters
+#'
+#' @references
+#' Bilek, L., Remes, J., Zahradnik, D., 2009. Natural regeneration of senescent even-
+#' aged beech (Fagus sylvatica L.) stands under the conditions of Central Bohemua.
+#' Journal of Forest Science 55(4), 145-155
+#'
+#' Holzwarth, F., Kahl, A., Bauhus, J., Wirth, C., 2013. Many ways to die -
+#' partitioning tree mortality dynamics in a near-natural mixed deciduous forest.
+#' J. Ecol. 101, 220–230.
+#'
+#' Pommerening, A., Maleki, K., 2014. Differences between competition kernels and
+#' traditional size-ratio based competition indices used in forest ecology.
+#' For. Ecol. Manage. 331, 135-143.
+#'
+#' Ribbens, E., Silander, J. A., & Pacala, S. W. (1994). Seedling recruitment in forests:
+#' Calibrating models to predict patterns of tree seedling dispersion.
+#' Ecology, 75(6), 1794-1806.
+#'
+#' @export
+construct_parameters <- function() {
+
+  # simulate_ci
+  alpha = 1.45772
+  beta = 0.52339
+  max_dist = 30
+
+  # simulate_growth
+  v <- 3.33278
+
+  # calculate_growth
+  A <- 75.03706
+  k <- 0.02700
+  p <- 3.41053
+
+  # simulate seed_dispersal
+  # Bilek et al. 2009
+
+  # calculate_seeds
+  # Ribbens et al. 1994
+
+  # simulate mortality (rcpp_calculate_mortality_probs)
+  # Holzwarth et al. 2013
+
+  result <- mget(ls())
+
+  return(result)
+}

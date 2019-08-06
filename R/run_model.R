@@ -1,6 +1,6 @@
 #' run_model
 #'
-#' @description Run the modeld
+#' @description Run the model
 #'
 #' @param data Dataframe with input data.
 #' @param years Numeric timesteps (years) the model runs.
@@ -21,14 +21,21 @@
 #' data_trees <- prepare_data(data = example_input_data,
 #' x = "x_coord", y = "y_coord", species = "spec", type = "Class", dbh = "bhd")
 #'
-#' run_model(data = data_trees, years = 10)
+#' run_model(data = data_trees, years = 5)
 #' }
 #'
 #' @aliases run_model
 #' @rdname run_model
 #'
 #' @export
-run_model <- function(data, years, parameters, verbose = TRUE) {
+run_model <- function(data, years, parameters = NULL, verbose = TRUE) {
+
+  if (is.null(parameters)) {
+
+    message("> Using default parameters.")
+
+    parameters <- construct_parameters()
+  }
 
   for (i in 1:years) {
     data <- rabmp::simulate_ci(data)

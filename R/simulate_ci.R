@@ -28,7 +28,7 @@
 #' traditional size-ratio based competition indices used in forest ecology. For. Ecol. Manage. 331, 135-143.
 #'
 #' @export
-simulate_ci <- function(data, max_dist = 30){
+simulate_ci <- function(data, parameters){
 
   # unnest data
   data <- tidyr::unnest(data)
@@ -41,14 +41,13 @@ simulate_ci <- function(data, max_dist = 30){
 
   # calculate CI
   competition <- rcpp_calculate_ci(matrix = as.matrix(current[, c(2, 3, 7)]),
-                                   alpha = 1.45772,
-                                   beta = 0.52339,
-                                   max_dist = max_dist)
+                                   alpha = parameters$alpha,
+                                   beta = parameters$beta,
+                                   max_dist = parameters$max_dist)
 
   # transformation of competition index which includes size of focal tree
   # scaled between 0 and 1
-  alpha <- 1.45772
-  competition <- competition / (current$dbh ^ alpha + competition)
+  competition <- competition / (current$dbh ^ parameters$alpha + competition)
 
   # update tibble
   current$ci <- competition
