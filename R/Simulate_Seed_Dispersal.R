@@ -3,7 +3,7 @@
 #' @description Simulate seed dispersal
 #'
 #' @param data Dataframe with input data.
-#' @param threshold Numerich with minimum DBH threshold for reproduction.
+#' @param parameters List with all parameters.
 #'
 #' @details
 #' Simulates seed dispersal by first calculating the number of seeds for each tree
@@ -31,7 +31,7 @@
 #' Journal of Forest Science 55(4), 145-155
 #'
 #' @export
-simulate_seed_dispersal <- function(data, threshold = 30){
+simulate_seed_dispersal <- function(data, parameters){
 
   # unnest data
   data <- tidyr::unnest(data)
@@ -42,14 +42,15 @@ simulate_seed_dispersal <- function(data, threshold = 30){
   # only get living trees of current timestep above threshold
   current_living <- data[which(data$type != "Dead" &
                                  data$i == max_i &
-                                 data$dbh > threshold), ]
+                                 data$dbh > parameters$reproduction_threshold), ]
 
   # Number of seedlings for each tree
-  number_seedlings <- rabmp::calculate_seeds(species = current_living$species,
-                                             dbh = current_living$dbh)
+  number_seedlings <- rabmp::calculate_number_seeds(species = current_living$species,
+                                                    dbh = current_living$dbh)
 
   # reduce seedlings according to Bilek et al. 2009
-  number_seedlings <- floor(number_seedlings * stats::runif(n = 1, min = 0.812, max = 0.83) * 0.0236)
+  number_seedlings <- floor(number_seedlings *
+                              parameters$empty_seeds * parameters$seedling_success)
 
   # which trees produce surviving seedlings?
   id <- which(number_seedlings > 0)

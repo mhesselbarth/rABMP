@@ -36,9 +36,9 @@
 construct_parameters <- function() {
 
   # simulate_ci
-  alpha = 1.45772
-  beta = 0.52339
-  max_dist = 30
+  alpha <- 1.45772
+  beta <- 0.52339
+  max_dist <- 30
 
   # simulate_growth
   v <- 3.33278
@@ -49,10 +49,16 @@ construct_parameters <- function() {
   p <- 3.41053
 
   # simulate seed_dispersal
-  # Bilek et al. 2009
+  reproduction_threshold <- 30
+  empty_seeds <- mean(stats::runif(n = 10000, min = 0.812, max = 0.83))
+  seedling_success <- 0.0236
 
   # calculate_seeds
-  # Ribbens et al. 1994
+  str_beech <- 121.22
+  str_ash <- 26.18
+  str_sycamore <- 182.42
+  str_hornbeam <- 121.22
+  str_others <- mean(str_beech, str_ash, str_sycamore, str_hornbeam)
 
   # simulate mortality (rcpp_calculate_mortality_probs)
   # Holzwarth et al. 2013
