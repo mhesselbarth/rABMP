@@ -4,6 +4,7 @@
 #'
 #' @param data Dataframe with input data.
 #' @param max_dist Numeric with maximum interaction distance between trees.
+#' @param parameters List with all parameters.
 #'
 #' @details
 #' The function calculated a compeition index using a kernel. Competition depends on
@@ -17,7 +18,8 @@
 #' names(example_input_data)
 #' df_trees <- prepare_data(data = example_input_data, x = "x_coord", y = "y_coord",
 #' species = "spec", type = "Class", dbh = "bhd")
-#' simulate_ci(data = df_trees)
+#' parameters <- construct_parameters()
+#' simulate_ci(data = df_trees, parameters = parameters)
 #' }
 #'
 #' @aliases simulate_ci

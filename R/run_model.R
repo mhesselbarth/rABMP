@@ -38,8 +38,8 @@ run_model <- function(data, years, parameters = NULL, verbose = TRUE) {
   }
 
   for (i in 1:years) {
-    data <- rabmp::simulate_ci(data)
-    data <- rabmp::simulate_growth(data)
+    data <- rabmp::simulate_ci(data, parameters = parameters)
+    data <- rabmp::simulate_growth(data, parameters = parameters)
     data <- rabmp::simulate_seed_dispersal(data)
     data <- rabmp::simulate_mortality(data)
 

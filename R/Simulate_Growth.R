@@ -3,6 +3,7 @@
 #' @description Simulate growth
 #'
 #' @param data Dataframe with input data.
+#' @param parameters List with all parameters.
 #'
 #' @details
 #' Simulate growth by calculating the DBH increase and add it to the current DBH.
@@ -18,7 +19,8 @@
 #' df_tress <- prepare_data(data = example_input_data, x = "x_coord", y = "y_coord",
 #' species = "spec", type = "Class", dbh = "bhd")
 #' df_trees <- simulate_ci(data = df_tress)
-#' simulate_growth(data = df_trees)
+#' parameters <- construct_parameters()
+#' simulate_growth(data = df_trees, parameters = parameters)
 #' }
 #'
 #' @aliases simulate_growth
@@ -29,7 +31,7 @@
 #' traditional size-ratio based competition indices used in forest ecology. For. Ecol. Manage. 331, 135-143.
 #'
 #' @export
-simulate_growth <- function(data){
+simulate_growth <- function(data, parameters){
 
   # unnest data
   data <- tidyr::unnest(data)
@@ -38,10 +40,11 @@ simulate_growth <- function(data){
   current_living <- data[which(data$type != "Dead" & data$i == max(data$i)), ]
 
   # calculate growth
-  growth <- rabmp::calculate_growth(dbh = current_living$dbh)
+  growth <- rabmp::calculate_growth(dbh = current_living$dbh,
+                                    parameters = parameters)
 
   # for exponential type
-  v <- 3.33278
+  v <- parameters$v
 
   # update DBH reduced by ci
   current_living$dbh <- current_living$dbh + growth * v * (1 - current_living$ci)
