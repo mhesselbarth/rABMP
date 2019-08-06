@@ -7,12 +7,12 @@
 calculate_seeds(species, dbh)
 }
 \arguments{
-\item{species}{current species}
+\item{species}{String with current species.}
 
-\item{dbh}{dbh of current tree}
+\item{dbh}{Numeric with DBH of current tree.}
 }
 \value{
-vector
+numeric
 }
 \description{
 Calculate number of seeds
@@ -22,7 +22,9 @@ Calculates the number of produced seeds for each tree (without reduction for
 seed mortality).
 }
 \examples{
+\dontrun{
 calculate_seeds(species = "Beech", dbh = 45.25)
+}
 
 }
 \references{

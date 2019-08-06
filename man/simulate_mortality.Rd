@@ -4,19 +4,32 @@
 \alias{simulate_mortality}
 \title{simulate_mortality}
 \usage{
-simulate_mortality(input)
+simulate_mortality(data)
 }
 \arguments{
-\item{input}{Tibble with input data}
+\item{data}{Dataframe with input data.}
+}
+\value{
+tibble
 }
 \description{
-simulate_mortality
+Simulate mortality
 }
 \details{
-Function to model mortality of trees
+Function to model mortality of trees based on logistic regression. The mortality
+probability depends on the species and the DBH.
+}
+\examples{
+\dontrun{
+names(example_input_data)
+df_trees <- prepare_data(data = example_input_data, x = "x_coord", y = "y_coord",
+species = "spec", type = "Class", dbh = "bhd")
+simulate_mortality(data = df_trees)
+}
+
 }
 \references{
-\itemize{
-\item Holzwarth, F., Kahl, A., Bauhus, J., Wirth, C., 2013. Many ways to die - partitioning tree mortality dynamics in a near-natural mixed deciduous forest. J. Ecol. 101, 220–230.
-}
+Holzwarth, F., Kahl, A., Bauhus, J., Wirth, C., 2013. Many ways to die -
+partitioning tree mortality dynamics in a near-natural mixed deciduous forest.
+J. Ecol. 101, 220–230.
 }

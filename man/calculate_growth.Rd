@@ -7,7 +7,7 @@
 calculate_growth(dbh)
 }
 \arguments{
-\item{dbh}{DBH of target plant}
+\item{dbh}{Numeric with DBH of target plant.}
 }
 \value{
 vector
@@ -16,11 +16,13 @@ vector
 Calculate growth
 }
 \details{
-Calculates DBH increase (growth) of individual trees based on current DBH
+Calculates DBH increase (growth) of individual trees based on current DBH.
 }
 \examples{
+\dontrun{
 dbh <- c(24.3, 65.2, 12.5)
 calculate_growth(dbh)
+}
 
 }
 \references{

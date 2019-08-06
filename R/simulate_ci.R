@@ -2,8 +2,8 @@
 #'
 #' @description Update competition index
 #'
-#' @param input input dataframe
-#' @param max_dist maximum interaction distance between trees
+#' @param data Dataframe with input data.
+#' @param max_dist Numeric with maximum interaction distance between trees.
 #'
 #' @details
 #' The function calculated a compeition index using a kernel. Competition depends on
@@ -13,10 +13,12 @@
 #' @return tibble
 #'
 #' @examples
+#' \dontrun{
 #' names(example_input_data)
-#' df_tress <- prepare_input(input = example_input_data, x = "x_coord", y = "y_coord",
+#' df_trees <- prepare_data(data = example_input_data, x = "x_coord", y = "y_coord",
 #' species = "spec", type = "Class", dbh = "bhd")
-#' simulate_ci(input = df_tress)
+#' simulate_ci(data = df_trees)
+#' }
 #'
 #' @aliases simulate_ci
 #' @rdname simulate_ci
@@ -26,16 +28,16 @@
 #' traditional size-ratio based competition indices used in forest ecology. For. Ecol. Manage. 331, 135-143.
 #'
 #' @export
-simulate_ci <- function(input, max_dist = 30){
+simulate_ci <- function(data, max_dist = 30){
 
   # unnest data
-  input <- tidyr::unnest(input)
+  data <- tidyr::unnest(data)
 
   # data of past time steps
-  past <- input[which(input$i != max(input$i)), ]
+  past <- data[which(data$i != max(data$i)), ]
 
   # data of current time step
-  current <- input[which(input$i == max(input$i)), ]
+  current <- data[which(data$i == max(data$i)), ]
 
   # calculate CI
   competition <- rcpp_calculate_ci(matrix = as.matrix(current[, c(2, 3, 7)]),
@@ -52,10 +54,10 @@ simulate_ci <- function(input, max_dist = 30){
   current$ci <- competition
 
   # combine tibbles
-  input <- rbind(current, past)
+  data <- rbind(current, past)
 
   # nest tibble
-  input <- tidyr::nest(input, -c(id, x, y, species), .key="data")
+  data <- tidyr::nest(data, -c(id, x, y, species), .key = "data")
 
-  return(input)
+  return(data)
 }

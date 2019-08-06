@@ -2,22 +2,24 @@
 #'
 #' @description Simulate growth
 #'
-#' @param input input dataframe
+#' @param data Dataframe with input data.
 #'
 #' @details
 #' Simulate growth by calculating the DBH increase and add it to the current DBH.
 #' Also, i (iteration counter) will be increase and the type re-classified based
 #' on the DBH: trees with a DBH smaller than 10 cm get the type 'Sapling' and trees
-#' with a DBH over 10 cm the type 'Adult'
+#' with a DBH over 10 cm the type 'Adult'.
 #'
-#' @return vector
+#' @return tibble
 #'
 #' @examples
+#' \dontrun{
 #' names(example_input_data)
-#' df_tress <- prepare_input(input = example_input_data, x = "x_coord", y = "y_coord",
+#' df_tress <- prepare_data(data = example_input_data, x = "x_coord", y = "y_coord",
 #' species = "spec", type = "Class", dbh = "bhd")
-#' df_trees <- simulate_ci(input = df_tress)
-#' simulate_growth(input = df_trees)
+#' df_trees <- simulate_ci(data = df_tress)
+#' simulate_growth(data = df_trees)
+#' }
 #'
 #' @aliases simulate_growth
 #' @rdname simulate_growth
@@ -27,37 +29,37 @@
 #' traditional size-ratio based competition indices used in forest ecology. For. Ecol. Manage. 331, 135-143.
 #'
 #' @export
-simulate_growth <- function(input){
+simulate_growth <- function(data){
 
   # unnest data
-  input <- tidyr::unnest(input)
+  data <- tidyr::unnest(data)
 
   # only get living trees of current timestep
-  current_living <- input[which(input$type != "Dead" & input$i == max(input$i)), ]
+  current_living <- data[which(data$type != "Dead" & data$i == max(data$i)), ]
 
   # calculate growth
-  growth <- calculate_growth(dbh = current_living$dbh)
+  growth <- rabmp::calculate_growth(dbh = current_living$dbh)
 
   # for exponential type
   v <- 3.33278
 
   # update DBH reduced by ci
-  current_living$dbh <- current_living$dbh + growth * v *(1 - current_living$ci)
+  current_living$dbh <- current_living$dbh + growth * v * (1 - current_living$ci)
 
   # update type below dbh <= 10 cm
-  current_living$type[which(current_living$dbh <=10)] <- "Sapling"
+  current_living$type[which(current_living$dbh <= 10)] <- "Sapling"
 
   # update type below dbh > 10 cm
-  current_living$type[which(current_living$dbh >10)] <- "Adult"
+  current_living$type[which(current_living$dbh > 10)] <- "Adult"
 
   # update timestep
   current_living$i <- current_living$i + 1
 
   # combine tibbles
-  input <- rbind(current_living, input)
+  data <- rbind(current_living, data)
 
   # nest tibble
-  input <- tidyr::nest(input, -c(id, x, y, species), .key = "data")
+  data <- tidyr::nest(data, -c(id, x, y, species), .key = "data")
 
-  return(input)
+  return(data)
 }

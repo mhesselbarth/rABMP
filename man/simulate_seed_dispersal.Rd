@@ -4,15 +4,15 @@
 \alias{simulate_seed_dispersal}
 \title{simulate_seed_dispersal}
 \usage{
-simulate_seed_dispersal(input, threshold = 30)
+simulate_seed_dispersal(data, threshold = 30)
 }
 \arguments{
-\item{input}{Tibble with input data}
+\item{data}{Dataframe with input data.}
 
-\item{threshold}{Minimum DBH threshold for reproduction}
+\item{threshold}{Numerich with minimum DBH threshold for reproduction.}
 }
 \value{
-vector
+tibble
 }
 \description{
 Simulate seed dispersal
@@ -24,7 +24,7 @@ and following distributing them around parental trees following a seed kernel.
 \examples{
 \dontrun{
 names(example_input_data)
-df_tress <- prepare_input(input = example_input_data, x = "x_coord", y = "y_coord",
+df_trees <- prepare_data(data = example_input_data, x = "x_coord", y = "y_coord",
 species = "spec", type = "Class", dbh = "bhd")
 simulate_seed_dispersal(df_trees)
 }

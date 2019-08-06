@@ -1,22 +1,36 @@
 #' simulate_mortality
 #'
+#' @description Simulate mortality
+#'
 #' @details
-#' Function to model mortality of trees
+#' Function to model mortality of trees based on logistic regression. The mortality
+#' probability depends on the species and the DBH.
 #'
-#' @param input Tibble with input data
+#' @param data Dataframe with input data.
 #'
-#' @references \itemize{
-#' \item Holzwarth, F., Kahl, A., Bauhus, J., Wirth, C., 2013. Many ways to die - partitioning tree mortality dynamics in a near-natural mixed deciduous forest. J. Ecol. 101, 220–230.
+#' @return tibble
+#'
+#' @examples
+#' \dontrun{
+#' names(example_input_data)
+#' df_trees <- prepare_data(data = example_input_data, x = "x_coord", y = "y_coord",
+#' species = "spec", type = "Class", dbh = "bhd")
+#' simulate_mortality(data = df_trees)
 #' }
 #'
+#' @references
+#' Holzwarth, F., Kahl, A., Bauhus, J., Wirth, C., 2013. Many ways to die -
+#' partitioning tree mortality dynamics in a near-natural mixed deciduous forest.
+#' J. Ecol. 101, 220–230.
+#'
 #' @export
-simulate_mortality <- function(input) {
+simulate_mortality <- function(data) {
 
   # unnest data
-  input <- tidyr::unnest(input)
+  data <- tidyr::unnest(data)
 
   # only get living trees of current timestep
-  current_living <- input[which(input$type != "Dead" & input$i == max(input$i)), ]
+  current_living <- data[which(data$type != "Dead" & data$i == max(data$i)), ]
 
   # calculate mortality prob
   mortality_prob <- rcpp_calculate_mortality_probs(species = current_living$species,
@@ -29,10 +43,10 @@ simulate_mortality <- function(input) {
   current_living$type[which(random_number < mortality_prob)] <- "Dead"
 
   # combine tibbles
-  input <- rbind(current_living, input[which(input$i != max(input$i)), ])
+  data <- rbind(current_living, data[which(data$i != max(data$i)), ])
 
   # nest tibble
-  input <- tidyr::nest(input, -c(id, x, y, species), .key = "data")
+  data <- tidyr::nest(data, -c(id, x, y, species), .key = "data")
 
-  return(input)
+  return(data)
 }

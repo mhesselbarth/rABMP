@@ -2,19 +2,19 @@
 #'
 #' @description Simulate seed dispersal
 #'
-#' @param input Tibble with input data
-#' @param threshold Minimum DBH threshold for reproduction
+#' @param data Dataframe with input data.
+#' @param threshold Numerich with minimum DBH threshold for reproduction.
 #'
 #' @details
 #' Simulates seed dispersal by first calculating the number of seeds for each tree
 #' and following distributing them around parental trees following a seed kernel.
 #'
-#' @return vector
+#' @return tibble
 #'
 #' @examples
 #' \dontrun{
 #' names(example_input_data)
-#' df_tress <- prepare_input(input = example_input_data, x = "x_coord", y = "y_coord",
+#' df_trees <- prepare_data(data = example_input_data, x = "x_coord", y = "y_coord",
 #' species = "spec", type = "Class", dbh = "bhd")
 #' simulate_seed_dispersal(df_trees)
 #' }
@@ -23,7 +23,6 @@
 #' @rdname simulate_seed_dispersal
 #'
 #' @references
-#'
 #' Ribbens, E., Silander, J. A., & Pacala, S. W. (1994). Seedling recruitment in forests:
 #' Calibrating models to predict patterns of tree seedling dispersion. Ecology, 75(6), 1794-1806.
 #'
@@ -32,22 +31,22 @@
 #' Journal of Forest Science 55(4), 145-155
 #'
 #' @export
-simulate_seed_dispersal <- function(input, threshold = 30){
+simulate_seed_dispersal <- function(data, threshold = 30){
 
   # unnest data
-  input <- tidyr::unnest(input)
+  data <- tidyr::unnest(data)
 
   # get most recent time step
-  max_i <- max(input$i)
+  max_i <- max(data$i)
 
   # only get living trees of current timestep above threshold
-  current_living <- input[which(input$type != "Dead" &
-                                  input$i == max_i &
-                                  input$dbh > threshold), ]
+  current_living <- data[which(data$type != "Dead" &
+                                 data$i == max_i &
+                                 data$dbh > threshold), ]
 
   # Number of seedlings for each tree
-  number_seedlings <- calculate_seeds(species = current_living$species,
-                                      dbh = current_living$dbh)
+  number_seedlings <- rabmp::calculate_seeds(species = current_living$species,
+                                             dbh = current_living$dbh)
 
   # reduce seedlings according to Bilek et al. 2009
   number_seedlings <- floor(number_seedlings * stats::runif(n = 1, min = 0.812, max = 0.83) * 0.0236)
@@ -66,7 +65,7 @@ simulate_seed_dispersal <- function(input, threshold = 30){
                                      species = species)
 
   # create seedlings id
-  id <- seq(from = max(input$id) + 1, to = max(input$id) + nrow(seedlings))
+  id <- seq(from = max(data$id) + 1, to = max(data$id) + nrow(seedlings))
 
   # create random dbh
   random_dbh <- stats::runif(n = length(id), min = 0.2, max = 0.8)
@@ -82,10 +81,10 @@ simulate_seed_dispersal <- function(input, threshold = 30){
                               ci = 0.0)
 
   # combine to one data frame
-  result <- rbind(input, seedlings)
+  data <- rbind(data, seedlings)
 
   # nest dataframe
-  result <- tidyr::nest(result, -c(id, x, y, species), .key="data")
+  data <- tidyr::nest(data, -c(id, x, y, species), .key = "data")
 
-  return(result)
+  return(data)
 }

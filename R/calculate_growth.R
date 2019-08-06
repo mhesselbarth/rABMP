@@ -2,16 +2,18 @@
 #'
 #' @description Calculate growth
 #'
-#' @param dbh DBH of target plant
+#' @param dbh Numeric with DBH of target plant.
 #'
 #' @details
-#' Calculates DBH increase (growth) of individual trees based on current DBH
+#' Calculates DBH increase (growth) of individual trees based on current DBH.
 #'
 #' @return vector
 #'
 #' @examples
+#' \dontrun{
 #' dbh <- c(24.3, 65.2, 12.5)
 #' calculate_growth(dbh)
+#' }
 #'
 #' @aliases calculate_growth
 #' @rdname calculate_growth
@@ -29,7 +31,7 @@ calculate_growth <- function(dbh){
   p <- 3.41053
 
   # calculate DBH increase
-  increase <- A * k * p * exp(-k * dbh) * (1 - exp(-k * dbh)) ^ (p - 1)
+  dbh <- A * k * p * exp(-k * dbh) * (1 - exp(-k * dbh)) ^ (p - 1)
 
-  return(increase)
+  return(dbh)
 }

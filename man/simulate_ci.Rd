@@ -4,12 +4,12 @@
 \alias{simulate_ci}
 \title{simulate_ci}
 \usage{
-simulate_ci(input, max_dist = 30)
+simulate_ci(data, max_dist = 30)
 }
 \arguments{
-\item{input}{input dataframe}
+\item{data}{Dataframe with input data.}
 
-\item{max_dist}{maximum interaction distance between trees}
+\item{max_dist}{Numeric with maximum interaction distance between trees.}
 }
 \value{
 tibble
@@ -23,10 +23,12 @@ neighbouring trees (within max_dist). If \code{standardized = TRUE}, all values
 are standardized to 0 <= CI <= 1.
 }
 \examples{
+\dontrun{
 names(example_input_data)
-df_tress <- prepare_input(input = example_input_data, x = "x_coord", y = "y_coord",
+df_trees <- prepare_data(data = example_input_data, x = "x_coord", y = "y_coord",
 species = "spec", type = "Class", dbh = "bhd")
-simulate_ci(input = df_tress)
+simulate_ci(data = df_trees)
+}
 
 }
 \references{
