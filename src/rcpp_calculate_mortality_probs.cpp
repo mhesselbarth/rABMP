@@ -38,8 +38,8 @@ NumericVector rcpp_calculate_mortality_probs(StringVector species,
     // calculate probability depending on species
     if(species[i] == "Beech") {
 
-      dbh_inc = std::exp(-3.4 + 2.1 * (1 - std::exp(-(-0.00035) *
-        std::pow(dbh[i], 2.5))));
+      // calculate dbh increase
+      dbh_inc = std::exp(-3.4 + 2.1 * (1 - std::exp(-0.00035 * std::pow(dbh[i], 2.5))));
 
       // test if NA
       dbh_test = NumericVector::is_na(int_beech_early +

@@ -38,17 +38,17 @@ simulate_ci <- function(data, parameters){
   past <- data[which(data$i != max(data$i)), ]
 
   # data of current time step
-  current <- data[which(data$i == max(data$i)), ]
+  current <- data[which(data$type != "Dead" & data$i == max(data$i)), ]
 
-  # calculate CI
+  # calculate CI (Pommerening et al. 2014 formula 6)
   competition <- rcpp_calculate_ci(matrix = as.matrix(current[, c(2, 3, 7)]),
-                                   alpha = parameters$alpha,
-                                   beta = parameters$beta,
-                                   max_dist = parameters$max_dist)
+                                   alpha = parameters$ci_alpha,
+                                   beta = parameters$ci_beta,
+                                   max_dist = parameters$ci_max_dist)
 
-  # transformation of competition index which includes size of focal tree
+  # transformation of ci, which includes size of focal tree (Pommerening et al. 2014 formula 9)
   # scaled between 0 and 1
-  competition <- competition / (current$dbh ^ parameters$alpha + competition)
+  competition <- competition / (current$dbh ^ parameters$ci_alpha + competition)
 
   # update tibble
   current$ci <- competition

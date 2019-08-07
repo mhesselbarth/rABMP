@@ -5,7 +5,6 @@
 #' @param species String with current species.
 #' @param dbh Numeric with DBH of current tree.
 #' @param parameters List with all parameters. See details for more information.
-
 #'
 #' @details
 #' Calculates the number of produced seeds for each tree (without reduction for
@@ -29,15 +28,15 @@
 calculate_number_seeds <- function(species, dbh, parameters){
 
   number_seeds <- ifelse(test = species == "Beech",
-                         yes = parameters$str_beech * (dbh / 30) ^ 2,
+                         yes = parameters$seed_str_beech * ((dbh / 30) ^ 2),
                          no = ifelse(test = species == "Ash",
-                                     yes  = parameters$str_ash * (dbh / 30) ^ 2,
+                                     yes  = parameters$seed_str_ash * ((dbh / 30) ^ 2),
                                      no = ifelse(test = species == "Sycamore",
-                                                 yes = parameters$str_sycamore * (dbh / 30) ^ 2,
+                                                 yes = parameters$seed_str_sycamore * ((dbh / 30) ^ 2),
                                                  no = ifelse(test = species == "Hornbeam",
-                                                             yes = parameters$str_hornbeam * (dbh / 30) ^ 2,
+                                                             yes = parameters$seed_str_hornbeam * ((dbh / 30) ^ 2),
                                                              no = ifelse(test = species == "others",
-                                                                         yes = parameters$str_others * (dbh / 30) ^ 2,
+                                                                         yes = parameters$seed_str_others * ((dbh / 30) ^ 2),
                                                                          no = NA)))))
 
   if (anyNA(number_seeds)) {

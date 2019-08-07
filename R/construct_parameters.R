@@ -3,7 +3,11 @@
 #' @description Construct parameters
 #'
 #' @details
-#' Construct a list with all default paramerts for run_model.
+#' Construct a list with all default paramerts for run_model. The parameters include:
+#' \itemize{
+#'   \item First item
+#'   \item Second item
+#' }
 #'
 #' @param verbose Logical if true information is printed.
 #' @param ... Possibility to change the value of parameters.
@@ -39,40 +43,41 @@
 construct_parameters <- function(verbose = TRUE, ...) {
 
   # simulate_ci
-  alpha <- 1.45772
-  beta <- 0.52339
-  max_dist <- 30
+  ci_alpha <- 1.45772
+  ci_beta <- 0.52339
+  ci_max_dist <- 30
 
   # simulate_growth
-  v <- 3.33278
+  growth_mod <- 3.33278
 
   # calculate_growth
-  A <- 75.03706
-  k <- 0.02700
-  p <- 3.41053
+  growth_assymp <- 75.03706
+  growth_rate <- 0.02700
+  growth_infl <- 3.41053
 
   # simulate seed_dispersal
-  reproduction_threshold <- 30
-  empty_seeds <- mean(stats::runif(n = 10000, min = 0.812, max = 0.83))
-  seedling_success <- 0.0236
+  seed_thres <- 30
+  seed_empty <- mean(stats::runif(n = 10000, min = 0.812, max = 0.83))
+  seed_success <- 0.0236
 
   # calculate_seeds
-  str_beech <- 121.22
-  str_ash <- 26.18
-  str_sycamore <- 182.42
-  str_hornbeam <- 121.22
-  str_others <- mean(str_beech, str_ash, str_sycamore, str_hornbeam)
+  seed_str_beech <- 121.22
+  seed_str_ash <- 26.18
+  seed_str_sycamore <- 182.42
+  seed_str_hornbeam <- 121.22
+  seed_str_others <- mean(seed_str_beech, seed_str_ash,
+                          seed_str_sycamore, seed_str_hornbeam)
 
   # simulate mortality (rcpp_calculate_mortality_probs)
-  int_beech_early <- 1.8
-  dbh_beech_early <- -2.1
-  int_beech_late <- -8.9
-  dbh_beech_late <- 0.052
-  dinc_beech <- -1.4
-  int_ash <- 1.3
-  dbh_ash <- -1.6
-  int_others <- -2.8
-  dbh_others <- -0.051
+  mort_int_beech_early <- 1.8
+  mort_dbh_beech_early <- -2.1
+  mort_int_beech_late <- -8.9
+  mort_dbh_beech_late <- 0.052
+  mort_dinc_beech <- -1.4
+  mort_int_ash <- 1.3
+  mort_dbh_ash <- -1.6
+  mort_int_others <- -2.8
+  mort_dbh_others <- -0.051
 
   # combine all parameters to list
   parameters <- mget(ls())
@@ -119,6 +124,9 @@ construct_parameters <- function(verbose = TRUE, ...) {
       message("> Using default values.")
     }
   }
+
+  # remove verbose parameter
+  parameters <- parameters[names(parameters) != "verbose"]
 
   # return result
   return(parameters)

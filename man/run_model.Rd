@@ -33,7 +33,7 @@ Parameters include ....
 data_trees <- prepare_data(data = example_input_data,
 x = "x_coord", y = "y_coord", species = "spec", type = "Class", dbh = "bhd")
 
-result <- run_model(data = data_trees, years = 5)
+result <- run_model(data = data_trees, years = 10)
 }
 
 }

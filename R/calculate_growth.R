@@ -28,12 +28,14 @@
 calculate_growth <- function(dbh, parameters){
 
   # set parameters
-  A <- parameters$A
-  k <- parameters$k
-  p <- parameters$p
+  growth_assymp <- parameters$growth_assymp
+  growth_rate <- parameters$growth_rate
+  growth_infl <- parameters$growth_infl
 
-  # calculate DBH increase
-  dbh <- A * k * p * exp(-k * dbh) * (1 - exp(-k * dbh)) ^ (p - 1)
+  # calculate DBH increase (Pommering et al. 2014 formula 10)
+  dbh <- growth_assymp * growth_rate * growth_infl *
+    exp(-growth_rate * dbh) *
+    ((1 - exp(-growth_rate * dbh)) ^ (growth_infl - 1))
 
   return(dbh)
 }

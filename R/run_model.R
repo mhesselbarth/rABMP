@@ -21,7 +21,7 @@
 #' data_trees <- prepare_data(data = example_input_data,
 #' x = "x_coord", y = "y_coord", species = "spec", type = "Class", dbh = "bhd")
 #'
-#' result <- run_model(data = data_trees, years = 5)
+#' result <- run_model(data = data_trees, years = 10)
 #' }
 #'
 #' @aliases run_model
@@ -30,7 +30,7 @@
 #' @export
 run_model <- function(data, years, ..., verbose = TRUE) {
 
-  parameters <- construct_parameters(..., verbose = verbose)
+  parameters <- rabmp::construct_parameters(..., verbose = verbose)
 
   for (i in 1:years) {
     data <- rabmp::simulate_ci(data, parameters = parameters)

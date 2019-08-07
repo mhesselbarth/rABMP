@@ -48,12 +48,12 @@ max_dist <- 120
 beta <- 3.412413 / 10 ^ 5
 theta <- 3
 
-rcpp_calculate_probability(beta = beta, theta = theta, max_dist = max_dist)
+rcpp_calculate_distance_probability(beta = beta, theta = theta, max_dist = max_dist)
 
 plot(x = 1:max_dist, y = rcpp_calculate_probability(max_dist = 120, beta = beta, theta = theta), lty = 1, type = "l")
-lines(x = 1:max_dist, y = deprecated_calculate_probability(max_dist = 120, beta = beta, theta = theta), lty = 2)
+# lines(x = 1:max_dist, y = deprecated_calculate_probability(max_dist = 120, beta = beta, theta = theta), lty = 2)
 
-bench::mark(rcpp_calculate_probability(max_dist = max_dist, beta = beta, theta = theta),
-            deprecated_calculate_probability(max_dist = max_dist, beta = beta, theta = theta),
-            check = FALSE, relative = TRUE, iterations = 100000)
+# bench::mark(rcpp_calculate_probability(max_dist = max_dist, beta = beta, theta = theta),
+#             deprecated_calculate_probability(max_dist = max_dist, beta = beta, theta = theta),
+#             check = FALSE, relative = TRUE, iterations = 100000)
 */

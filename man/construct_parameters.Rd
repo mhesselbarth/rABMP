@@ -18,7 +18,11 @@ list
 Construct parameters
 }
 \details{
-Construct a list with all default paramerts for run_model.
+Construct a list with all default paramerts for run_model. The parameters include:
+\itemize{
+  \item First item
+  \item Second item
+}
 }
 \examples{
 \dontrun{

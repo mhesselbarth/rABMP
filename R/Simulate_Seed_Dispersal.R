@@ -36,22 +36,24 @@ simulate_seed_dispersal <- function(data, parameters){
   # unnest data
   data <- tidyr::unnest(data)
 
-  # get most recent time step
-  max_i <- max(data$i)
+  # data of past time steps
+  # past <- data[which(data$i != max(data$i)), ]
 
-  # only get living trees of current timestep above threshold
-  current_living <- data[which(data$type != "Dead" &
-                                 data$i == max_i &
-                                 data$dbh > parameters$reproduction_threshold), ]
+  # data of current time step
+  current <- data[which(data$type != "Dead" & data$i == max(data$i)), ]
 
-  # Number of seedlings for each tree
-  number_seedlings <- rabmp::calculate_number_seeds(species = current_living$species,
-                                                    dbh = current_living$dbh,
-                                                    parameters = parameters)
+  # Number of seedlings for each tree (Ribbens et al. 1994 formula 1)
+  number_seedlings <- rcpp_calculate_number_seeds(species = current$species,
+                                                  dbh = current$dbh,
+                                                  str_beech = parameters$seed_str_beech,
+                                                  str_ash = parameters$seed_str_ash,
+                                                  str_sycamore = parameters$seed_str_sycamore,
+                                                  str_hornbeam = parameters$seed_str_hornbeam,
+                                                  str_others = parameters$seed_str_others)
 
-  # reduce seedlings according to Bilek et al. 2009
+  # reduce seedlings (Bilek et al. 2009 p150)
   number_seedlings <- floor(number_seedlings *
-                              parameters$empty_seeds * parameters$seedling_success)
+                              parameters$seed_empty * parameters$seed_success)
 
   # which trees produce surviving seedlings?
   id <- which(number_seedlings > 0)
@@ -59,10 +61,11 @@ simulate_seed_dispersal <- function(data, parameters){
   # only number seedlings > 0
   number_seedlings <- number_seedlings[id]
 
-  species <- current_living$species[id]
+  # species of trees that produced seedlings
+  species <- current$species[id]
 
-  # calculate seedlings coordinates
-  seedlings <- rcpp_create_seedlings(coords = as.matrix(current_living[id, 2:3]),
+  # calculate seedlings coordinates (Ribbens et al. 1994 formula 2)
+  seedlings <- rcpp_create_seedlings(coords = as.matrix(current[id, 2:3]),
                                      number = number_seedlings,
                                      species = species)
 
@@ -77,13 +80,13 @@ simulate_seed_dispersal <- function(data, parameters){
                               x = seedlings[, 1],
                               y = seedlings[, 2],
                               species = rep(x = species, times = number_seedlings),
-                              i = max_i,
+                              i = max(current$i),
                               type = "Seedling",
                               dbh = random_dbh,
                               ci = 0.0)
 
   # combine to one data frame
-  data <- rbind(data, seedlings)
+  data <- rbind(seedlings, data)
 
   # nest dataframe
   data <- tidyr::nest(data, -c(id, x, y, species), .key = "data")

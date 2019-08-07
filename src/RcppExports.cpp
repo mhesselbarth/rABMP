@@ -19,34 +19,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// rcpp_calculate_distance
-NumericVector rcpp_calculate_distance(double current_x, double current_y, NumericVector other_x, NumericVector other_y);
-RcppExport SEXP _rabmp_rcpp_calculate_distance(SEXP current_xSEXP, SEXP current_ySEXP, SEXP other_xSEXP, SEXP other_ySEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< double >::type current_x(current_xSEXP);
-    Rcpp::traits::input_parameter< double >::type current_y(current_ySEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type other_x(other_xSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type other_y(other_ySEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_calculate_distance(current_x, current_y, other_x, other_y));
-    return rcpp_result_gen;
-END_RCPP
-}
-// rcpp_calculate_ci_sugar
-NumericVector rcpp_calculate_ci_sugar(NumericMatrix matrix, double alpha, double beta, double max_dist);
-RcppExport SEXP _rabmp_rcpp_calculate_ci_sugar(SEXP matrixSEXP, SEXP alphaSEXP, SEXP betaSEXP, SEXP max_distSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericMatrix >::type matrix(matrixSEXP);
-    Rcpp::traits::input_parameter< double >::type alpha(alphaSEXP);
-    Rcpp::traits::input_parameter< double >::type beta(betaSEXP);
-    Rcpp::traits::input_parameter< double >::type max_dist(max_distSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_calculate_ci_sugar(matrix, alpha, beta, max_dist));
-    return rcpp_result_gen;
-END_RCPP
-}
 // rcpp_calculate_distance_probability
 NumericVector rcpp_calculate_distance_probability(double beta, double theta, int max_dist);
 RcppExport SEXP _rabmp_rcpp_calculate_distance_probability(SEXP betaSEXP, SEXP thetaSEXP, SEXP max_distSEXP) {
@@ -81,6 +53,23 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// rcpp_calculate_number_seeds
+NumericVector rcpp_calculate_number_seeds(StringVector species, NumericVector dbh, double str_beech, double str_ash, double str_sycamore, double str_hornbeam, double str_others);
+RcppExport SEXP _rabmp_rcpp_calculate_number_seeds(SEXP speciesSEXP, SEXP dbhSEXP, SEXP str_beechSEXP, SEXP str_ashSEXP, SEXP str_sycamoreSEXP, SEXP str_hornbeamSEXP, SEXP str_othersSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< StringVector >::type species(speciesSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type dbh(dbhSEXP);
+    Rcpp::traits::input_parameter< double >::type str_beech(str_beechSEXP);
+    Rcpp::traits::input_parameter< double >::type str_ash(str_ashSEXP);
+    Rcpp::traits::input_parameter< double >::type str_sycamore(str_sycamoreSEXP);
+    Rcpp::traits::input_parameter< double >::type str_hornbeam(str_hornbeamSEXP);
+    Rcpp::traits::input_parameter< double >::type str_others(str_othersSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_calculate_number_seeds(species, dbh, str_beech, str_ash, str_sycamore, str_hornbeam, str_others));
+    return rcpp_result_gen;
+END_RCPP
+}
 // rcpp_create_seedlings
 NumericMatrix rcpp_create_seedlings(NumericMatrix coords, NumericVector number, StringVector species);
 RcppExport SEXP _rabmp_rcpp_create_seedlings(SEXP coordsSEXP, SEXP numberSEXP, SEXP speciesSEXP) {
@@ -110,10 +99,9 @@ END_RCPP
 
 static const R_CallMethodDef CallEntries[] = {
     {"_rabmp_rcpp_calculate_ci", (DL_FUNC) &_rabmp_rcpp_calculate_ci, 4},
-    {"_rabmp_rcpp_calculate_distance", (DL_FUNC) &_rabmp_rcpp_calculate_distance, 4},
-    {"_rabmp_rcpp_calculate_ci_sugar", (DL_FUNC) &_rabmp_rcpp_calculate_ci_sugar, 4},
     {"_rabmp_rcpp_calculate_distance_probability", (DL_FUNC) &_rabmp_rcpp_calculate_distance_probability, 3},
     {"_rabmp_rcpp_calculate_mortality_probs", (DL_FUNC) &_rabmp_rcpp_calculate_mortality_probs, 11},
+    {"_rabmp_rcpp_calculate_number_seeds", (DL_FUNC) &_rabmp_rcpp_calculate_number_seeds, 7},
     {"_rabmp_rcpp_create_seedlings", (DL_FUNC) &_rabmp_rcpp_create_seedlings, 3},
     {"_rabmp_rcpp_random_distance", (DL_FUNC) &_rabmp_rcpp_random_distance, 3},
     {NULL, NULL, 0}

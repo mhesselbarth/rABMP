@@ -30,30 +30,33 @@ simulate_mortality <- function(data, parameters) {
   # unnest data
   data <- tidyr::unnest(data)
 
-  # only get living trees of current timestep
-  current_living <- data[which(data$type != "Dead" & data$i == max(data$i)), ]
+  # data of past time steps
+  past <- data[which(data$i != max(data$i)), ]
 
-  # calculate mortality prob
-  mortality_prob <- rcpp_calculate_mortality_probs(species = current_living$species,
-                                                   dbh = current_living$dbh,
-                                                   int_beech_early = parameters$int_beech_early,
-                                                   dbh_beech_early = parameters$dbh_beech_early,
-                                                   int_beech_late = parameters$int_beech_late,
-                                                   dbh_beech_late = parameters$dbh_beech_late,
-                                                   dinc_beech = parameters$dinc_beech,
-                                                   int_ash = parameters$int_ash,
-                                                   dbh_ash = parameters$dbh_ash,
-                                                   int_others = parameters$int_others,
-                                                   dbh_others = parameters$dbh_others)
+  # data of current time step
+  current <- data[which(data$type != "Dead" & data$i == max(data$i)), ]
+
+  # calculate mortality prob (Holzwarth et al. 2013 formula S12, formula 1/2)
+  mortality_prob <- rcpp_calculate_mortality_probs(species = current$species,
+                                                   dbh = current$dbh,
+                                                   int_beech_early = parameters$mort_int_beech_early,
+                                                   dbh_beech_early = parameters$mort_dbh_beech_early,
+                                                   int_beech_late = parameters$mort_int_beech_late,
+                                                   dbh_beech_late = parameters$mort_dbh_beech_late,
+                                                   dinc_beech = parameters$mort_dinc_beech,
+                                                   int_ash = parameters$mort_int_ash,
+                                                   dbh_ash = parameters$mort_dbh_ash,
+                                                   int_others = parameters$mort_int_others,
+                                                   dbh_others = parameters$mort_dbh_others)
 
   # create random number for all living trees
   random_number <- stats::runif(n = length(mortality_prob), min = 0, max = 1)
 
   # set all to dead if mortality prob is larger than random number
-  current_living$type[which(random_number < mortality_prob)] <- "Dead"
+  current$type[which(random_number <= mortality_prob)] <- "Dead"
 
   # combine tibbles
-  data <- rbind(current_living, data[which(data$i != max(data$i)), ])
+  data <- rbind(current, past)
 
   # nest tibble
   data <- tidyr::nest(data, -c(id, x, y, species), .key = "data")
