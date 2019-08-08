@@ -35,7 +35,7 @@ simulate_ci <- function(data, parameters){
   data <- tidyr::unnest(data)
 
   # data of past time steps
-  past <- data[which(data$i != max(data$i)), ]
+  past <- data[which(data$type == "Dead" | data$i != max(data$i)), ]
 
   # data of current time step
   current <- data[which(data$type != "Dead" & data$i == max(data$i)), ]

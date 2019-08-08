@@ -37,7 +37,7 @@ simulate_growth <- function(data, parameters){
   data <- tidyr::unnest(data)
 
   # data of past time steps
-  past <- data[which(data$i != max(data$i)), ]
+  past <- data[which(data$type == "Dead" | data$i != max(data$i)), ]
 
   # only get living trees of current timestep
   current <- data[which(data$type != "Dead" & data$i == max(data$i)), ]
@@ -57,9 +57,6 @@ simulate_growth <- function(data, parameters){
 
   # update type below dbh > 10 cm
   current$type[which(current$dbh > 10)] <- "Adult"
-
-  # update timestep
-  current$i <- current$i + 1
 
   # combine tibbles
   data <- rbind(current, past)

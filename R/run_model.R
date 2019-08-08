@@ -30,9 +30,11 @@
 #' @export
 run_model <- function(data, years, ..., verbose = TRUE) {
 
-  parameters <- rabmp::construct_parameters(..., verbose = verbose)
+  parameters <- rabmp::construct_parameters(.., verbose = verbose)
 
   for (i in 1:years) {
+
+    data <- rabmp::update_i(data)
     data <- rabmp::simulate_ci(data, parameters = parameters)
     data <- rabmp::simulate_growth(data, parameters = parameters)
     data <- rabmp::simulate_seed_dispersal(data, parameters = parameters)
