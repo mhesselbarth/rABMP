@@ -2,8 +2,8 @@
 
 export(calculate_growth)
 export(calculate_number_seeds)
-export(construct_parameters)
 export(prepare_data)
+export(read_parameters)
 export(run_model)
 export(simulate_ci)
 export(simulate_growth)

@@ -14,7 +14,8 @@ Depends:
 Imports:
   Rcpp,
   tibble,
-  tidyr
+  tidyr, 
+  utils
 Suggests:
   dplyr,
   knitr, 
