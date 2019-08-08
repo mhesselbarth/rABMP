@@ -17,8 +17,8 @@
 #'
 #' @examples
 #' \dontrun{
-#' names(example_data_data)
-#' prepare_data(data = example_data_data, x = "x_coord", y = "y_coord",
+#' names(example_input_data)
+#' prepare_data(data = example_input_data, x = "x_coord", y = "y_coord",
 #' species = "spec", type = "Class", dbh = "bhd")
 #' }
 #'
