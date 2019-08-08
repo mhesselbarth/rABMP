@@ -30,7 +30,7 @@
 #' @export
 run_model <- function(data, years, ..., verbose = TRUE) {
 
-  parameters <- rabmp::construct_parameters(.., verbose = verbose)
+  parameters <- rabmp::construct_parameters(..., verbose = verbose)
 
   for (i in 1:years) {
 
