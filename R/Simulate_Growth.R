@@ -53,7 +53,7 @@ simulate_growth <- function(data, parameters){
   current$dbh <- current$dbh + growth
 
   # update type below dbh <= 10 cm
-  current$type[which(current$dbh <= 10)] <- "Sapling"
+  current$type[which(current$dbh > 1 & current$dbh <= 10)] <- "Sapling"
 
   # update type below dbh > 10 cm
   current$type[which(current$dbh > 10)] <- "Adult"

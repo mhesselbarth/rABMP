@@ -73,7 +73,7 @@ simulate_seed_dispersal <- function(data, parameters){
   id <- seq(from = max(data$id) + 1, to = max(data$id) + nrow(seedlings))
 
   # create random dbh
-  random_dbh <- stats::runif(n = length(id), min = 0.2, max = 0.8)
+  random_dbh <- stats::runif(n = length(id), min = 0.1, max = 1)
 
   # create tibble
   seedlings <- tibble::tibble(id = id,
