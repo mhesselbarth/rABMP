@@ -17,7 +17,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' parameters <- read_parameters(file = "inst/parameters.txt", sep = ";")
+#' parameters <- read_parameters(file = "inst/parameters.txt", sep = "\t")
 #' }
 #'
 #' @aliases read_parameters

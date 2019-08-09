@@ -18,12 +18,12 @@
 #'
 #' @examples
 #' \dontrun{
-#' data_trees <- prepare_data(data = example_input_data,
+#' df_trees <- prepare_data(data = example_input_data,
 #' x = "x_coord", y = "y_coord", species = "spec", type = "Class", dbh = "bhd")
 #'
 #' parameters <- rabmp::read_parameters(file = "inst/parameters.txt", sep = "\t", return_list = TRUE)
 #'
-#' result <- run_model(data = data_trees, parameters = parameters, years = 10)
+#' result <- run_model(data = df_trees, parameters = parameters, years = 10)
 #' }
 #'
 #' @aliases run_model

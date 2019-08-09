@@ -15,11 +15,14 @@
 #'
 #' @examples
 #' \dontrun{
+#' parameters <- read_parameters(file = "inst/parameters.txt", sep = "\t")
+#'
 #' names(example_input_data)
-#' df_tress <- prepare_data(data = example_input_data, x = "x_coord", y = "y_coord",
+#' df_trees <- prepare_data(data = example_input_data, x = "x_coord", y = "y_coord",
 #' species = "spec", type = "Class", dbh = "bhd")
-#' df_trees <- simulate_ci(data = df_tress)
-#' parameters <- construct_parameters()
+#'
+#' df_trees <- simulate_ci(data = df_trees)
+#'
 #' simulate_growth(data = df_trees, parameters = parameters)
 #' }
 #'
