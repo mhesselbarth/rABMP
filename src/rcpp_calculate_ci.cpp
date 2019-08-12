@@ -4,7 +4,7 @@
 NumericVector rcpp_calculate_ci(NumericMatrix matrix,
                                 double alpha,
                                 double beta,
-                                double max_dist) {
+                                int max_dist) {
 
   // get number of rows
   int nrow = matrix.nrow();

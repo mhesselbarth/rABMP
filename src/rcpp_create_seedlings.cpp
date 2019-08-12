@@ -4,7 +4,13 @@
 // [[Rcpp::export]]
 NumericMatrix rcpp_create_seedlings(NumericMatrix coords,
                                     NumericVector number,
-                                    StringVector species) {
+                                    StringVector species,
+                                    double beta_beech,
+                                    double beta_ash,
+                                    double beta_sycamore,
+                                    double beta_hornbeam,
+                                    double beta_others,
+                                    int max_dist) {
 
   // get number of trees
   int nrow = coords.nrow();
@@ -21,9 +27,20 @@ NumericMatrix rcpp_create_seedlings(NumericMatrix coords,
   for(int i = 0; i < nrow; i++) {
 
     // calculate random distances
-    Rcpp::NumericVector random_x = rcpp_random_distance(number[i], species[i], 120);
+    Rcpp::NumericVector random_x = rcpp_random_distance(number[i], species[i],
+                                                        beta_beech,
+                                                        beta_ash,
+                                                        beta_sycamore,
+                                                        beta_hornbeam,
+                                                        beta_others,
+                                                        max_dist);
 
-    Rcpp::NumericVector random_y = rcpp_random_distance(number[i], species[i], 120);
+    Rcpp::NumericVector random_y = rcpp_random_distance(number[i], species[i], beta_beech,
+                                                        beta_ash,
+                                                        beta_sycamore,
+                                                        beta_hornbeam,
+                                                        beta_others,
+                                                        max_dist);
 
     for(int j = 0; j < number[i]; j++){
 

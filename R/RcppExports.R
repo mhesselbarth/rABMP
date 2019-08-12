@@ -17,11 +17,11 @@ rcpp_calculate_number_seeds <- function(species, dbh, str_beech, str_ash, str_sy
     .Call('_rabmp_rcpp_calculate_number_seeds', PACKAGE = 'rabmp', species, dbh, str_beech, str_ash, str_sycamore, str_hornbeam, str_others)
 }
 
-rcpp_create_seedlings <- function(coords, number, species) {
-    .Call('_rabmp_rcpp_create_seedlings', PACKAGE = 'rabmp', coords, number, species)
+rcpp_create_seedlings <- function(coords, number, species, beta_beech, beta_ash, beta_sycamore, beta_hornbeam, beta_others, max_dist) {
+    .Call('_rabmp_rcpp_create_seedlings', PACKAGE = 'rabmp', coords, number, species, beta_beech, beta_ash, beta_sycamore, beta_hornbeam, beta_others, max_dist)
 }
 
-rcpp_random_distance <- function(number_seeds, species, max_dist) {
-    .Call('_rabmp_rcpp_random_distance', PACKAGE = 'rabmp', number_seeds, species, max_dist)
+rcpp_random_distance <- function(number_seeds, species, beta_beech, beta_ash, beta_sycamore, beta_hornbeam, beta_others, max_dist) {
+    .Call('_rabmp_rcpp_random_distance', PACKAGE = 'rabmp', number_seeds, species, beta_beech, beta_ash, beta_sycamore, beta_hornbeam, beta_others, max_dist)
 }
 
