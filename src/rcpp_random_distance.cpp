@@ -4,6 +4,11 @@
 // [[Rcpp::export]]
 NumericVector rcpp_random_distance(int number_seeds,
                                    String species,
+                                   double beta_beech,
+                                   double beta_ash,
+                                   double beta_sycamore,
+                                   double beta_hornbeam,
+                                   double beta_others,
                                    int max_dist) {
 
   // initialise parameters
@@ -15,27 +20,27 @@ NumericVector rcpp_random_distance(int number_seeds,
 
   // set parameters depending on species
   if(species == "Beech") {
-    beta = 3.412413 / std::pow(10, 5);
+    beta = beta_beech / std::pow(10, 5);
     // theta = 3;
   }
 
   else if(species == "Ash") {
-    beta = 0.922805 / std::pow(10, 5);
+    beta = beta_ash / std::pow(10, 5);
     // theta = 3;
   }
 
   else if(species == "Sycamore") {
-    beta = 7.435026 / std::pow(10, 5);
+    beta = beta_sycamore / std::pow(10, 5);
     // theta = 3;
   }
 
   else if(species == "Hornbeam") {
-    beta = 3.412413 / std::pow(10, 5);
+    beta = beta_hornbeam / std::pow(10, 5);
     // theta = 3;
   }
 
   else if(species == "others") {
-    beta = 3.795664 / std::pow(10, 5);
+    beta = beta_others / std::pow(10, 5);
     // theta = 3;
   }
 

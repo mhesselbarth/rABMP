@@ -6,7 +6,7 @@
 using namespace Rcpp;
 
 // rcpp_calculate_ci
-NumericVector rcpp_calculate_ci(NumericMatrix matrix, double alpha, double beta, double max_dist);
+NumericVector rcpp_calculate_ci(NumericMatrix matrix, double alpha, double beta, int max_dist);
 RcppExport SEXP _rabmp_rcpp_calculate_ci(SEXP matrixSEXP, SEXP alphaSEXP, SEXP betaSEXP, SEXP max_distSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -14,7 +14,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< NumericMatrix >::type matrix(matrixSEXP);
     Rcpp::traits::input_parameter< double >::type alpha(alphaSEXP);
     Rcpp::traits::input_parameter< double >::type beta(betaSEXP);
-    Rcpp::traits::input_parameter< double >::type max_dist(max_distSEXP);
+    Rcpp::traits::input_parameter< int >::type max_dist(max_distSEXP);
     rcpp_result_gen = Rcpp::wrap(rcpp_calculate_ci(matrix, alpha, beta, max_dist));
     return rcpp_result_gen;
 END_RCPP
@@ -71,28 +71,39 @@ BEGIN_RCPP
 END_RCPP
 }
 // rcpp_create_seedlings
-NumericMatrix rcpp_create_seedlings(NumericMatrix coords, NumericVector number, StringVector species);
-RcppExport SEXP _rabmp_rcpp_create_seedlings(SEXP coordsSEXP, SEXP numberSEXP, SEXP speciesSEXP) {
+NumericMatrix rcpp_create_seedlings(NumericMatrix coords, NumericVector number, StringVector species, double beta_beech, double beta_ash, double beta_sycamore, double beta_hornbeam, double beta_others, int max_dist);
+RcppExport SEXP _rabmp_rcpp_create_seedlings(SEXP coordsSEXP, SEXP numberSEXP, SEXP speciesSEXP, SEXP beta_beechSEXP, SEXP beta_ashSEXP, SEXP beta_sycamoreSEXP, SEXP beta_hornbeamSEXP, SEXP beta_othersSEXP, SEXP max_distSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type coords(coordsSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type number(numberSEXP);
     Rcpp::traits::input_parameter< StringVector >::type species(speciesSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_create_seedlings(coords, number, species));
+    Rcpp::traits::input_parameter< double >::type beta_beech(beta_beechSEXP);
+    Rcpp::traits::input_parameter< double >::type beta_ash(beta_ashSEXP);
+    Rcpp::traits::input_parameter< double >::type beta_sycamore(beta_sycamoreSEXP);
+    Rcpp::traits::input_parameter< double >::type beta_hornbeam(beta_hornbeamSEXP);
+    Rcpp::traits::input_parameter< double >::type beta_others(beta_othersSEXP);
+    Rcpp::traits::input_parameter< int >::type max_dist(max_distSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_create_seedlings(coords, number, species, beta_beech, beta_ash, beta_sycamore, beta_hornbeam, beta_others, max_dist));
     return rcpp_result_gen;
 END_RCPP
 }
 // rcpp_random_distance
-NumericVector rcpp_random_distance(int number_seeds, String species, int max_dist);
-RcppExport SEXP _rabmp_rcpp_random_distance(SEXP number_seedsSEXP, SEXP speciesSEXP, SEXP max_distSEXP) {
+NumericVector rcpp_random_distance(int number_seeds, String species, double beta_beech, double beta_ash, double beta_sycamore, double beta_hornbeam, double beta_others, int max_dist);
+RcppExport SEXP _rabmp_rcpp_random_distance(SEXP number_seedsSEXP, SEXP speciesSEXP, SEXP beta_beechSEXP, SEXP beta_ashSEXP, SEXP beta_sycamoreSEXP, SEXP beta_hornbeamSEXP, SEXP beta_othersSEXP, SEXP max_distSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< int >::type number_seeds(number_seedsSEXP);
     Rcpp::traits::input_parameter< String >::type species(speciesSEXP);
+    Rcpp::traits::input_parameter< double >::type beta_beech(beta_beechSEXP);
+    Rcpp::traits::input_parameter< double >::type beta_ash(beta_ashSEXP);
+    Rcpp::traits::input_parameter< double >::type beta_sycamore(beta_sycamoreSEXP);
+    Rcpp::traits::input_parameter< double >::type beta_hornbeam(beta_hornbeamSEXP);
+    Rcpp::traits::input_parameter< double >::type beta_others(beta_othersSEXP);
     Rcpp::traits::input_parameter< int >::type max_dist(max_distSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_random_distance(number_seeds, species, max_dist));
+    rcpp_result_gen = Rcpp::wrap(rcpp_random_distance(number_seeds, species, beta_beech, beta_ash, beta_sycamore, beta_hornbeam, beta_others, max_dist));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -102,8 +113,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"_rabmp_rcpp_calculate_distance_probability", (DL_FUNC) &_rabmp_rcpp_calculate_distance_probability, 3},
     {"_rabmp_rcpp_calculate_mortality_probs", (DL_FUNC) &_rabmp_rcpp_calculate_mortality_probs, 11},
     {"_rabmp_rcpp_calculate_number_seeds", (DL_FUNC) &_rabmp_rcpp_calculate_number_seeds, 7},
-    {"_rabmp_rcpp_create_seedlings", (DL_FUNC) &_rabmp_rcpp_create_seedlings, 3},
-    {"_rabmp_rcpp_random_distance", (DL_FUNC) &_rabmp_rcpp_random_distance, 3},
+    {"_rabmp_rcpp_create_seedlings", (DL_FUNC) &_rabmp_rcpp_create_seedlings, 9},
+    {"_rabmp_rcpp_random_distance", (DL_FUNC) &_rabmp_rcpp_random_distance, 8},
     {NULL, NULL, 0}
 };
 
