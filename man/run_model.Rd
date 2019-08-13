@@ -38,7 +38,7 @@ x = "x_coord", y = "y_coord", species = "spec", type = "Class", dbh = "bhd")
 
 parameters <- read_parameters(file = "inst/parameters.txt", sep = "\\t", return_list = TRUE)
 
-result <- run_model(data = df_trees, parameters = parameters, years = 3, return_nested = TRUE)
+result <- run_model(data = df_trees, parameters = parameters, years = 10, return_nested = TRUE)
 }
 
 }

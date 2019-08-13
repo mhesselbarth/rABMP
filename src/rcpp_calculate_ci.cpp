@@ -42,6 +42,8 @@ NumericVector rcpp_calculate_ci(NumericMatrix matrix,
       // add to overall ci if i
       ci[i] += ci_temp;
     }
+
+    ci[i] = ci[i] / (std::pow(matrix(i, 2), alpha) + ci[i]);
   }
 
   return ci;
@@ -51,7 +53,7 @@ NumericVector rcpp_calculate_ci(NumericMatrix matrix,
 df_trees <- prepare_data(data = example_input_data, x = "x_coord", y = "y_coord",
                          species = "spec", type = "Class", dbh = "bhd")
 
-data <- as.matrix(df_trees[1:5, c(3, 4, 7)])
+data  <- as.matrix(df_trees[, c("x", "y", "dbh")])
 
-rcpp_calculate_ci(data, alpha = 1.45772, beta = 0.52339, max_dist = 30)
+rcpp_calculate_ci(data, alpha = 1.5, beta = 0.5, max_dist = 30)
 */

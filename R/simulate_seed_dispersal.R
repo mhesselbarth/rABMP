@@ -68,7 +68,7 @@ simulate_seed_dispersal <- function(data, parameters){
   species <- current$species[id]
 
   # calculate seedlings coordinates (Ribbens et al. 1994 formula 2)
-  seedlings <- rcpp_create_seedlings(coords = as.matrix(current[id, 2:3]),
+  seedlings <- rcpp_create_seedlings(coords = as.matrix(current[id, c("x", "y")]),
                                      number = number_seedlings,
                                      species = species,
                                      beta_beech = parameters$seed_beta_beech,

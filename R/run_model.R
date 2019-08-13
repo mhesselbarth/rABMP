@@ -24,14 +24,14 @@
 #'
 #' parameters <- read_parameters(file = "inst/parameters.txt", sep = "\t", return_list = TRUE)
 #'
-#' result <- run_model(data = df_trees, parameters = parameters, years = 3, return_nested = TRUE)
+#' result <- run_model(data = df_trees, parameters = parameters, years = 10)
 #' }
 #'
 #' @aliases run_model
 #' @rdname run_model
 #'
 #' @export
-run_model <- function(data, parameters, years, return_nested = FALSE, verbose = TRUE) {
+run_model <- function(data, parameters, years, return_nested = TRUE, verbose = TRUE) {
 
   if (!all(names(data) == c("id", "i", "x", "y", "species", "type", "dbh", "ci"))) {
 

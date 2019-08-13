@@ -43,6 +43,8 @@ simulate_ci <- function(data, parameters){
   current <- data[which(data$type != "Dead" & data$i == max(data$i)), ]
 
   # calculate CI (Pommerening et al. 2014 formula 6)
+  # transformation of ci, which includes size of focal tree (Pommerening et al. 2014 formula 9)
+  # scaled between 0 and 1
   competition <- rcpp_calculate_ci(matrix = as.matrix(current[, c("x", "y", "dbh")]),
                                    alpha = parameters$ci_alpha,
                                    beta = parameters$ci_beta,
@@ -50,7 +52,7 @@ simulate_ci <- function(data, parameters){
 
   # transformation of ci, which includes size of focal tree (Pommerening et al. 2014 formula 9)
   # scaled between 0 and 1
-  competition <- competition / (current$dbh ^ parameters$ci_alpha + competition)
+  # competition <- competition / (current$dbh ^ parameters$ci_alpha + competition)
 
   # update tibble
   current$ci <- competition
