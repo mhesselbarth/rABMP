@@ -43,7 +43,7 @@ simulate_ci <- function(data, parameters){
   current <- data[which(data$type != "Dead" & data$i == max(data$i)), ]
 
   # calculate CI (Pommerening et al. 2014 formula 6)
-  competition <- rcpp_calculate_ci(matrix = as.matrix(current[, c(2, 3, 7)]),
+  competition <- rcpp_calculate_ci(matrix = as.matrix(current[, c("x", "y", "dbh")]),
                                    alpha = parameters$ci_alpha,
                                    beta = parameters$ci_beta,
                                    max_dist = parameters$ci_max_dist)

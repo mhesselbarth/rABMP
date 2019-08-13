@@ -86,10 +86,10 @@ simulate_seed_dispersal <- function(data, parameters){
 
   # create tibble
   seedlings <- tibble::tibble(id = id,
+                              i = max(current$i),
                               x = seedlings[, 1],
                               y = seedlings[, 2],
                               species = rep(x = species, times = number_seedlings),
-                              i = max(current$i),
                               type = "Seedling",
                               dbh = random_dbh,
                               ci = 0.0)
