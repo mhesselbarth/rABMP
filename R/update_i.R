@@ -24,8 +24,8 @@
 #' @export
 update_i <- function(data, increase = 1){
 
-  # unnest data
-  data <- tidyr::unnest(data)
+  # # unnest data
+  # data <- tidyr::unnest(data)
 
   # data of past time steps
   # past <- data[which(data$type == "Dead" & data$i != max(data$i)), ]
@@ -39,8 +39,8 @@ update_i <- function(data, increase = 1){
   # combine tibbles
   data <- rbind(current, data)
 
-  # nest tibble
-  data <- tidyr::nest(data, -c(id, x, y, species), .key = "data")
+  # # nest tibble
+  # data <- tidyr::nest(data, -c(id, x, y, species), .key = "data")
 
   # return df
   return(data)

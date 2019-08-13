@@ -46,8 +46,8 @@ prepare_data <- function(data, x, y, species, type, dbh){
   # name columns
   names(data) <- c("id", "i", "x", "y", "species", "type", "dbh", "ci")
 
-  # nest data
-  data <- tidyr::nest(data, -c(id, x, y, species), .key = "data")
+  # # nest data
+  # data <- tidyr::nest(data, -c(id, x, y, species), .key = "data")
 
   return(data)
 }

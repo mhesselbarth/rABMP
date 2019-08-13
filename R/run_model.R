@@ -5,6 +5,7 @@
 #' @param data Dataframe with input data.
 #' @param parameters List with all parameters.
 #' @param years Numeric timesteps (years) the model runs.
+#' @param return_nested Logical if TRUE the final tibble is nested.
 #' @param verbose If TRUE, prints progress report.
 #'
 #' @details
@@ -21,7 +22,7 @@
 #' df_trees <- prepare_data(data = example_input_data,
 #' x = "x_coord", y = "y_coord", species = "spec", type = "Class", dbh = "bhd")
 #'
-#' parameters <- rabmp::read_parameters(file = "inst/parameters.txt", sep = "\t", return_list = TRUE)
+#' parameters <- read_parameters(file = "inst/parameters.txt", sep = "\t", return_list = TRUE)
 #'
 #' result <- run_model(data = df_trees, parameters = parameters, years = 10)
 #' }
@@ -30,7 +31,7 @@
 #' @rdname run_model
 #'
 #' @export
-run_model <- function(data, parameters, years, verbose = TRUE) {
+run_model <- function(data, parameters, years, return_nested = FALSE, verbose = TRUE) {
 
   for (i in 1:years) {
 
@@ -47,6 +48,15 @@ run_model <- function(data, parameters, years, verbose = TRUE) {
 
   if (verbose) {
     message("")
+  }
+
+  # order by id and i
+  data <- dplyr::arrange(data, id, i)
+
+  if (return_nested) {
+
+    # nest tibble
+    data <- tidyr::nest(data, -c(id, x, y, species), .key = "data")
   }
 
   return(data)

@@ -36,8 +36,8 @@
 #' @export
 simulate_seed_dispersal <- function(data, parameters){
 
-  # unnest data
-  data <- tidyr::unnest(data)
+  # # unnest data
+  # data <- tidyr::unnest(data)
 
   # data of past time steps
   # past <- data[which(data$i != max(data$i)), ]
@@ -97,8 +97,8 @@ simulate_seed_dispersal <- function(data, parameters){
   # combine to one data frame
   data <- rbind(seedlings, data)
 
-  # nest dataframe
-  data <- tidyr::nest(data, -c(id, x, y, species), .key = "data")
+  # # nest dataframe
+  # data <- tidyr::nest(data, -c(id, x, y, species), .key = "data")
 
   return(data)
 }

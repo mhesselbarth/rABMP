@@ -36,8 +36,8 @@
 #' @export
 simulate_growth <- function(data, parameters){
 
-  # unnest data
-  data <- tidyr::unnest(data)
+  # # unnest data
+  # data <- tidyr::unnest(data)
 
   # data of past time steps
   past <- data[which(data$type == "Dead" | data$i != max(data$i)), ]
@@ -64,8 +64,8 @@ simulate_growth <- function(data, parameters){
   # combine tibbles
   data <- rbind(current, past)
 
-  # nest tibble
-  data <- tidyr::nest(data, -c(id, x, y, species), .key = "data")
+  # # nest tibble
+  # data <- tidyr::nest(data, -c(id, x, y, species), .key = "data")
 
   return(data)
 }
