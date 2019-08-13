@@ -4,7 +4,8 @@
 \alias{run_model}
 \title{run_model}
 \usage{
-run_model(data, parameters, years, verbose = TRUE)
+run_model(data, parameters, years, return_nested = FALSE,
+  verbose = TRUE)
 }
 \arguments{
 \item{data}{Dataframe with input data.}
@@ -12,6 +13,8 @@ run_model(data, parameters, years, verbose = TRUE)
 \item{parameters}{List with all parameters.}
 
 \item{years}{Numeric timesteps (years) the model runs.}
+
+\item{return_nested}{Logical if TRUE the final tibble is nested.}
 
 \item{verbose}{If TRUE, prints progress report.}
 }
@@ -30,12 +33,12 @@ Parameters include ....
 }
 \examples{
 \dontrun{
-data_trees <- prepare_data(data = example_input_data,
+df_trees <- prepare_data(data = example_input_data,
 x = "x_coord", y = "y_coord", species = "spec", type = "Class", dbh = "bhd")
 
-parameters <- rabmp::read_parameters(file = "inst/parameters.txt", sep = "\\t", return_list = TRUE)
+parameters <- read_parameters(file = "inst/parameters.txt", sep = "\\t", return_list = TRUE)
 
-result <- run_model(data = data_trees, parameters = parameters, years = 10)
+result <- run_model(data = df_trees, parameters = parameters, years = 3, return_nested = TRUE)
 }
 
 }

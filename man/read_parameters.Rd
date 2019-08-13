@@ -28,7 +28,7 @@ Construct a list with all default paramerts for run_model. The parameters includ
 }
 \examples{
 \dontrun{
-parameters <- read_parameters(file = "inst/parameters.txt", sep = ";")
+parameters <- read_parameters(file = "inst/parameters.txt", sep = "\\t")
 }
 
 }
