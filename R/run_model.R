@@ -24,7 +24,7 @@
 #'
 #' parameters <- read_parameters(file = "inst/parameters.txt", sep = "\t", return_list = TRUE)
 #'
-#' result <- run_model(data = df_trees, parameters = parameters, years = 10)
+#' result <- run_model(data = df_trees, parameters = parameters, years = 3, return_nested = TRUE)
 #' }
 #'
 #' @aliases run_model
@@ -32,6 +32,11 @@
 #'
 #' @export
 run_model <- function(data, parameters, years, return_nested = FALSE, verbose = TRUE) {
+
+  if (!all(names(data) == c("id", "i", "x", "y", "species", "type", "dbh", "ci"))) {
+
+    stop("Please check your input data again. See ?prepare_data for help.")
+  }
 
   for (i in 1:years) {
 
