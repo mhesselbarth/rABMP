@@ -36,36 +36,24 @@
 #' @export
 simulate_growth <- function(data, parameters){
 
-  # # unnest data
-  # data <- tidyr::unnest(data)
-
-  # data of past time steps
-  past <- data[which(data$type == "Dead" | data$i != max(data$i)), ]
-
   # only get living trees of current timestep
-  current <- data[which(data$type != "Dead" & data$i == max(data$i)), ]
+  id <- which(data$type != "Dead" & data$i == max(data$i))
 
   # calculate potential growth
-  growth <- rabmp::calculate_growth(dbh = current$dbh,
+  growth <- rabmp::calculate_growth(dbh = data$dbh[id],
                                     parameters = parameters)
 
   # reduce potential growth (Pommerening et al. 2014 formula 12)
-  growth <- growth * parameters$growth_mod * (1 - current$ci)
+  growth <- growth * parameters$growth_mod * (1 - data$ci[id])
 
   # update DBH
-  current$dbh <- current$dbh + growth
+  data$dbh[id] <- data$dbh[id] + growth
 
-  # update type below dbh <= 10 cm
-  current$type[which(current$dbh > 1 & current$dbh <= 10)] <- "Sapling"
+  # update type 1 < dbh <= 10
+  data$type[id][which(data$dbh[id] > 1 & data$dbh[id] <= 10)] <- "Sapling"
 
-  # update type below dbh > 10 cm
-  current$type[which(current$dbh > 10)] <- "Adult"
-
-  # combine tibbles
-  data <- rbind(current, past)
-
-  # # nest tibble
-  # data <- tidyr::nest(data, -c(id, x, y, species), .key = "data")
+  # update type below dbh > 10
+  data$type[id][which(data$dbh[id] > 10)] <- "Adult"
 
   return(data)
 }

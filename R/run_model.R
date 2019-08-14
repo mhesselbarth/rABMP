@@ -33,11 +33,14 @@
 #' @export
 run_model <- function(data, parameters, years, return_nested = TRUE, verbose = TRUE) {
 
+  # check if input data cols are correct
   if (!all(names(data) == c("id", "i", "x", "y", "species", "type", "dbh", "ci"))) {
 
-    stop("Please check your input data again. See ?prepare_data for help.")
+    stop("Please check your input data again. See ?prepare_data for help.",
+         call. = FALSE)
   }
 
+  # loop through all years
   for (i in 1:years) {
 
     data <- rabmp::update_i(data)
@@ -46,11 +49,13 @@ run_model <- function(data, parameters, years, return_nested = TRUE, verbose = T
     data <- rabmp::simulate_seed_dispersal(data, parameters = parameters)
     data <- rabmp::simulate_mortality(data, parameters = parameters)
 
+    # print progress message
     if (verbose) {
       message("\r> Progress: ", i, "/", years, "\t\t\t", appendLF = FALSE)
     }
   }
 
+  # new line after last progress message
   if (verbose) {
     message("")
   }
@@ -58,9 +63,9 @@ run_model <- function(data, parameters, years, return_nested = TRUE, verbose = T
   # order by id and i
   data <- dplyr::arrange(data, id, i)
 
+  # nest tibble
   if (return_nested) {
 
-    # nest tibble
     data <- tidyr::nest(data, -c(id, x, y, species), .key = "data")
   }
 

@@ -4,7 +4,7 @@
 \alias{run_model}
 \title{run_model}
 \usage{
-run_model(data, parameters, years, return_nested = FALSE,
+run_model(data, parameters, years, return_nested = TRUE,
   verbose = TRUE)
 }
 \arguments{
@@ -38,7 +38,7 @@ x = "x_coord", y = "y_coord", species = "spec", type = "Class", dbh = "bhd")
 
 parameters <- read_parameters(file = "inst/parameters.txt", sep = "\\t", return_list = TRUE)
 
-result <- run_model(data = df_trees, parameters = parameters, years = 10, return_nested = TRUE)
+result <- run_model(data = df_trees, parameters = parameters, years = 10)
 }
 
 }

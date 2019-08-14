@@ -30,18 +30,12 @@
 #' @export
 simulate_mortality <- function(data, parameters) {
 
-  # # unnest data
-  # data <- tidyr::unnest(data)
-
-  # data of past time steps
-  past <- data[which(data$type == "Dead" | data$i != max(data$i)), ]
-
   # data of current time step
-  current <- data[which(data$type != "Dead" & data$i == max(data$i)), ]
+  id <- which(data$type != "Dead" & data$i == max(data$i))
 
   # calculate mortality prob (Holzwarth et al. 2013 formula S12, formula 1/2)
-  mortality_prob <- rcpp_calculate_mortality_probs(species = current$species,
-                                                   dbh = current$dbh,
+  mortality_prob <- rcpp_calculate_mortality_probs(species = data$species[id],
+                                                   dbh = data$dbh[id],
                                                    int_beech_early = parameters$mort_int_beech_early,
                                                    dbh_beech_early = parameters$mort_dbh_beech_early,
                                                    int_beech_late = parameters$mort_int_beech_late,
@@ -56,13 +50,7 @@ simulate_mortality <- function(data, parameters) {
   random_number <- stats::runif(n = length(mortality_prob), min = 0, max = 1)
 
   # set all to dead if mortality prob is larger than random number
-  current$type[which(random_number <= mortality_prob)] <- "Dead"
-
-  # combine tibbles
-  data <- rbind(current, past)
-
-  # # nest tibble
-  # data <- tidyr::nest(data, -c(id, x, y, species), .key = "data")
+  data$type[id][which(random_number <= mortality_prob)] <- "Dead"
 
   return(data)
 }

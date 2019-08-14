@@ -33,8 +33,7 @@ calculate_growth <- function(dbh, parameters){
   growth_infl <- parameters$growth_infl
 
   # calculate DBH increase (Pommering et al. 2014 formula 10)
-  dbh <- growth_assymp * growth_rate * growth_infl *
-    exp(-growth_rate * dbh) *
+  dbh <- growth_assymp * growth_rate * growth_infl * exp(-growth_rate * dbh) *
     ((1 - exp(-growth_rate * dbh)) ^ (growth_infl - 1))
 
   return(dbh)

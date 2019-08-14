@@ -36,18 +36,12 @@
 #' @export
 simulate_seed_dispersal <- function(data, parameters){
 
-  # # unnest data
-  # data <- tidyr::unnest(data)
-
-  # data of past time steps
-  # past <- data[which(data$i != max(data$i)), ]
-
   # data of current time step
-  current <- data[which(data$type != "Dead" & data$i == max(data$i)), ]
+  id_a <- which(data$type != "Dead" & data$i == max(data$i))
 
-  # Number of seedlings for each tree (Ribbens et al. 1994 formula 1)
-  number_seedlings <- rcpp_calculate_number_seeds(species = current$species,
-                                                  dbh = current$dbh,
+  # number of seedlings for each tree (Ribbens et al. 1994 formula 1)
+  number_seedlings <- rcpp_calculate_number_seeds(species = data$species[id_a],
+                                                  dbh = data$dbh[id_a],
                                                   str_beech = parameters$seed_str_beech,
                                                   str_ash = parameters$seed_str_ash,
                                                   str_sycamore = parameters$seed_str_sycamore,
@@ -59,17 +53,17 @@ simulate_seed_dispersal <- function(data, parameters){
                               parameters$seed_empty * parameters$seed_success)
 
   # which trees produce surviving seedlings?
-  id <- which(number_seedlings > 0)
+  id_b <- which(number_seedlings > 0)
 
-  # only number seedlings > 0
-  number_seedlings <- number_seedlings[id]
+  number_seedlings <- number_seedlings[id_b]
 
   # species of trees that produced seedlings
-  species <- current$species[id]
+  species <- data$species[id_a][id_b]
 
   # calculate seedlings coordinates (Ribbens et al. 1994 formula 2)
-  seedlings <- rcpp_create_seedlings(coords = as.matrix(current[id, c("x", "y")]),
-                                     number = number_seedlings,
+  # only number seedlings > 0
+  seedlings <- rcpp_create_seedlings(coords = as.matrix(data[id_a, ][id_b, c("x", "y")]),
+                                     number =  number_seedlings,
                                      species = species,
                                      beta_beech = parameters$seed_beta_beech,
                                      beta_ash = parameters$seed_beta_ash,
@@ -78,27 +72,21 @@ simulate_seed_dispersal <- function(data, parameters){
                                      beta_others = parameters$seed_beta_others,
                                      max_dist = parameters$seed_max_dist)
 
-  # create seedlings id
-  id <- seq(from = max(data$id) + 1, to = max(data$id) + nrow(seedlings))
-
-  # create random dbh
-  random_dbh <- stats::runif(n = length(id), min = 0.1, max = 1)
-
   # create tibble
-  seedlings <- tibble::tibble(id = id,
-                              i = max(current$i),
+  # create seedlings id larger than existing max id
+  # create random dbh
+  seedlings <- tibble::tibble(id = seq(from = max(data$id) + 1,
+                                       to = max(data$id) + nrow(seedlings)),
+                              i = max(data$i),
                               x = seedlings[, 1],
                               y = seedlings[, 2],
                               species = rep(x = species, times = number_seedlings),
                               type = "Seedling",
-                              dbh = random_dbh,
+                              dbh = stats::runif(n = sum(number_seedlings), min = 0.1, max = 1),
                               ci = 0.0)
 
-  # combine to one data frame
-  data <- rbind(seedlings, data)
-
-  # # nest dataframe
-  # data <- tidyr::nest(data, -c(id, x, y, species), .key = "data")
+  # combine to one data frame with all data
+  data <- rbind(data, seedlings)
 
   return(data)
 }
