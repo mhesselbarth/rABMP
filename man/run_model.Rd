@@ -4,8 +4,8 @@
 \alias{run_model}
 \title{run_model}
 \usage{
-run_model(data, parameters, years, return_nested = TRUE,
-  verbose = TRUE)
+run_model(data, parameters, years, plot_area = NULL,
+  return_nested = TRUE, verbose = TRUE)
 }
 \arguments{
 \item{data}{Dataframe with input data.}
@@ -13,6 +13,8 @@ run_model(data, parameters, years, return_nested = TRUE,
 \item{parameters}{List with all parameters.}
 
 \item{years}{Numeric timesteps (years) the model runs.}
+
+\item{plot_area}{The plot area as \code{\link{owin}} object from the \code{spatstat} package.}
 
 \item{return_nested}{Logical if TRUE the final tibble is nested.}
 

@@ -13,14 +13,14 @@ Depends:
   R (>= 3.1)
 Imports:
   Rcpp,
+  spatstat,
   tibble,
   tidyr, 
   utils
 Suggests:
   dplyr,
   knitr, 
-  rmarkdown, 
-  spatstat
+  rmarkdown
 RoxygenNote: 6.1.1
 VignetteBuilder: knitr
 Encoding: UTF-8

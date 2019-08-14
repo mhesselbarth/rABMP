@@ -4,12 +4,14 @@
 \alias{simulate_seed_dispersal}
 \title{simulate_seed_dispersal}
 \usage{
-simulate_seed_dispersal(data, parameters)
+simulate_seed_dispersal(data, parameters, plot_area)
 }
 \arguments{
 \item{data}{Dataframe with input data.}
 
 \item{parameters}{List with all parameters.}
+
+\item{plot_area}{The plot area as \code{\link{owin}} object from the \code{spatstat} package.}
 }
 \value{
 tibble
