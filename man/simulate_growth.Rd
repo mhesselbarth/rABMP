@@ -4,13 +4,15 @@
 \alias{simulate_growth}
 \title{simulate_growth}
 \usage{
-simulate_growth(input)
+simulate_growth(data, parameters)
 }
 \arguments{
-\item{input}{input dataframe}
+\item{data}{Dataframe with input data.}
+
+\item{parameters}{List with all parameters.}
 }
 \value{
-vector
+tibble
 }
 \description{
 Simulate growth
@@ -19,14 +21,20 @@ Simulate growth
 Simulate growth by calculating the DBH increase and add it to the current DBH.
 Also, i (iteration counter) will be increase and the type re-classified based
 on the DBH: trees with a DBH smaller than 10 cm get the type 'Sapling' and trees
-with a DBH over 10 cm the type 'Adult'
+with a DBH over 10 cm the type 'Adult'.
 }
 \examples{
+\dontrun{
+parameters <- read_parameters(file = "inst/parameters.txt", sep = "\\t")
+
 names(example_input_data)
-df_tress <- prepare_input(input = example_input_data, x = "x_coord", y = "y_coord",
+df_trees <- prepare_data(data = example_input_data, x = "x_coord", y = "y_coord",
 species = "spec", type = "Class", dbh = "bhd")
-df_trees <- simulate_ci(input = df_tress)
-simulate_growth(input = df_trees)
+
+df_trees <- simulate_ci(data = df_trees)
+
+simulate_growth(data = df_trees, parameters = parameters)
+}
 
 }
 \references{

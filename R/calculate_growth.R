@@ -2,16 +2,20 @@
 #'
 #' @description Calculate growth
 #'
-#' @param dbh DBH of target plant
+#' @param dbh Numeric with DBH of target plant.
+#' @param parameters List with all parameters.
 #'
 #' @details
-#' Calculates DBH increase (growth) of individual trees based on current DBH
+#' Calculates DBH increase (growth) of individual trees based on current DBH.
 #'
 #' @return vector
 #'
 #' @examples
+#' \dontrun{
 #' dbh <- c(24.3, 65.2, 12.5)
-#' calculate_growth(dbh)
+#' parameters <- construct_parameters()
+#' calculate_growth(dbh, parameters = parameters)
+#' }
 #'
 #' @aliases calculate_growth
 #' @rdname calculate_growth
@@ -21,15 +25,16 @@
 #' traditional size-ratio based competition indices used in forest ecology. For. Ecol. Manage. 331, 135-143.
 #'
 #' @export
-calculate_growth <- function(dbh){
+calculate_growth <- function(dbh, parameters){
 
   # set parameters
-  A <- 75.03706
-  k <- 0.02700
-  p <- 3.41053
+  growth_assymp <- parameters$growth_assymp
+  growth_rate <- parameters$growth_rate
+  growth_infl <- parameters$growth_infl
 
-  # calculate DBH increase
-  increase <- A * k * p * exp(-k * dbh) * (1 - exp(-k * dbh)) ^ (p - 1)
+  # calculate DBH increase (Pommering et al. 2014 formula 10)
+  dbh <- growth_assymp * growth_rate * growth_infl * exp(-growth_rate * dbh) *
+    ((1 - exp(-growth_rate * dbh)) ^ (growth_infl - 1))
 
-  return(increase)
+  return(dbh)
 }

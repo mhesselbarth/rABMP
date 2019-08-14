@@ -1,9 +1,17 @@
-#include <Rcpp.h>
-using namespace Rcpp;
+#include "rcpp_calculate_mortality_probs.h"
 
 // [[Rcpp::export]]
 NumericVector rcpp_calculate_mortality_probs(StringVector species,
-                                             NumericVector dbh) {
+                                             NumericVector dbh,
+                                             double int_beech_early,
+                                             double dbh_beech_early,
+                                             double int_beech_late,
+                                             double dbh_beech_late,
+                                             double dinc_beech,
+                                             double int_ash,
+                                             double dbh_ash,
+                                             double int_others,
+                                             double dbh_others) {
 
 
   // get size of input
@@ -30,19 +38,22 @@ NumericVector rcpp_calculate_mortality_probs(StringVector species,
     // calculate probability depending on species
     if(species[i] == "Beech") {
 
-      dbh_inc = std::exp(-3.4 + 2.1 * (1 - std::exp(-(-0.00035) * std::pow(dbh[i], 2.5))));
+      // calculate dbh increase
+      dbh_inc = std::exp(-3.4 + 2.1 * (1 - std::exp(-0.00035 * std::pow(dbh[i], 2.5))));
 
       // test if NA
-      dbh_test = NumericVector::is_na(1.8 + (-2.1) * std::log(dbh[i] + 8) + (dbh_inc * -1.4));
+      dbh_test = NumericVector::is_na(int_beech_early +
+        (std::log(dbh[i] + 8) * dbh_beech_early) + (dbh_inc * dinc_beech));
 
       // set to 0 if NA, if not use value
       if(dbh_test) {
         logit_early = 0;
       } else {
-        logit_early = 1.8 + (-2.1) * std::log(dbh[i] + 8) + (dbh_inc * -1.4);
+        logit_early = int_beech_early +
+          (std::log(dbh[i] + 8) * dbh_beech_early) + (dbh_inc * dinc_beech);
       }
 
-      logit_late = -8.9 + (dbh[i] * 0.052);
+      logit_late = int_beech_late + (dbh[i] * dbh_beech_late);
 
       p_early = 1 / (1 + std::exp(-logit_early));
 
@@ -53,28 +64,28 @@ NumericVector rcpp_calculate_mortality_probs(StringVector species,
 
     else if(species[i] == "Ash") {
 
-      logit = 1.3 + (std::log(dbh[i]) * -1.6);
+      logit = int_ash + (std::log(dbh[i]) * dbh_ash);
 
       p = 1 / (1 + std::exp(-logit));
     }
 
     else if(species[i] == "Hornbeam") {
 
-      logit = -2.8 + (dbh[i] * -0.051);
+      logit = int_others + (dbh[i] * dbh_others);
 
       p = 1 / (1 + std::exp(-logit));
     }
 
     else if(species[i] == "Sycamore") {
 
-      logit = -2.8 + (dbh[i] * -0.051);
+      logit = int_others+ (dbh[i] * dbh_others);
 
       p = 1 / (1 + std::exp(-logit));
     }
 
     else if(species[i] == "others") {
 
-      logit = -2.8 + (dbh[i] * -0.051);
+      logit = int_others + (dbh[i] * dbh_others);
 
       p = 1 / (1 + std::exp(-logit));
     }

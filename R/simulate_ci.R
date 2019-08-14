@@ -2,8 +2,8 @@
 #'
 #' @description Update competition index
 #'
-#' @param input input dataframe
-#' @param max_dist maximum interaction distance between trees
+#' @param data Dataframe with input data.
+#' @param parameters List with all parameters.
 #'
 #' @details
 #' The function calculated a compeition index using a kernel. Competition depends on
@@ -13,10 +13,15 @@
 #' @return tibble
 #'
 #' @examples
+#' \dontrun{
+#' parameters <- read_parameters(file = "inst/parameters.txt", sep = "\t")
+#'
 #' names(example_input_data)
-#' df_tress <- prepare_input(input = example_input_data, x = "x_coord", y = "y_coord",
+#' df_trees <- prepare_data(data = example_input_data, x = "x_coord", y = "y_coord",
 #' species = "spec", type = "Class", dbh = "bhd")
-#' simulate_ci(input = df_tress)
+#'
+#' simulate_ci(data = df_trees, parameters = parameters)
+#' }
 #'
 #' @aliases simulate_ci
 #' @rdname simulate_ci
@@ -26,36 +31,21 @@
 #' traditional size-ratio based competition indices used in forest ecology. For. Ecol. Manage. 331, 135-143.
 #'
 #' @export
-simulate_ci <- function(input, max_dist = 30){
-
-  # unnest data
-  input <- tidyr::unnest(input)
-
-  # data of past time steps
-  past <- input[which(input$i != max(input$i)), ]
+simulate_ci <- function(data, parameters){
 
   # data of current time step
-  current <- input[which(input$i == max(input$i)), ]
+  id <- which(data$type != "Dead" & data$i == max(data$i))
 
-  # calculate CI
-  competition <- rcpp_calculate_ci(matrix = as.matrix(current[, c(2, 3, 7)]),
-                                   alpha = 1.45772,
-                                   beta = 0.52339,
-                                   max_dist = max_dist)
-
-  # transformation of competition index which includes size of focal tree
+  # calculate CI (Pommerening et al. 2014 formula 6)
+  # transformation of ci, which includes size of focal tree (Pommerening et al. 2014 formula 9)
   # scaled between 0 and 1
-  alpha <- 1.45772
-  competition <- competition / (current$dbh ^ alpha + competition)
+  competition <- rcpp_calculate_ci(matrix = as.matrix(data[id, c("x", "y", "dbh")]),
+                                   alpha = parameters$ci_alpha,
+                                   beta = parameters$ci_beta,
+                                   max_dist = parameters$ci_max_dist)
 
   # update tibble
-  current$ci <- competition
+  data$ci[id] <- competition
 
-  # combine tibbles
-  input <- rbind(current, past)
-
-  # nest tibble
-  input <- tidyr::nest(input, -c(id, x, y, species), .key="data")
-
-  return(input)
+  return(data)
 }

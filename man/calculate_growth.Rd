@@ -4,10 +4,12 @@
 \alias{calculate_growth}
 \title{calculate_growth}
 \usage{
-calculate_growth(dbh)
+calculate_growth(dbh, parameters)
 }
 \arguments{
-\item{dbh}{DBH of target plant}
+\item{dbh}{Numeric with DBH of target plant.}
+
+\item{parameters}{List with all parameters.}
 }
 \value{
 vector
@@ -16,11 +18,14 @@ vector
 Calculate growth
 }
 \details{
-Calculates DBH increase (growth) of individual trees based on current DBH
+Calculates DBH increase (growth) of individual trees based on current DBH.
 }
 \examples{
+\dontrun{
 dbh <- c(24.3, 65.2, 12.5)
-calculate_growth(dbh)
+parameters <- construct_parameters()
+calculate_growth(dbh, parameters = parameters)
+}
 
 }
 \references{

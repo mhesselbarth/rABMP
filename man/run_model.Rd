@@ -4,29 +4,43 @@
 \alias{run_model}
 \title{run_model}
 \usage{
-run_model(data, years, verbose = TRUE)
+run_model(data, parameters, years, plot_area = NULL,
+  return_nested = TRUE, verbose = TRUE)
 }
 \arguments{
-\item{data}{Input data frame.}
+\item{data}{Dataframe with input data.}
 
-\item{years}{Timesteps (years) the model runs.}
+\item{parameters}{List with all parameters.}
 
-\item{verbose}{Print progress report.}
+\item{years}{Numeric timesteps (years) the model runs.}
+
+\item{plot_area}{The plot area as \code{\link{owin}} object from the \code{spatstat} package.}
+
+\item{return_nested}{Logical if TRUE the final tibble is nested.}
+
+\item{verbose}{If TRUE, prints progress report.}
 }
 \value{
 tibble
 }
 \description{
-Run the modeld
+Run the model
 }
 \details{
 Wrapper function to run the model. Executes (i) simulate_ci (ii) simulate_growth
-(iii) simulate_seed_dispersal (iv) simulate_mortality
+(iii) simulate_seed_dispersal (iv) simulate_mortality. The input data must be
+preprocessed using \code{prepare_input}.
+
+Parameters include ....
 }
 \examples{
-data_trees <- prepare_input(input = example_input_data, x = "x_coord", y = "y_coord",
-species = "spec", type = "Class", dbh = "bhd")
+\dontrun{
+df_trees <- prepare_data(data = example_input_data,
+x = "x_coord", y = "y_coord", species = "spec", type = "Class", dbh = "bhd")
 
-run_model(data = data_trees, years = 3)
+parameters <- read_parameters(file = "inst/parameters.txt", sep = "\\t", return_list = TRUE)
+
+result <- run_model(data = df_trees, parameters = parameters, years = 10)
+}
 
 }

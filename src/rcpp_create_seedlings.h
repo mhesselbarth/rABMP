@@ -6,6 +6,12 @@ using namespace Rcpp;
 
 NumericMatrix rcpp_create_seedlings(NumericMatrix coords,
                                     NumericVector number,
-                                    StringVector species);
+                                    StringVector species,
+                                    double beta_beech,
+                                    double beta_ash,
+                                    double beta_sycamore,
+                                    double beta_hornbeam,
+                                    double beta_others,
+                                    double max_dist);
 
 #endif
