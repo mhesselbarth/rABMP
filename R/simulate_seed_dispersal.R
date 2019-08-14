@@ -39,7 +39,7 @@
 simulate_seed_dispersal <- function(data, parameters, plot_area){
 
   # data of current time step
-  id_a <- which(data$type != "Dead" & data$i == max(data$i))
+  id_a <- which(data$type != "dead" & data$i == max(data$i))
 
   # number of seedlings for each tree (Ribbens et al. 1994 formula 1)
   number_seedlings <- rcpp_calculate_number_seeds(species = data$species[id_a],
@@ -83,7 +83,7 @@ simulate_seed_dispersal <- function(data, parameters, plot_area){
                               x = seedlings[, 1],
                               y = seedlings[, 2],
                               species = rep(x = species, times = number_seedlings),
-                              type = "Seedling",
+                              type = "seedling",
                               dbh = stats::runif(n = sum(number_seedlings), min = 0.1, max = 1),
                               ci = 0.0)
 

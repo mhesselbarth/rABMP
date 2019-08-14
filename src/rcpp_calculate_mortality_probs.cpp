@@ -36,7 +36,7 @@ NumericVector rcpp_calculate_mortality_probs(StringVector species,
   for(int i = 0; i < size_input; i++){
 
     // calculate probability depending on species
-    if(species[i] == "Beech") {
+    if(species[i] == "beech") {
 
       // calculate dbh increase
       dbh_inc = std::exp(-3.4 + 2.1 * (1 - std::exp(-0.00035 * std::pow(dbh[i], 2.5))));
@@ -62,21 +62,21 @@ NumericVector rcpp_calculate_mortality_probs(StringVector species,
       p = p_early + p_late;
     }
 
-    else if(species[i] == "Ash") {
+    else if(species[i] == "ash") {
 
       logit = int_ash + (std::log(dbh[i]) * dbh_ash);
 
       p = 1 / (1 + std::exp(-logit));
     }
 
-    else if(species[i] == "Hornbeam") {
+    else if(species[i] == "hornbeam") {
 
       logit = int_others + (dbh[i] * dbh_others);
 
       p = 1 / (1 + std::exp(-logit));
     }
 
-    else if(species[i] == "Sycamore") {
+    else if(species[i] == "sycamore") {
 
       logit = int_others+ (dbh[i] * dbh_others);
 

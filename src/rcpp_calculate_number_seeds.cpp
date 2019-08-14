@@ -23,19 +23,19 @@ NumericVector rcpp_calculate_number_seeds(StringVector species,
   for(int i = 0; i < size_input; i++) {
 
     // calculate number seeds depending on species
-    if (species[i] == "Beech") {
+    if (species[i] == "beech") {
       str = str_beech;
     }
 
-    else if (species[i] == "Ash") {
+    else if (species[i] == "ash") {
       str = str_ash;
     }
 
-    else if (species[i] == "Sycamore") {
+    else if (species[i] == "sycamore") {
       str = str_sycamore;
     }
 
-    else if (species[i] == "Hornbeam") {
+    else if (species[i] == "hornbeam") {
       str = str_hornbeam;
     }
 
@@ -53,7 +53,7 @@ NumericVector rcpp_calculate_number_seeds(StringVector species,
 }
 
 /*** R
-parameters <- construct_parameters()
+parameters <- rabmp::read_parameters("inst/parameters.txt")
 
 species <- rabmp::example_input_data$spec
 dbh <- rabmp::example_input_data$bhd

@@ -59,7 +59,7 @@ NumericMatrix rcpp_create_seedlings(NumericMatrix coords,
 coords <- matrix(data= c(1, 4, 2, 6, 8,
                          5, 8, 3, 7, 1), ncol = 2)
 number <- c(5, 1, 7, 4, 2)
-species <- c("Beech", "Beech", "Ash", "Hornbeam", "Sycamore")
+species <- c("beech", "beech", "ash", "hornbeam", "sycamore")
 
 rcpp_create_seedlings(coords = coords, number = number, species = species)
 

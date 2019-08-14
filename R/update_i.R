@@ -25,7 +25,7 @@
 update_i <- function(data, increase = 1){
 
   # data of current time step
-  current <- data[which(data$type != "Dead" & data$i == max(data$i)), ]
+  current <- data[which(data$type != "dead" & data$i == max(data$i)), ]
 
   # update/increase timestep
   current$i <- current$i + increase
