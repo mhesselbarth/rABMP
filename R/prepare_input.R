@@ -46,8 +46,25 @@ prepare_data <- function(data, x, y, species, type, dbh){
   # name columns
   names(data) <- c("id", "i", "x", "y", "species", "type", "dbh", "ci")
 
-  # # nest data
-  # data <- tidyr::nest(data, -c(id, x, y, species), .key = "data")
+  # check if types are correct
+  if (!all(unique(data$type) %in% c("adult", "dead", "sapling", "seedling"))) {
+
+    stop("The type of the individuals must be one of: 'adult', 'dead', 'sapling', 'seedling',",
+         call. = FALSE)
+  }
+
+  # check if species are correct
+  if (!all(unique(data$species) %in% c("beech", "ash", "hornbeam", "sycamore", "others"))) {
+
+    stop("The species of the individuals must be one of: 'beech', 'ash', 'hornbeam', 'sycamore' or 'others'.",
+         call. = FALSE)
+  }
+
+  # update type 1 < dbh <= 10
+  data[which(data$dbh > 1 & data$dbh <= 10 & data$type != "dead")] <- "sapling"
+
+  # update type below dbh > 10
+  data$type[which(data$dbh > 10 & data$type != "dead")] <- "adult"
 
   return(data)
 }
