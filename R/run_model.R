@@ -6,6 +6,7 @@
 #' @param parameters List with all parameters.
 #' @param years Numeric timesteps (years) the model runs.
 #' @param return_nested Logical if TRUE the final tibble is nested.
+#' @param plot_area The plot area as \code{\link{owin}} object from the \code{spatstat} package.
 #' @param verbose If TRUE, prints progress report.
 #'
 #' @details
@@ -31,7 +32,8 @@
 #' @rdname run_model
 #'
 #' @export
-run_model <- function(data, parameters, years, return_nested = TRUE, verbose = TRUE) {
+run_model <- function(data, parameters, years, plot_area = NULL,
+                      return_nested = TRUE, verbose = TRUE) {
 
   # check if input data cols are correct
   if (!all(names(data) == c("id", "i", "x", "y", "species", "type", "dbh", "ci"))) {
@@ -40,13 +42,25 @@ run_model <- function(data, parameters, years, return_nested = TRUE, verbose = T
          call. = FALSE)
   }
 
+  # create owin if not provided as box including all points
+  if (is.null(plot_area)) {
+
+    if (verbose) {
+
+      message("> Creating plot_area using spatstat::owin(xrange = range(data$x), yrange = range(data$y))")
+    }
+
+    plot_area <- spatstat::owin(xrange = range(data$x),
+                                yrange = range(data$y))
+  }
+
   # loop through all years
   for (i in 1:years) {
 
     data <- rabmp::update_i(data)
     data <- rabmp::simulate_ci(data, parameters = parameters)
     data <- rabmp::simulate_growth(data, parameters = parameters)
-    data <- rabmp::simulate_seed_dispersal(data, parameters = parameters)
+    data <- rabmp::simulate_seed_dispersal(data, parameters = parameters, plot_area = plot_area)
     data <- rabmp::simulate_mortality(data, parameters = parameters)
 
     # print progress message

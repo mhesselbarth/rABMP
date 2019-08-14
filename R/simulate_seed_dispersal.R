@@ -4,6 +4,8 @@
 #'
 #' @param data Dataframe with input data.
 #' @param parameters List with all parameters.
+#' @param plot_area The plot area as \code{\link{owin}} object from the \code{spatstat} package.
+
 #'
 #' @details
 #' Simulates seed dispersal by first calculating the number of seeds for each tree
@@ -34,7 +36,7 @@
 #' Journal of Forest Science 55(4), 145-155
 #'
 #' @export
-simulate_seed_dispersal <- function(data, parameters){
+simulate_seed_dispersal <- function(data, parameters, plot_area){
 
   # data of current time step
   id_a <- which(data$type != "Dead" & data$i == max(data$i))
@@ -84,6 +86,10 @@ simulate_seed_dispersal <- function(data, parameters){
                               type = "Seedling",
                               dbh = stats::runif(n = sum(number_seedlings), min = 0.1, max = 1),
                               ci = 0.0)
+
+  seedlings <- seedlings[spatstat::inside.owin(x = seedlings$x,
+                                               y = seedlings$y,
+                                               w = plot_area), ]
 
   # combine to one data frame with all data
   data <- rbind(data, seedlings)
