@@ -61,7 +61,7 @@ prepare_data <- function(data, x, y, species, type, dbh){
   }
 
   # update type 1 < dbh <= 10
-  data[which(data$dbh > 1 & data$dbh <= 10 & data$type != "dead")] <- "sapling"
+  data$type[which(data$dbh > 1 & data$dbh <= 10 & data$type != "dead")] <- "sapling"
 
   # update type below dbh > 10
   data$type[which(data$dbh > 10 & data$type != "dead")] <- "adult"
