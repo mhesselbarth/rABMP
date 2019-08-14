@@ -10,8 +10,8 @@ library(tibble)
 # set seed
 set.seed(42)
 
-species <- c("Beech", "Ash", "Hornbeam", "Sycamore", "others")
-type <- c("Adult", "Dead")
+species <- c("beech", "ash", "hornbeam", "sycamore", "others")
+type <- c("adult", "dead")
 
 # example data with similar probs than field data of old-growth forest for species, dbh and dead/living
 example_input_data <- spatstat::rThomas(kappa = 0.001, scale = 10, mu = 5,
@@ -25,9 +25,9 @@ example_input_data <- spatstat::rThomas(kappa = 0.001, scale = 10, mu = 5,
                  bhd = replace(bhd, bhd < 1, 1),
                  Class = sample(x = type, size = n(),
                                 prob = c(0.8783135, 0.1216865), replace = TRUE),
-                 Class = case_when(Class != "Dead" & bhd <= 10 ~ "Sapling",
-                                   Class != "Dead" & bhd > 10 ~ "Adult",
-                                   Class == "Dead" ~ "Dead"))
+                 Class = case_when(Class != "dead" & bhd <= 10 ~ "sapling",
+                                   Class != "dead" & bhd > 10 ~ "adult",
+                                   Class == "dead" ~ "dead"))
 
 # save data with max compression
 usethis::use_data(example_input_data, compress = "xz", overwrite = TRUE)

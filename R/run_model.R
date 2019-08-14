@@ -42,6 +42,21 @@ run_model <- function(data, parameters, years, plot_area = NULL,
          call. = FALSE)
   }
 
+  # check if types are correct
+  if (!all(unique(data$type) %in% c("adult", "dead", "sapling", "seedling"))) {
+
+    stop("The type of the individuals must be one of: 'adult', 'dead', 'sapling', 'seedling',",
+         call. = FALSE)
+  }
+
+  # check if species are correct
+  if (!all(unique(data$species) %in% c("beech", "ash", "hornbeam", "sycamore", "others"))) {
+
+    stop("The species of the individuals must be one of: 'beech', 'ash', 'hornbeam', 'sycamore' or 'others'.",
+         call. = FALSE)
+  }
+
+
   # create owin if not provided as box including all points
   if (is.null(plot_area)) {
 

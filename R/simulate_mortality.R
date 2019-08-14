@@ -31,7 +31,7 @@
 simulate_mortality <- function(data, parameters) {
 
   # data of current time step
-  id <- which(data$type != "Dead" & data$i == max(data$i))
+  id <- which(data$type != "dead" & data$i == max(data$i))
 
   # calculate mortality prob (Holzwarth et al. 2013 formula S12, formula 1/2)
   mortality_prob <- rcpp_calculate_mortality_probs(species = data$species[id],
@@ -50,7 +50,7 @@ simulate_mortality <- function(data, parameters) {
   random_number <- stats::runif(n = length(mortality_prob), min = 0, max = 1)
 
   # set all to dead if mortality prob is larger than random number
-  data$type[id][which(random_number <= mortality_prob)] <- "Dead"
+  data$type[id][which(random_number <= mortality_prob)] <- "dead"
 
   return(data)
 }

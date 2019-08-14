@@ -25,15 +25,15 @@
 #' Calibrating models to predict patterns of tree seedling dispersion. Ecology, 75(6), 1794-1806.
 #'
 #' @export
-calculate_number_seeds <- function(species, dbh, parameters){
+deprecated_calculate_number_seeds <- function(species, dbh, parameters){
 
-  number_seeds <- ifelse(test = species == "Beech",
+  number_seeds <- ifelse(test = species == "beech",
                          yes = parameters$seed_str_beech * ((dbh / 30) ^ 2),
-                         no = ifelse(test = species == "Ash",
+                         no = ifelse(test = species == "ash",
                                      yes  = parameters$seed_str_ash * ((dbh / 30) ^ 2),
-                                     no = ifelse(test = species == "Sycamore",
+                                     no = ifelse(test = species == "sycamore",
                                                  yes = parameters$seed_str_sycamore * ((dbh / 30) ^ 2),
-                                                 no = ifelse(test = species == "Hornbeam",
+                                                 no = ifelse(test = species == "hornbeam",
                                                              yes = parameters$seed_str_hornbeam * ((dbh / 30) ^ 2),
                                                              no = ifelse(test = species == "others",
                                                                          yes = parameters$seed_str_others * ((dbh / 30) ^ 2),

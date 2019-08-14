@@ -19,22 +19,22 @@ NumericVector rcpp_random_distance(int number_seeds,
   Rcpp::NumericVector distance_vector(number_seeds, 0.0);
 
   // set parameters depending on species
-  if(species == "Beech") {
+  if(species == "beech") {
     beta = beta_beech / std::pow(10, 5);
     // theta = 3;
   }
 
-  else if(species == "Ash") {
+  else if(species == "ash") {
     beta = beta_ash / std::pow(10, 5);
     // theta = 3;
   }
 
-  else if(species == "Sycamore") {
+  else if(species == "sycamore") {
     beta = beta_sycamore / std::pow(10, 5);
     // theta = 3;
   }
 
-  else if(species == "Hornbeam") {
+  else if(species == "hornbeam") {
     beta = beta_hornbeam / std::pow(10, 5);
     // theta = 3;
   }
