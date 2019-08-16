@@ -56,7 +56,6 @@ run_model <- function(data, parameters, years, plot_area = NULL,
          call. = FALSE)
   }
 
-
   # create owin if not provided as box including all points
   if (is.null(plot_area)) {
 

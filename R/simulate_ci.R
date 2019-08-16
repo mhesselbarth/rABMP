@@ -33,19 +33,18 @@
 #' @export
 simulate_ci <- function(data, parameters){
 
-  # data of current time step
-  id <- which(data$type != "dead" & data$i == max(data$i))
+  # get id of current living
+  id <- data[type != "dead" & i == max(i), which = TRUE]
 
   # calculate CI (Pommerening et al. 2014 formula 6)
   # transformation of ci, which includes size of focal tree (Pommerening et al. 2014 formula 9)
-  # scaled between 0 and 1
   competition <- rcpp_calculate_ci(matrix = as.matrix(data[id, c("x", "y", "dbh")]),
                                    alpha = parameters$ci_alpha,
                                    beta = parameters$ci_beta,
                                    max_dist = parameters$ci_max_dist)
 
   # update tibble
-  data$ci[id] <- competition
+  data[id, ci := competition]
 
   return(data)
 }
