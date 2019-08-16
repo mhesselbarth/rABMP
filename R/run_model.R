@@ -56,7 +56,6 @@ run_model <- function(data, parameters, years, plot_area = NULL,
          call. = FALSE)
   }
 
-
   # create owin if not provided as box including all points
   if (is.null(plot_area)) {
 
@@ -90,12 +89,12 @@ run_model <- function(data, parameters, years, plot_area = NULL,
   }
 
   # order by id and i
-  data <- dplyr::arrange(data, id, i)
+  data <- data.table::setorder(data, id, i)
 
   # nest tibble
   if (return_nested) {
 
-    data <- tidyr::nest(data, -c(id, x, y, species), .key = "data")
+    data <- tidyr::nest(tibble::as_tibble(data), -c(id, x, y, species), .key = "data")
   }
 
   return(data)

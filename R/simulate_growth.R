@@ -36,24 +36,24 @@
 #' @export
 simulate_growth <- function(data, parameters){
 
-  # only get living trees of current timestep
-  id <- which(data$type != "dead" & data$i == max(data$i))
+  # get id of current living
+  id <- data[type != "dead" & i == max(i), which = TRUE]
 
   # calculate potential growth
-  growth <- rabmp::calculate_growth(dbh = data$dbh[id],
+  growth <- rabmp::calculate_growth(dbh = data[id, dbh],
                                     parameters = parameters)
 
   # reduce potential growth (Pommerening et al. 2014 formula 12)
-  growth <- growth * parameters$growth_mod * (1 - data$ci[id])
+  growth <- growth * parameters$growth_mod * (1 - data[type != "dead" & i == max(i), ci])
 
   # update DBH
-  data$dbh[id] <- data$dbh[id] + growth
+  data[id, dbh := dbh + growth]
 
   # update type 1 < dbh <= 10
-  data$type[id][which(data$dbh[id] > 1 & data$dbh[id] <= 10)] <- "sapling"
+  data[dbh > 1 & dbh <= 10 & type != "dead", type := "sapling"]
 
   # update type below dbh > 10
-  data$type[id][which(data$dbh[id] > 10)] <- "adult"
+  data[dbh > 10 & type != "dead", type := "adult"]
 
   return(data)
 }
