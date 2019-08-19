@@ -137,10 +137,13 @@ run_model <- function(data, parameters, years, save_each = NULL,
   # order by id and i
   data <- data.table::setorder(data, id, i)
 
+  # conver to tibble
+  data <- tibble::as_tibble(data)
+
   # nest tibble
   if (return_nested) {
 
-    data <- tidyr::nest(tibble::as_tibble(data), -c(id, x, y, species), .key = "data")
+    data <- tidyr::nest(data, -c(id, x, y, species), .key = "data")
   }
 
   return(data)
