@@ -4,7 +4,7 @@
 \alias{run_model}
 \title{run_model}
 \usage{
-run_model(data, parameters, years, plot_area = NULL,
+run_model(data, parameters, years, save_each = NULL, plot_area = NULL,
   return_nested = TRUE, verbose = TRUE)
 }
 \arguments{
@@ -13,6 +13,8 @@ run_model(data, parameters, years, plot_area = NULL,
 \item{parameters}{List with all parameters.}
 
 \item{years}{Numeric timesteps (years) the model runs.}
+
+\item{save_each}{Integer value specifying time step results are saved.}
 
 \item{plot_area}{The plot area as \code{\link{owin}} object from the \code{spatstat} package.}
 
