@@ -77,6 +77,7 @@ run_model <- function(data, parameters, years, save_each = NULL,
 
   # print save_each
   if (verbose) {
+
     message("> Saving results of save_each = ", save_each, ".")
   }
 
@@ -94,7 +95,10 @@ run_model <- function(data, parameters, years, save_each = NULL,
 
   else {
 
-    message("> Using '", deparse(substitute(plot_area)), "' as plot area.")
+    if (verbose) {
+
+      message("> Using '", deparse(substitute(plot_area)), "' as plot area.")
+    }
 
   }
 
