@@ -30,12 +30,12 @@
 #' @export
 simulate_mortality <- function(data, parameters) {
 
-  # data of current time step
-  id <- which(data$type != "dead" & data$i == max(data$i))
+  # get id of current living
+  id <- data[type != "dead" & i == max(i), which = TRUE]
 
   # calculate mortality prob (Holzwarth et al. 2013 formula S12, formula 1/2)
-  mortality_prob <- rcpp_calculate_mortality_probs(species = data$species[id],
-                                                   dbh = data$dbh[id],
+  mortality_prob <- rcpp_calculate_mortality_probs(species = data[id, species],
+                                                   dbh = data[id, dbh],
                                                    int_beech_early = parameters$mort_int_beech_early,
                                                    dbh_beech_early = parameters$mort_dbh_beech_early,
                                                    int_beech_late = parameters$mort_int_beech_late,
@@ -50,7 +50,9 @@ simulate_mortality <- function(data, parameters) {
   random_number <- stats::runif(n = length(mortality_prob), min = 0, max = 1)
 
   # set all to dead if mortality prob is larger than random number
-  data$type[id][which(random_number <= mortality_prob)] <- "dead"
+  id <- id[random_number <= mortality_prob]
+
+  data[id, type := "dead"]
 
   return(data)
 }

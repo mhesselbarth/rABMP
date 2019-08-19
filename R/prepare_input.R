@@ -29,25 +29,42 @@
 prepare_data <- function(data, x, y, species, type, dbh){
 
   # convert to tibble
-  data <- tibble::as_tibble(data)
+  data <- data.table::as.data.table(data)
 
   # initialize competition index
-  data$ci <- 0
+  data[, ci := 0]
 
   # initialize time step counter
-  data$i <- 0
+  data[, i := 0]
 
   # add id
-  data$id <- seq(1:nrow(data))
+  data[, id := seq(1:nrow(data))]
 
   # order columns
-  data <- data[c("id", "i", c(x, y, species, type, dbh), "ci")]
+  data.table::setcolorder(data, c("id", "i", c(x, y, species, type, dbh), "ci"))
 
   # name columns
-  names(data) <- c("id", "i", "x", "y", "species", "type", "dbh", "ci")
+  data.table::setnames(data, c("id", "i", "x", "y", "species", "type", "dbh", "ci"))
 
-  # # nest data
-  # data <- tidyr::nest(data, -c(id, x, y, species), .key = "data")
+  # check if types are correct
+  if (!all(unique(data$type) %in% c("adult", "dead", "sapling", "seedling"))) {
+
+    stop("The type of the individuals must be one of: 'adult', 'dead', 'sapling', 'seedling',",
+         call. = FALSE)
+  }
+
+  # check if species are correct
+  if (!all(unique(data$species) %in% c("beech", "ash", "hornbeam", "sycamore", "others"))) {
+
+    stop("The species of the individuals must be one of: 'beech', 'ash', 'hornbeam', 'sycamore' or 'others'.",
+         call. = FALSE)
+  }
+
+  # update type 1 < dbh <= 10
+  data[dbh > 1 & dbh <= 10 & type != "dead", type := "sapling"]
+
+  # update type below dbh > 10
+  data[dbh > 10 & type != "dead", type := "adult"]
 
   return(data)
 }
