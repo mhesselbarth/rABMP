@@ -29,22 +29,22 @@
 prepare_data <- function(data, x, y, species, type, dbh){
 
   # convert to tibble
-  data <- data.table::as.data.table(data)
+  data <- tibble::as_tibble(data)
 
   # initialize competition index
-  data[, ci := 0]
+  data$ci <- 0
 
   # initialize time step counter
-  data[, i := 0]
+  data$i <- 0
 
   # add id
-  data[, id := seq(1:nrow(data))]
+  data$id <- seq(1:nrow(data))
 
   # order columns
-  data.table::setcolorder(data, c("id", "i", c(x, y, species, type, dbh), "ci"))
+  data <- data[, c("id", "i", c(x, y, species, type, dbh), "ci")]
 
   # name columns
-  data.table::setnames(data, c("id", "i", "x", "y", "species", "type", "dbh", "ci"))
+  names(data) <- c("id", "i", "x", "y", "species", "type", "dbh", "ci")
 
   # check if types are correct
   if (!all(unique(data$type) %in% c("adult", "dead", "sapling", "seedling"))) {
@@ -61,10 +61,10 @@ prepare_data <- function(data, x, y, species, type, dbh){
   }
 
   # update type 1 < dbh <= 10
-  data[dbh > 1 & dbh <= 10 & type != "dead", type := "sapling"]
+  data$type[data$dbh > 1 & data$dbh <= 10 & data$type != "dead"] <- "sapling"
 
   # update type below dbh > 10
-  data[dbh > 10 & type != "dead", type := "adult"]
+  data$type[data$dbh > 10 & data$type != "dead"] <- "adult"
 
   return(data)
 }

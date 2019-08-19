@@ -39,11 +39,11 @@
 simulate_seed_dispersal <- function(data, parameters, plot_area){
 
   # get id of current living
-  id <- data[type != "dead" & i == max(i), which = TRUE]
+  id <- which(data$type != "dead" & data$i == max(data$i))
 
   # number of seedlings for each tree (Ribbens et al. 1994 formula 1)
-  number_seedlings <- rcpp_calculate_number_seeds(species = data[id, species],
-                                                  dbh = data[id, dbh],
+  number_seedlings <- rcpp_calculate_number_seeds(species = data$species[id],
+                                                  dbh = data$dbh[id],
                                                   str_beech = parameters$seed_str_beech,
                                                   str_ash = parameters$seed_str_ash,
                                                   str_sycamore = parameters$seed_str_sycamore,
@@ -66,7 +66,7 @@ simulate_seed_dispersal <- function(data, parameters, plot_area){
   # calculate seedlings coordinates (Ribbens et al. 1994 formula 2)
   seedlings <- rcpp_create_seedlings(coords = as.matrix(data[id, c("x", "y")]),
                                      number =  number_seedlings,
-                                     species = data[id, species],
+                                     species = data$species[id],
                                      beta_beech = parameters$seed_beta_beech,
                                      beta_ash = parameters$seed_beta_ash,
                                      beta_sycamore = parameters$seed_beta_sycamore,
@@ -74,23 +74,26 @@ simulate_seed_dispersal <- function(data, parameters, plot_area){
                                      beta_others = parameters$seed_beta_others,
                                      max_dist = parameters$seed_max_dist)
 
-  # create data.table
+  # create species vector for seedlings
+  species <-  rep(x = data$species[id],
+                  times = number_seedlings)
+
   # create seedlings id larger than existing max id
   # create random dbh
-  seedlings <- data.table::data.table(id = seq(from = max(data$id) + 1,
-                                               to = max(data$id) + nrow(seedlings)),
-                                      i = max(data$i),
-                                      x = seedlings[, 1],
-                                      y = seedlings[, 2],
-                                      species = rep(x = data[id, species],
-                                                    times = number_seedlings),
-                                      type = "seedling",
-                                      dbh = stats::runif(n = sum(number_seedlings), min = 0.1, max = 1),
-                                      ci = 0.0)
+  seedlings <- tibble::tibble(id = seq(from = max(data$id) + 1,
+                                       to = max(data$id) + nrow(seedlings)),
+                              i = max(data$i),
+                              x = seedlings[, 1],
+                              y = seedlings[, 2],
+                              species = species,
+                              type = "seedling",
+                              dbh = stats::runif(n = sum(number_seedlings), min = 0.1, max = 1),
+                              ci = 0.0)
 
+  # only seedlings within plot area
   seedlings <- seedlings[spatstat::inside.owin(x = seedlings$x,
                                                y = seedlings$y,
-                                               w = plot_area)]
+                                               w = plot_area), ]
 
   # combine to one data frame with all data
   data <- rbind(data, seedlings)

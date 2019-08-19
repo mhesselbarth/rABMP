@@ -135,10 +135,7 @@ run_model <- function(data, parameters, years, save_each = NULL,
   }
 
   # order by id and i
-  data <- data.table::setorder(data, id, i)
-
-  # conver to tibble
-  data <- tibble::as_tibble(data)
+  data <- data[order(data$id, data$i), ]
 
   # nest tibble
   if (return_nested) {

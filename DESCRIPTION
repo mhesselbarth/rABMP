@@ -12,7 +12,6 @@ License: GPL-3
 Depends:
   R (>= 3.1)
 Imports:
-    data.table,
     Rcpp,
     spatstat,
     tibble,

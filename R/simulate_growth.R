@@ -37,23 +37,23 @@
 simulate_growth <- function(data, parameters){
 
   # get id of current living
-  id <- data[type != "dead" & i == max(i), which = TRUE]
+  id <- which(data$type != "dead" & data$i == max(data$i))
 
   # calculate potential growth
-  growth <- rabmp::calculate_growth(dbh = data[id, dbh],
+  growth <- rabmp::calculate_growth(dbh = data$dbh[id],
                                     parameters = parameters)
 
   # reduce potential growth (Pommerening et al. 2014 formula 12)
-  growth <- growth * parameters$growth_mod * (1 - data[type != "dead" & i == max(i), ci])
+  growth <- growth * parameters$growth_mod * (1 - data$ci[id])
 
   # update DBH
-  data[id, dbh := dbh + growth]
+  data$dbh[id] <- data$dbh[id] + growth
 
   # update type 1 < dbh <= 10
-  data[dbh > 1 & dbh <= 10 & type != "dead", type := "sapling"]
+  data$type[data$dbh > 1 & data$dbh <= 10 & data$type != "dead"] <- "sapling"
 
   # update type below dbh > 10
-  data[dbh > 10 & type != "dead", type := "adult"]
+  data$type[data$dbh > 10 & data$type != "dead"] <- "adult"
 
   return(data)
 }

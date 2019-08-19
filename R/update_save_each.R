@@ -25,10 +25,10 @@
 update_save_each <- function(data, save_each){
 
   # which ids can be divided by save_each without rest
-  id <- data[i %% save_each == 0 | type == "dead", which = TRUE]
+  id <- which(data$i %% save_each == 0 | data$type == "dead")
 
   # only keep those rows
-  data <- data[id]
+  data <- data[id, ]
 
   return(data)
 }

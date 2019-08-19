@@ -34,7 +34,7 @@
 simulate_ci <- function(data, parameters){
 
   # get id of current living
-  id <- data[type != "dead" & i == max(i), which = TRUE]
+  id <- which(data$type != "dead" & data$i == max(data$i))
 
   # calculate CI (Pommerening et al. 2014 formula 6)
   # transformation of ci, which includes size of focal tree (Pommerening et al. 2014 formula 9)
@@ -44,7 +44,7 @@ simulate_ci <- function(data, parameters){
                                    max_dist = parameters$ci_max_dist)
 
   # update tibble
-  data[id, ci := competition]
+  data$ci[id] <- competition
 
   return(data)
 }

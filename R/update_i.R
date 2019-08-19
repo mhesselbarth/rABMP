@@ -25,10 +25,10 @@
 update_i <- function(data, increase = 1){
 
   # data of current time step
-  current <- data[type != "dead" & i == max(i)]
+  current <- data[data$type != "dead" & data$i == max(data$i), ]
 
   # update/increase timestep
-  current[, i := i + increase]
+  current$i <- current$i + increase
 
   # combine tibbles with all data
   data <- rbind(data, current)
