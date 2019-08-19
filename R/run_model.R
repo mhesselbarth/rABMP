@@ -6,6 +6,7 @@
 #' @param parameters List with all parameters.
 #' @param years Numeric timesteps (years) the model runs.
 #' @param save_each Integer value specifying time step results are saved.
+#' @param seed_dispersal Logical if seed dispersal should be simulated.
 #' @param return_nested Logical if TRUE the final tibble is nested.
 #' @param plot_area The plot area as \code{\link{owin}} object from the \code{spatstat} package.
 #' @param verbose If TRUE, prints progress report.
@@ -33,7 +34,8 @@
 #' @rdname run_model
 #'
 #' @export
-run_model <- function(data, parameters, years, save_each = NULL, plot_area = NULL,
+run_model <- function(data, parameters, years, save_each = NULL,
+                      seed_dispersal = TRUE, plot_area = NULL,
                       return_nested = TRUE, verbose = TRUE) {
 
   # check if input data cols are correct
@@ -105,7 +107,10 @@ run_model <- function(data, parameters, years, save_each = NULL, plot_area = NUL
 
     data <- rabmp::simulate_growth(data, parameters = parameters)
 
-    data <- rabmp::simulate_seed_dispersal(data, parameters = parameters, plot_area = plot_area)
+    if (seed_dispersal) {
+
+      data <- rabmp::simulate_seed_dispersal(data, parameters = parameters, plot_area = plot_area)
+    }
 
     data <- rabmp::simulate_mortality(data, parameters = parameters)
 
