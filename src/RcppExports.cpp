@@ -6,14 +6,14 @@
 using namespace Rcpp;
 
 // rcpp_calculate_ci
-NumericVector rcpp_calculate_ci(NumericMatrix matrix, double alpha, double beta, int max_dist);
+NumericVector rcpp_calculate_ci(NumericMatrix matrix, float alpha, float beta, int max_dist);
 RcppExport SEXP _rabmp_rcpp_calculate_ci(SEXP matrixSEXP, SEXP alphaSEXP, SEXP betaSEXP, SEXP max_distSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type matrix(matrixSEXP);
-    Rcpp::traits::input_parameter< double >::type alpha(alphaSEXP);
-    Rcpp::traits::input_parameter< double >::type beta(betaSEXP);
+    Rcpp::traits::input_parameter< float >::type alpha(alphaSEXP);
+    Rcpp::traits::input_parameter< float >::type beta(betaSEXP);
     Rcpp::traits::input_parameter< int >::type max_dist(max_distSEXP);
     rcpp_result_gen = Rcpp::wrap(rcpp_calculate_ci(matrix, alpha, beta, max_dist));
     return rcpp_result_gen;
