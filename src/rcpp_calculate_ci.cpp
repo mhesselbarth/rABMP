@@ -25,24 +25,25 @@ NumericVector rcpp_calculate_ci(NumericMatrix matrix,
 
     for(int j = 0; j < nrow; j++){
 
-      // get distance between current point i and point j
+      // get distance between current point i and all points j
       dist_x = matrix(i, 0) - matrix(j, 0);
       dist_y = matrix(i, 1) - matrix(j, 1);
 
       distance = std::sqrt(dist_x * dist_x + dist_y * dist_y);
 
       // row itself or distance greater than max_dist
-      if(distance == 0 || distance > max_dist) {
+      if(i == j || distance > max_dist) {
         ci_temp = 0.0;
       } else {
         // calculate ci of current j
         ci_temp = std::pow(matrix(j, 2), alpha) * std::exp(-(distance / std::pow(matrix(j, 2), beta)));
       }
 
-      // add to overall ci if i
+      // add to overall ci of i
       ci[i] += ci_temp;
     }
 
+    // normalize between 0 - 1 and scale with own dbh
     ci[i] = ci[i] / (std::pow(matrix(i, 2), alpha) + ci[i]);
   }
 
@@ -50,10 +51,11 @@ NumericVector rcpp_calculate_ci(NumericMatrix matrix,
 }
 
 /*** R
-df_trees <- prepare_data(data = example_input_data, x = "x_coord", y = "y_coord",
-                         species = "spec", type = "Class", dbh = "bhd")
+n <- 10000
 
-data  <- as.matrix(df_trees[, c("x", "y", "dbh")])
+df_trees <- data.frame(x = runif(n = n, min = 0, max = 100),
+                       y = runif(n = n, min = 0, max = 100),
+                       dbh = runif(n = n, min = 5, max = 65))
 
-rcpp_calculate_ci(data, alpha = 1.5, beta = 0.5, max_dist = 30)
+rcpp_calculate_ci(as.matrix(df_trees), alpha = 1.5, beta = 0.5, max_dist = 30)
 */
