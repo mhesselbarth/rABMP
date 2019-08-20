@@ -86,7 +86,7 @@ run_model <- function(data, parameters, years, save_each = NULL,
 
     if (verbose) {
 
-      message("> Creating plot_area using spatstat::owin(xrange = range(data$x), yrange = range(data$y))")
+      message("> Creating plot area using range of x and y coordinates.")
     }
 
     plot_area <- spatstat::owin(xrange = range(data$x),
@@ -99,7 +99,20 @@ run_model <- function(data, parameters, years, save_each = NULL,
 
       message("> Using '", deparse(substitute(plot_area)), "' as plot area.")
     }
+  }
 
+  # print save_each
+  if (verbose) {
+
+    if (seed_dispersal) {
+
+      message("> Simulating seed dispersal.")
+    }
+
+    else {
+
+      message("> NOT simulating seed dispersal.")
+    }
   }
 
   # loop through all years
