@@ -75,34 +75,34 @@ run_model <- function(data, parameters, years, save_each = NULL,
     }
   }
 
-  # print save_each
-  if (verbose) {
-
-    message("> Saving results of save_each = ", save_each, ".")
-  }
-
   # create owin if not provided as box including all points
   if (is.null(plot_area)) {
 
-    if (verbose) {
-
-      message("> Creating plot area using range of x and y coordinates.")
-    }
-
     plot_area <- spatstat::owin(xrange = range(data$x),
                                 yrange = range(data$y))
+
+    plot_area_verbose <- TRUE
   }
 
   else {
 
-    if (verbose) {
+    plot_area_verbose <- FALSE
+  }
+
+  # print model run information
+  if (verbose) {
+
+    message("> Using '", deparse(substitute(parameters)), "' as parameter file.")
+
+    if (plot_area_verbose) {
+
+      message("> Creating plot area using range of x and y coordinates.")
+    }
+
+    else {
 
       message("> Using '", deparse(substitute(plot_area)), "' as plot area.")
     }
-  }
-
-  # print save_each
-  if (verbose) {
 
     if (seed_dispersal) {
 
@@ -113,6 +113,22 @@ run_model <- function(data, parameters, years, save_each = NULL,
 
       message("> NOT simulating seed dispersal.")
     }
+
+    message("> Saving results of save_each = ", save_each, ".")
+
+    if (return_nested) {
+
+      message("> Returning nested tibble.")
+    }
+
+    else {
+
+      message("> Returning unnested tibble.")
+    }
+
+    message("")
+
+    message("> ...Starting simulation...")
   }
 
   # loop through all years
