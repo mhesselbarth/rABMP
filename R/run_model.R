@@ -154,7 +154,8 @@ run_model <- function(data, parameters, years, save_each = NULL,
 
     # print progress message
     if (verbose) {
-      message("\r> Progress: ", i, "/", years, "\t\t\t", appendLF = FALSE)
+      message("\r> Progress: ", i, "/", years, " simulation runs \t\t\t",
+              appendLF = FALSE)
     }
   }
 
