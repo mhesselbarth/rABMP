@@ -23,7 +23,7 @@ NumericVector rcpp_calculate_ci(NumericMatrix matrix,
 
       const float distance = std::sqrt(dist_x * dist_x + dist_y * dist_y);
 
-      // distance to itself or above max_dist
+      // distance above max_dist
       if(distance > max_dist)
         continue; // nothing to do...
 
