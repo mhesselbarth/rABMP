@@ -5,10 +5,11 @@
 \title{run_model}
 \usage{
 run_model(data, parameters, plot_area = NULL, years, save_each = NULL,
-  return_seedlings = FALSE, return_nested = TRUE, verbose = TRUE)
+  return_seedlings = FALSE, return_nested = TRUE,
+  return_tibble = TRUE, verbose = TRUE)
 }
 \arguments{
-\item{data}{Dataframe with input data.}
+\item{data}{Data.table with input data.}
 
 \item{parameters}{List with all parameters.}
 
@@ -22,10 +23,12 @@ run_model(data, parameters, plot_area = NULL, years, save_each = NULL,
 
 \item{return_nested}{Logical if TRUE the final tibble is nested.}
 
+\item{return_tibble}{Logical if tibble should be returned}
+
 \item{verbose}{If TRUE, prints progress report.}
 }
 \value{
-tibble
+data.table or tibble
 }
 \description{
 Run the model
