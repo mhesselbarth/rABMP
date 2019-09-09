@@ -2,13 +2,14 @@
 #'
 #' @description Run the model
 #'
-#' @param data Dataframe with input data.
+#' @param data Data.table with input data.
 #' @param parameters List with all parameters.
+#' @param plot_area The plot area as \code{\link{owin}} object from the \code{spatstat} package.
 #' @param years Numeric timesteps (years) the model runs.
 #' @param save_each Integer value specifying time step results are saved.
-#' @param seed_dispersal Logical if seed dispersal should be simulated.
+#' @param return_seedlings Logical if seeds should be included in final output.
 #' @param return_nested Logical if TRUE the final tibble is nested.
-#' @param plot_area The plot area as \code{\link{owin}} object from the \code{spatstat} package.
+#' @param return_tibble Logical if tibble should be returned
 #' @param verbose If TRUE, prints progress report.
 #'
 #' @details
@@ -18,7 +19,7 @@
 #'
 #' Parameters include ....
 #'
-#' @return tibble
+#' @return data.table or tibble
 #'
 #' @examples
 #' \dontrun{
@@ -34,9 +35,11 @@
 #' @rdname run_model
 #'
 #' @export
-run_model <- function(data, parameters, years, save_each = NULL,
-                      seed_dispersal = TRUE, plot_area = NULL,
-                      return_nested = TRUE, verbose = TRUE) {
+run_model <- function(data, parameters, plot_area = NULL,
+                      years, save_each = NULL,
+                      return_seedlings = FALSE,
+                      return_nested = TRUE, return_tibble= TRUE,
+                      verbose = TRUE) {
 
   # check if input data cols are correct
   if (!all(names(data) == c("id", "i", "x", "y", "species", "type", "dbh", "ci"))) {
@@ -104,17 +107,17 @@ run_model <- function(data, parameters, years, save_each = NULL,
       message("> Using '", deparse(substitute(plot_area)), "' as plot area.")
     }
 
-    if (seed_dispersal) {
+    message("> Simulating ", years, " year(s). Saving results each ", save_each, " year(s).")
 
-      message("> Simulating seed dispersal.")
+    if (!return_seedlings) {
+
+      message("> Removing all seedlings for output.")
     }
 
     else {
 
-      message("> NOT simulating seed dispersal.")
+      message("> Including all seedlings for output.")
     }
-
-    message("> Saving results of save_each = ", save_each, ".")
 
     if (return_nested) {
 
@@ -140,10 +143,8 @@ run_model <- function(data, parameters, years, save_each = NULL,
 
     data <- rabmp::simulate_growth(data, parameters = parameters)
 
-    if (seed_dispersal) {
-
-      data <- rabmp::simulate_seed_dispersal(data, parameters = parameters, plot_area = plot_area)
-    }
+    data <- rabmp::simulate_seed_dispersal(data, parameters = parameters,
+                                           plot_area = plot_area)
 
     data <- rabmp::simulate_mortality(data, parameters = parameters)
 
@@ -164,16 +165,33 @@ run_model <- function(data, parameters, years, save_each = NULL,
     message("")
   }
 
+  # remove seeds from output
+  if (!return_seedlings) {
+
+    data <- data[dbh > 1]
+  }
+
   # order by id and i
   data <- data.table::setorder(data, id, i)
 
   # conver to tibble
-  data <- tibble::as_tibble(data)
+  if (return_tibble) {
 
-  # nest tibble
-  if (return_nested) {
+    data <- tibble::as_tibble(data)
 
-    data <- tidyr::nest(data, -c(id, x, y, species), .key = "data")
+    # nest tibble
+    if (return_nested) {
+
+      data <- tidyr::nest(data, -c(id, x, y, species), .key = "data")
+    }
+  }
+
+  else {
+
+    if (return_nested) {
+
+      message("> return_nested = TRUE only possible if return_tibble = TRUE.")
+    }
   }
 
   return(data)
