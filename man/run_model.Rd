@@ -4,24 +4,31 @@
 \alias{run_model}
 \title{run_model}
 \usage{
-run_model(data, parameters, years, plot_area = NULL,
-  return_nested = TRUE, verbose = TRUE)
+run_model(data, parameters, plot_area = NULL, years, save_each = NULL,
+  return_seedlings = FALSE, return_nested = TRUE,
+  return_tibble = TRUE, verbose = TRUE)
 }
 \arguments{
-\item{data}{Dataframe with input data.}
+\item{data}{Data.table with input data.}
 
 \item{parameters}{List with all parameters.}
 
-\item{years}{Numeric timesteps (years) the model runs.}
-
 \item{plot_area}{The plot area as \code{\link{owin}} object from the \code{spatstat} package.}
 
+\item{years}{Numeric timesteps (years) the model runs.}
+
+\item{save_each}{Integer value specifying time step results are saved.}
+
+\item{return_seedlings}{Logical if seeds should be included in final output.}
+
 \item{return_nested}{Logical if TRUE the final tibble is nested.}
+
+\item{return_tibble}{Logical if tibble should be returned}
 
 \item{verbose}{If TRUE, prints progress report.}
 }
 \value{
-tibble
+data.table or tibble
 }
 \description{
 Run the model

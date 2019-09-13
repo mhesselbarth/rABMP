@@ -13,7 +13,7 @@
 #' The funcion modifies the structures of the data dataframe. This includes
 #' renameing of the coloumns and nesting the data.
 #'
-#' @return tibble
+#' @return data.table
 #'
 #' @examples
 #' \dontrun{

@@ -20,7 +20,7 @@ prepare_data(data, x, y, species, type, dbh)
 \item{dbh}{String with name of column containing the DBH as dbl.}
 }
 \value{
-tibble
+data.table
 }
 \description{
 Prepare data

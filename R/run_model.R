@@ -2,11 +2,14 @@
 #'
 #' @description Run the model
 #'
-#' @param data Dataframe with input data.
+#' @param data Data.table with input data.
 #' @param parameters List with all parameters.
-#' @param years Numeric timesteps (years) the model runs.
-#' @param return_nested Logical if TRUE the final tibble is nested.
 #' @param plot_area The plot area as \code{\link{owin}} object from the \code{spatstat} package.
+#' @param years Numeric timesteps (years) the model runs.
+#' @param save_each Integer value specifying time step results are saved.
+#' @param return_seedlings Logical if seeds should be included in final output.
+#' @param return_nested Logical if TRUE the final tibble is nested.
+#' @param return_tibble Logical if tibble should be returned
 #' @param verbose If TRUE, prints progress report.
 #'
 #' @details
@@ -16,7 +19,7 @@
 #'
 #' Parameters include ....
 #'
-#' @return tibble
+#' @return data.table or tibble
 #'
 #' @examples
 #' \dontrun{
@@ -32,8 +35,11 @@
 #' @rdname run_model
 #'
 #' @export
-run_model <- function(data, parameters, years, plot_area = NULL,
-                      return_nested = TRUE, verbose = TRUE) {
+run_model <- function(data, parameters, plot_area = NULL,
+                      years, save_each = NULL,
+                      return_seedlings = FALSE,
+                      return_nested = TRUE, return_tibble= TRUE,
+                      verbose = TRUE) {
 
   # check if input data cols are correct
   if (!all(names(data) == c("id", "i", "x", "y", "species", "type", "dbh", "ci"))) {
@@ -56,30 +62,101 @@ run_model <- function(data, parameters, years, plot_area = NULL,
          call. = FALSE)
   }
 
+  # check if save_each is present
+  if (is.null(save_each)) {
+
+    save_each <- 1
+  }
+
+  # check if years can be divided by provided save_each without remainder
+  else{
+
+    if (years %% save_each != 0) {
+
+      warning("'years' cannot be divided by 'save_each' without remainder.",
+              call. = FALSE)
+    }
+  }
+
   # create owin if not provided as box including all points
   if (is.null(plot_area)) {
 
-    if (verbose) {
-
-      message("> Creating plot_area using spatstat::owin(xrange = range(data$x), yrange = range(data$y))")
-    }
-
     plot_area <- spatstat::owin(xrange = range(data$x),
                                 yrange = range(data$y))
+
+    plot_area_verbose <- TRUE
+  }
+
+  else {
+
+    plot_area_verbose <- FALSE
+  }
+
+  # print model run information
+  if (verbose) {
+
+    message("> Using '", deparse(substitute(parameters)), "' as parameter file.")
+
+    if (plot_area_verbose) {
+
+      message("> Creating plot area using range of x and y coordinates.")
+    }
+
+    else {
+
+      message("> Using '", deparse(substitute(plot_area)), "' as plot area.")
+    }
+
+    message("> Simulating ", years, " year(s). Saving results each ", save_each, " year(s).")
+
+    if (!return_seedlings) {
+
+      message("> Removing all seedlings for output.")
+    }
+
+    else {
+
+      message("> Including all seedlings for output.")
+    }
+
+    if (return_nested) {
+
+      message("> Returning nested tibble.")
+    }
+
+    else {
+
+      message("> Returning unnested tibble.")
+    }
+
+    message("")
+
+    message("> ...Starting simulation...")
   }
 
   # loop through all years
   for (i in 1:years) {
 
     data <- rabmp::update_i(data)
+
     data <- rabmp::simulate_ci(data, parameters = parameters)
+
     data <- rabmp::simulate_growth(data, parameters = parameters)
-    data <- rabmp::simulate_seed_dispersal(data, parameters = parameters, plot_area = plot_area)
+
+    data <- rabmp::simulate_seed_dispersal(data, parameters = parameters,
+                                           plot_area = plot_area)
+
     data <- rabmp::simulate_mortality(data, parameters = parameters)
+
+    if (i %% save_each == 0) {
+
+      data <- rabmp::update_save_each(data, save_each = save_each)
+    }
 
     # print progress message
     if (verbose) {
-      message("\r> Progress: ", i, "/", years, "\t\t\t", appendLF = FALSE)
+      message("\r> Progress: ", i, "/", years, " simulation runs \t\t\t",
+              appendLF = FALSE)
     }
   }
 
@@ -88,13 +165,33 @@ run_model <- function(data, parameters, years, plot_area = NULL,
     message("")
   }
 
+  # remove seeds from output
+  if (!return_seedlings) {
+
+    data <- data[dbh > 1]
+  }
+
   # order by id and i
   data <- data.table::setorder(data, id, i)
 
-  # nest tibble
-  if (return_nested) {
+  # conver to tibble
+  if (return_tibble) {
 
-    data <- tidyr::nest(tibble::as_tibble(data), -c(id, x, y, species), .key = "data")
+    data <- tibble::as_tibble(data)
+
+    # nest tibble
+    if (return_nested) {
+
+      data <- tidyr::nest(data, -c(id, x, y, species), .key = "data")
+    }
+  }
+
+  else {
+
+    if (return_nested) {
+
+      message("> return_nested = TRUE only possible if return_tibble = TRUE.")
+    }
   }
 
   return(data)

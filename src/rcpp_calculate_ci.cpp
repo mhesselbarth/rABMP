@@ -2,8 +2,8 @@
 
 // [[Rcpp::export]]
 NumericVector rcpp_calculate_ci(NumericMatrix matrix,
-                                double alpha,
-                                double beta,
+                                float alpha,
+                                float beta,
                                 int max_dist) {
 
   // get number of rows
@@ -12,48 +12,47 @@ NumericVector rcpp_calculate_ci(NumericMatrix matrix,
   // initialise vector for ci value
   Rcpp::NumericVector ci(nrow, 0.0);
 
-  // initialise double for temp ci value
-  double ci_temp = 0.0;
-
-  // initialise doubles for distance
-  double dist_x = 0.0;
-  double dist_y = 0.0;
-  double distance = 0.0;
-
   // loop through all rows
-  for(int i = 0; i < nrow; i++){
+  for(int i = 0; i < nrow - 1; i++){
 
-    for(int j = 0; j < nrow; j++){
+    for(int j = i + 1; j < nrow; j++){
 
-      // get distance between current point i and point j
-      dist_x = matrix(i, 0) - matrix(j, 0);
-      dist_y = matrix(i, 1) - matrix(j, 1);
+      // get distance between current point i and all points j
+      const float dist_x = matrix(i, 0) - matrix(j, 0);
+      const float dist_y = matrix(i, 1) - matrix(j, 1);
 
-      distance = std::sqrt(dist_x * dist_x + dist_y * dist_y);
+      const float distance = std::sqrt(dist_x * dist_x + dist_y * dist_y);
 
-      // row itself or distance greater than max_dist
-      if(distance == 0 || distance > max_dist) {
-        ci_temp = 0.0;
-      } else {
-        // calculate ci of current j
-        ci_temp = std::pow(matrix(j, 2), alpha) * std::exp(-(distance / std::pow(matrix(j, 2), beta)));
-      }
+      // distance above max_dist
+      if(distance > max_dist)
+        continue; // nothing to do...
 
-      // add to overall ci if i
-      ci[i] += ci_temp;
+      // calculate ci of current i and j
+      const float ci_temp_i = std::pow(matrix(j, 2), alpha) * std::exp(-(distance / std::pow(matrix(j, 2), beta)));
+      const float ci_temp_j = std::pow(matrix(i, 2), alpha) * std::exp(-(distance / std::pow(matrix(i, 2), beta)));
+
+      // increase ci at point i and j
+      ci[i] += ci_temp_i;
+      ci[j] += ci_temp_j;
     }
 
+    // normalize between 0 - 1 and scale with own dbh
     ci[i] = ci[i] / (std::pow(matrix(i, 2), alpha) + ci[i]);
   }
+
+  // normalize last ci
+  ci[nrow - 1] = ci[nrow - 1] / (std::pow(matrix(nrow - 1, 2), alpha) + ci[nrow - 1]);
 
   return ci;
 }
 
 /*** R
-df_trees <- prepare_data(data = example_input_data, x = "x_coord", y = "y_coord",
-                         species = "spec", type = "Class", dbh = "bhd")
+set.seed(42)
+n <- 10000
 
-data  <- as.matrix(df_trees[, c("x", "y", "dbh")])
+df_trees <- data.frame(x = runif(n = n, min = 0, max = 100),
+                       y = runif(n = n, min = 0, max = 100),
+                       dbh = runif(n = n, min = 5, max = 65))
 
-rcpp_calculate_ci(data, alpha = 1.5, beta = 0.5, max_dist = 30)
+rcpp_calculate_ci(as.matrix(df_trees), alpha = 1.5, beta = 0.5, max_dist = 30)
 */
