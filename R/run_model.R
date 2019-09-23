@@ -38,7 +38,7 @@
 run_model <- function(data, parameters, plot_area = NULL,
                       years, save_each = NULL,
                       return_seedlings = FALSE,
-                      return_nested = TRUE, return_tibble= TRUE,
+                      return_nested = FALSE, return_tibble = TRUE,
                       verbose = TRUE) {
 
   # check if input data cols are correct
