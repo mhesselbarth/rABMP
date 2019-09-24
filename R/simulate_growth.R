@@ -21,7 +21,7 @@
 #' df_trees <- prepare_data(data = example_input_data, x = "x_coord", y = "y_coord",
 #' species = "spec", type = "Class", dbh = "bhd")
 #'
-#' df_trees <- simulate_ci(data = df_trees)
+#' df_trees <- simulate_ci(data = df_trees, parameters = parameters)
 #'
 #' simulate_growth(data = df_trees, parameters = parameters)
 #' }
@@ -44,7 +44,7 @@ simulate_growth <- function(data, parameters){
                                     parameters = parameters)
 
   # reduce potential growth (Pommerening et al. 2014 formula 12)
-  growth <- growth * parameters$growth_mod * (1 - data[type != "dead" & i == max(i), ci])
+  growth <- growth * parameters$growth_mod * (1 - data[id, ci])
 
   # update DBH
   data[id, dbh := dbh + growth]
