@@ -34,7 +34,7 @@
 simulate_ci <- function(data, parameters){
 
   # get id of current living and no seedlings
-  id <- data[!type %in% c("dead", "seedling") & i == max(i), which = TRUE]
+  id <- data[type != "dead" & i == max(i), which = TRUE]
 
   # calculate CI (Pommerening et al. 2014 formula 6)
   # transformation of ci, which includes size of focal tree (Pommerening et al. 2014 formula 9)

@@ -85,7 +85,7 @@ simulate_seed_dispersal <- function(data, parameters, plot_area){
                                       species = rep(x = data[id, species],
                                                     times = number_seedlings),
                                       type = "seedling",
-                                      dbh = stats::runif(n = sum(number_seedlings), min = 0.1, max = 1),
+                                      dbh = stats::runif(n = sum(number_seedlings), min = 0.5, max = 1),
                                       ci = 0.0)
 
   seedlings <- seedlings[spatstat::inside.owin(x = seedlings$x,

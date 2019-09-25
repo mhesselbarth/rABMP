@@ -5,7 +5,7 @@
 \title{run_model}
 \usage{
 run_model(data, parameters, plot_area = NULL, years, save_each = NULL,
-  return_seedlings = FALSE, return_nested = TRUE,
+  return_seedlings = FALSE, return_nested = FALSE,
   return_tibble = TRUE, verbose = TRUE)
 }
 \arguments{
