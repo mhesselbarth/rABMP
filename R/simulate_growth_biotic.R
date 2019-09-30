@@ -1,4 +1,4 @@
-#' simulate_growth
+#' simulate_growth_biotic
 #'
 #' @description Simulate growth
 #'
@@ -23,18 +23,18 @@
 #'
 #' df_trees <- simulate_ci(data = df_trees, parameters = parameters)
 #'
-#' simulate_growth(data = df_trees, parameters = parameters)
+#' simulate_growth_biotic(data = df_trees, parameters = parameters)
 #' }
 #'
-#' @aliases simulate_growth
-#' @rdname simulate_growth
+#' @aliases simulate_growth_biotic
+#' @rdname simulate_growth_biotic
 #'
 #' @references
 #' Pommerening, A., Maleki, K., 2014. Differences between competition kernels and
 #' traditional size-ratio based competition indices used in forest ecology. For. Ecol. Manage. 331, 135-143.
 #'
 #' @export
-simulate_growth <- function(data, parameters){
+simulate_growth_biotic <- function(data, parameters){
 
   # get id of current living
   id <- data[type != "dead" & i == max(i), which = TRUE]
