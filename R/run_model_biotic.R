@@ -41,6 +41,9 @@ run_model_biotic <- function(data, parameters, plot_area = NULL,
                              return_nested = FALSE, return_tibble = TRUE,
                              verbose = TRUE) {
 
+  # create one deep copy
+  data <- data.table::copy(data)
+
   # check if input data cols are correct
   if (!all(names(data) == c("id", "i", "x", "y", "species", "type", "dbh", "ci"))) {
 
@@ -143,8 +146,8 @@ run_model_biotic <- function(data, parameters, plot_area = NULL,
 
     data <- rabmp::simulate_growth_biotic(data, parameters = parameters)
 
-    data <- rabmp::simulate_seed_dispersal(data, parameters = parameters,
-                                           plot_area = plot_area)
+    data <- rabmp::simulate_seed_dispersal_biotic(data, parameters = parameters,
+                                                  plot_area = plot_area)
 
     data <- rabmp::simulate_mortality(data, parameters = parameters)
 

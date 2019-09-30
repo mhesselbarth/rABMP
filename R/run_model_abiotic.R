@@ -33,7 +33,7 @@
 #'
 #' ppp_threshold <- spatstat::ppp(x = df_trees[dbh > threshold, x],
 #' y = df_trees[dbh > threshold, y],
-#'  window = plot_area)
+#' window = plot_area)
 #'
 #' hetero <- spatstat::density.ppp(ppp_threshold,  dimyx = c(250, 250))
 #' hetero_df <- tibble::as_tibble(hetero)
@@ -41,6 +41,8 @@
 #'
 #' parameters <- read_parameters(file = "inst/parameters.txt", sep = "\t",
 #' return_list = TRUE)
+#'
+#' parameters$growth_abiotic <- 1
 #'
 #' result <- run_model_abiotic(data = df_trees, parameters = parameters, years = 10,
 #' abiotic = hetero_ras, plot_area = plot_area)
@@ -56,6 +58,9 @@ run_model_abiotic <- function(data, parameters, abiotic,
                               return_seedlings = FALSE,
                               return_nested = FALSE, return_tibble = TRUE,
                               verbose = TRUE) {
+
+  # create one deep copy
+  data <- data.table::copy(data)
 
   # check if input data cols are correct
   if (!all(names(data) == c("id", "i", "x", "y", "species", "type", "dbh", "ci"))) {
@@ -150,8 +155,12 @@ run_model_abiotic <- function(data, parameters, abiotic,
     message("> ...Starting simulation...")
   }
 
+  # extract abiotic values
+  abiotic_values <- rabmp::extract_abiotic(data,
+                                           abiotic = abiotic)
+
   # initialse abiotic col
-  data$abiotic <- 1
+  data[, abiotic := abiotic_values]
 
   # loop through all years
   for (i in 1:years) {
@@ -160,12 +169,11 @@ run_model_abiotic <- function(data, parameters, abiotic,
 
     data <- rabmp::simulate_ci(data, parameters = parameters)
 
-    data <- rabmp::simulate_abiotic(data, abiotic = abiotic)
-
     data <- rabmp::simulate_growth_abiotic(data, parameters = parameters)
 
-    data <- rabmp::simulate_seed_dispersal(data, parameters = parameters,
-                                           plot_area = plot_area)
+    data <- rabmp::simulate_seed_dispersal_abiotic(data, parameters = parameters,
+                                                   plot_area = plot_area,
+                                                   abiotic = abiotic)
 
     data <- rabmp::simulate_mortality(data, parameters = parameters)
 
