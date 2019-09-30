@@ -28,7 +28,7 @@
 #' @export
 prepare_data <- function(data, x, y, species, type, dbh){
 
-  # convert to tibble
+  # convert to data.table
   data <- data.table::as.data.table(data)
 
   # initialize competition index
@@ -38,7 +38,7 @@ prepare_data <- function(data, x, y, species, type, dbh){
   data[, i := 0]
 
   # add id
-  data[, id := seq(1:nrow(data))]
+  data[, id := 1:.N]
 
   # order columns
   data.table::setcolorder(data, c("id", "i", c(x, y, species, type, dbh), "ci"))

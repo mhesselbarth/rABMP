@@ -4,7 +4,7 @@
 \alias{simulate_seed_dispersal_abiotic}
 \title{simulate_seed_dispersal_abiotic}
 \usage{
-simulate_seed_dispersal_abiotic(data, parameters, plot_area)
+simulate_seed_dispersal_abiotic(data, parameters, plot_area, abiotic)
 }
 \arguments{
 \item{data}{Dataframe with input data.}
@@ -12,6 +12,8 @@ simulate_seed_dispersal_abiotic(data, parameters, plot_area)
 \item{parameters}{List with all parameters.}
 
 \item{plot_area}{The plot area as \code{\link{owin}} object from the \code{spatstat} package.}
+
+\item{abiotic}{RasterLayer with abiotic conditions.}
 }
 \value{
 data.table

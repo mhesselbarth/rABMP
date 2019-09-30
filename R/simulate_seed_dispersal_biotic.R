@@ -64,7 +64,7 @@ simulate_seed_dispersal_biotic <- function(data, parameters, plot_area){
   number_seedlings <- number_seedlings[id_seedlings]
 
   # calculate seedlings coordinates (Ribbens et al. 1994 formula 2)
-  seedlings <- rcpp_create_seedlings(coords = as.matrix(data[id, c("x", "y")]),
+  seedlings <- rcpp_create_seedlings(coords = as.matrix(data[id, .(x, y)]),
                                      number =  number_seedlings,
                                      species = data[id, species],
                                      beta_beech = parameters$seed_beta_beech,
@@ -78,14 +78,16 @@ simulate_seed_dispersal_biotic <- function(data, parameters, plot_area){
   # create seedlings id larger than existing max id
   # create random dbh
   seedlings <- data.table::data.table(id = seq(from = max(data$id) + 1,
-                                               to = max(data$id) + nrow(seedlings)),
+                                               to = max(data$id) + nrow(seedlings),
+                                               by = 1),
                                       i = max(data$i),
                                       x = seedlings[, 1],
                                       y = seedlings[, 2],
                                       species = rep(x = data[id, species],
                                                     times = number_seedlings),
                                       type = "seedling",
-                                      dbh = stats::runif(n = sum(number_seedlings), min = 0.5, max = 1),
+                                      dbh = stats::runif(n = sum(number_seedlings),
+                                                         min = 0.5, max = 1),
                                       ci = 0.0)
 
   seedlings <- seedlings[spatstat::inside.owin(x = seedlings$x,

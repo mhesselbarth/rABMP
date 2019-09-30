@@ -175,7 +175,7 @@ run_model_biotic <- function(data, parameters, plot_area = NULL,
   }
 
   # order by id and i
-  data <- data.table::setorder(data, id, i)
+  data.table::setorder(data, id, i)
 
   # conver to tibble
   if (return_tibble) {

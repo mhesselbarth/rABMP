@@ -46,6 +46,7 @@ read_parameters <- function(file, return_list = FALSE, ...) {
   parameters <- tibble::as_tibble(utils::read.table(file, header = TRUE, ...))
 
   if (return_list) {
+
     parameters <- as.list(parameters)
   }
 

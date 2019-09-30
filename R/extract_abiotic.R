@@ -29,7 +29,7 @@ extract_abiotic <- function(data, abiotic){
 
   # extract abiotic value
   abiotic_value <- raster::extract(x = abiotic,
-                                   y = as.matrix(data[, c("x", "y")]))
+                                   y = as.matrix(data[, .(x, y)]))
 
   # somehow scale abiotic value
   # abiotic_value <- abiotic_value / max(abiotic_value)
