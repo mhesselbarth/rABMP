@@ -12,7 +12,7 @@ update_save_each(data, save_each)
 \item{save_each}{Integer value specifying time step results are saved.}
 }
 \value{
-tibble
+data.table
 }
 \description{
 Update the timestep

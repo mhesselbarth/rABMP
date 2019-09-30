@@ -3,7 +3,8 @@
 #' @description Run the model
 #'
 #' @param data Data.table with input data.
-#' @param parameters List with all parameters.
+#' @param parameters List with all parameters..
+#' @param abiotic RasterLayer with abiotic conditions.
 #' @param plot_area The plot area as \code{\link{owin}} object from the \code{spatstat} package.
 #' @param years Numeric timesteps (years) the model runs.
 #' @param save_each Integer value specifying time step results are saved.

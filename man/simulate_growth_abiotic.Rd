@@ -12,7 +12,7 @@ simulate_growth_abiotic(data, parameters)
 \item{parameters}{List with all parameters.}
 }
 \value{
-tibble
+data.table
 }
 \description{
 Simulate growth

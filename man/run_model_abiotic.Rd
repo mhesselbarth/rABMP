@@ -11,7 +11,9 @@ run_model_abiotic(data, parameters, abiotic, plot_area = NULL, years,
 \arguments{
 \item{data}{Data.table with input data.}
 
-\item{parameters}{List with all parameters.}
+\item{parameters}{List with all parameters..}
+
+\item{abiotic}{RasterLayer with abiotic conditions.}
 
 \item{plot_area}{The plot area as \code{\link{owin}} object from the \code{spatstat} package.}
 
@@ -45,9 +47,23 @@ Parameters include ....
 df_trees <- prepare_data(data = example_input_data,
 x = "x_coord", y = "y_coord", species = "spec", type = "Class", dbh = "bhd")
 
-parameters <- read_parameters(file = "inst/parameters.txt", sep = "\\t", return_list = TRUE)
+threshold <- quantile(df_trees$dbh, probs = 0.8)
 
-result <- run_model_abiotic(data = df_trees, parameters = parameters, years = 10)
+plot_area <- spatstat::owin(xrange = c(0, 500), yrange = c(0, 500))
+
+ppp_threshold <- spatstat::ppp(x = df_trees[dbh > threshold, x],
+y = df_trees[dbh > threshold, y],
+ window = plot_area)
+
+hetero <- spatstat::density.ppp(ppp_threshold,  dimyx = c(250, 250))
+hetero_df <- tibble::as_tibble(hetero)
+hetero_ras <- raster::rasterFromXYZ(hetero_df)
+
+parameters <- read_parameters(file = "inst/parameters.txt", sep = "\\t",
+return_list = TRUE)
+
+result <- run_model_abiotic(data = df_trees, parameters = parameters, years = 10,
+abiotic = hetero_ras, plot_area = plot_area)
 }
 
 }

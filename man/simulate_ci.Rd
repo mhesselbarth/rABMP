@@ -12,7 +12,7 @@ simulate_ci(data, parameters)
 \item{parameters}{List with all parameters.}
 }
 \value{
-tibble
+data.table
 }
 \description{
 Update competition index

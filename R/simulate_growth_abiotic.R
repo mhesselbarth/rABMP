@@ -11,7 +11,7 @@
 #' on the DBH: trees with a DBH smaller than 10 cm get the type 'Sapling' and trees
 #' with a DBH over 10 cm the type 'Adult'.
 #'
-#' @return tibble
+#' @return data.table
 #'
 #' @examples
 #' \dontrun{

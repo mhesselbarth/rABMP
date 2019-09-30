@@ -8,7 +8,7 @@
 #' @details
 #' Small function to increase the time step i after each simulated time step
 #'
-#' @return tibble
+#' @return data.table
 #'
 #' @examples
 #' \dontrun{

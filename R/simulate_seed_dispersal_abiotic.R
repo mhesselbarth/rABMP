@@ -11,7 +11,7 @@
 #' Simulates seed dispersal by first calculating the number of seeds for each tree
 #' and following distributing them around parental trees following a seed kernel.
 #'
-#' @return tibble
+#' @return data.table
 #'
 #' @examples
 #' \dontrun{

@@ -17,6 +17,7 @@
 NULL
 
 globalVariables(c(
+  "abiotic",
   "ci",
   "dbh",
   "i",

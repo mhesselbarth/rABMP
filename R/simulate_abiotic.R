@@ -39,8 +39,3 @@ simulate_abiotic <- function(data, abiotic){
 
   return(data)
 }
-
-bench::mark(
-as.matrix(data[id, c("x", "y")]),
-cbind(data[id, x], data[id, y]),
-iterations = 10000, check = FALSE)

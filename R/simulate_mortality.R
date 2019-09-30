@@ -9,7 +9,7 @@
 #' @param data Dataframe with input data.
 #' @param parameters List with all parameters.
 #'
-#' @return tibble
+#' @return data.table
 #'
 #' @examples
 #' \dontrun{

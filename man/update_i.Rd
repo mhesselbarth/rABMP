@@ -12,7 +12,7 @@ update_i(data, increase = 1)
 \item{increase}{Numeric how much i is increased.}
 }
 \value{
-tibble
+data.table
 }
 \description{
 Update the timestep

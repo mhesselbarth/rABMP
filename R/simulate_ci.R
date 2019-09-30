@@ -10,7 +10,7 @@
 #' neighbouring trees (within max_dist). If \code{standardized = TRUE}, all values
 #' are standardized to 0 <= CI <= 1.
 #'
-#' @return tibble
+#' @return data.table
 #'
 #' @examples
 #' \dontrun{
