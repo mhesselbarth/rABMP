@@ -1,4 +1,4 @@
-#' simulate_seed_dispersal
+#' simulate_seed_dispersal_biotic
 #'
 #' @description Simulate seed dispersal
 #'
@@ -11,7 +11,7 @@
 #' Simulates seed dispersal by first calculating the number of seeds for each tree
 #' and following distributing them around parental trees following a seed kernel.
 #'
-#' @return tibble
+#' @return data.table
 #'
 #' @examples
 #' \dontrun{
@@ -21,11 +21,11 @@
 #' df_trees <- prepare_data(data = example_input_data, x = "x_coord", y = "y_coord",
 #' species = "spec", type = "Class", dbh = "bhd")
 #'
-#' simulate_seed_dispersal(df_trees)
+#' simulate_seed_dispersal_biotic(df_trees)
 #' }
 #'
-#' @aliases simulate_seed_dispersal
-#' @rdname simulate_seed_dispersal
+#' @aliases simulate_seed_dispersal_biotic
+#' @rdname simulate_seed_dispersal_biotic
 #'
 #' @references
 #' Ribbens, E., Silander, J. A., & Pacala, S. W. (1994). Seedling recruitment in forests:
@@ -36,7 +36,7 @@
 #' Journal of Forest Science 55(4), 145-155
 #'
 #' @export
-simulate_seed_dispersal <- function(data, parameters, plot_area){
+simulate_seed_dispersal_biotic <- function(data, parameters, plot_area){
 
   # get id of current living
   id <- data[type != "dead" & i == max(i), which = TRUE]
@@ -64,7 +64,7 @@ simulate_seed_dispersal <- function(data, parameters, plot_area){
   number_seedlings <- number_seedlings[id_seedlings]
 
   # calculate seedlings coordinates (Ribbens et al. 1994 formula 2)
-  seedlings <- rcpp_create_seedlings(coords = as.matrix(data[id, c("x", "y")]),
+  seedlings <- rcpp_create_seedlings(coords = as.matrix(data[id, .(x, y)]),
                                      number =  number_seedlings,
                                      species = data[id, species],
                                      beta_beech = parameters$seed_beta_beech,
@@ -78,14 +78,16 @@ simulate_seed_dispersal <- function(data, parameters, plot_area){
   # create seedlings id larger than existing max id
   # create random dbh
   seedlings <- data.table::data.table(id = seq(from = max(data$id) + 1,
-                                               to = max(data$id) + nrow(seedlings)),
+                                               to = max(data$id) + nrow(seedlings),
+                                               by = 1),
                                       i = max(data$i),
                                       x = seedlings[, 1],
                                       y = seedlings[, 2],
                                       species = rep(x = data[id, species],
                                                     times = number_seedlings),
                                       type = "seedling",
-                                      dbh = stats::runif(n = sum(number_seedlings), min = 0.1, max = 1),
+                                      dbh = stats::runif(n = sum(number_seedlings),
+                                                         min = 0.5, max = 1),
                                       ci = 0.0)
 
   seedlings <- seedlings[spatstat::inside.owin(x = seedlings$x,

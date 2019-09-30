@@ -12,7 +12,7 @@ simulate_mortality(data, parameters)
 \item{parameters}{List with all parameters.}
 }
 \value{
-tibble
+data.table
 }
 \description{
 Simulate mortality

@@ -10,7 +10,7 @@
 #' neighbouring trees (within max_dist). If \code{standardized = TRUE}, all values
 #' are standardized to 0 <= CI <= 1.
 #'
-#' @return tibble
+#' @return data.table
 #'
 #' @examples
 #' \dontrun{
@@ -33,12 +33,12 @@
 #' @export
 simulate_ci <- function(data, parameters){
 
-  # get id of current living
+  # get id of current living and no seedlings
   id <- data[type != "dead" & i == max(i), which = TRUE]
 
   # calculate CI (Pommerening et al. 2014 formula 6)
   # transformation of ci, which includes size of focal tree (Pommerening et al. 2014 formula 9)
-  competition <- rcpp_calculate_ci(matrix = as.matrix(data[id, c("x", "y", "dbh")]),
+  competition <- rcpp_calculate_ci(matrix = as.matrix(data[id, .(x, y, dbh)]),
                                    alpha = parameters$ci_alpha,
                                    beta = parameters$ci_beta,
                                    max_dist = parameters$ci_max_dist)
