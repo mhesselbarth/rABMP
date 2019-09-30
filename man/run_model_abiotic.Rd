@@ -53,7 +53,7 @@ plot_area <- spatstat::owin(xrange = c(0, 500), yrange = c(0, 500))
 
 ppp_threshold <- spatstat::ppp(x = df_trees[dbh > threshold, x],
 y = df_trees[dbh > threshold, y],
- window = plot_area)
+window = plot_area)
 
 hetero <- spatstat::density.ppp(ppp_threshold,  dimyx = c(250, 250))
 hetero_df <- tibble::as_tibble(hetero)
@@ -61,6 +61,8 @@ hetero_ras <- raster::rasterFromXYZ(hetero_df)
 
 parameters <- read_parameters(file = "inst/parameters.txt", sep = "\\t",
 return_list = TRUE)
+
+parameters$growth_abiotic <- 1
 
 result <- run_model_abiotic(data = df_trees, parameters = parameters, years = 10,
 abiotic = hetero_ras, plot_area = plot_area)

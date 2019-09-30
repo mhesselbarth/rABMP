@@ -4,6 +4,7 @@
 #'
 #' @param data Dataframe with input data.
 #' @param parameters List with all parameters.
+#' @param abiotic RasterLayer with abiotic conditions.
 #' @param plot_area The plot area as \code{\link{owin}} object from the \code{spatstat} package.
 
 #'
@@ -36,7 +37,8 @@
 #' Journal of Forest Science 55(4), 145-155
 #'
 #' @export
-simulate_seed_dispersal_abiotic <- function(data, parameters, plot_area){
+simulate_seed_dispersal_abiotic <- function(data, parameters, plot_area,
+                                            abiotic){
 
   # get id of current living
   id <- data[type != "dead" & i == max(i), which = TRUE]
@@ -86,12 +88,18 @@ simulate_seed_dispersal_abiotic <- function(data, parameters, plot_area){
                                                     times = number_seedlings),
                                       type = "seedling",
                                       dbh = stats::runif(n = sum(number_seedlings), min = 0.5, max = 1),
-                                      ci = 0.0,
-                                      abiotic = 1)
+                                      ci = 0.0)
 
   seedlings <- seedlings[spatstat::inside.owin(x = seedlings$x,
                                                y = seedlings$y,
                                                w = plot_area)]
+
+  # extract abiotic values
+  abiotic_values <- rabmp::extract_abiotic(data = seedlings,
+                                           abiotic = abiotic)
+
+  # add abiotic values to data.table
+  seedlings[, abiotic := abiotic_values]
 
   # combine to one data frame with all data
   data <- rbind(data, seedlings)

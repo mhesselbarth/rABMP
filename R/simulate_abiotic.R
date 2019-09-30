@@ -1,4 +1,4 @@
-#' simulate_abiotic
+#' extract_abiotic
 #'
 #' @description Update competition index
 #'
@@ -15,27 +15,24 @@
 #' ADD TEXT HERE
 #' }
 #'
-#' @aliases simulate_abiotic
-#' @rdname simulate_abiotic
+#' @aliases extract_abiotic
+#' @rdname extract_abiotic
 #'
 #' @references
 #' ADD TEXT HERE
 #'
 #' @export
-simulate_abiotic <- function(data, abiotic){
+extract_abiotic <- function(data, abiotic){
 
   # get id of current living and no seedlings
-  id <- data[type != "dead" & i == max(i), which = TRUE]
+  # id <- data[type != "dead" & i == max(i), which = TRUE]
 
   # extract abiotic value
   abiotic_value <- raster::extract(x = abiotic,
-                                   y = as.matrix(data[id, c("x", "y")]))
+                                   y = as.matrix(data[, c("x", "y")]))
 
   # somehow scale abiotic value
-  abiotic_value <- abiotic_value / max(abiotic_value)
+  # abiotic_value <- abiotic_value / max(abiotic_value)
 
-  # update tibble
-  data[id, abiotic := abiotic_value]
-
-  return(data)
+  return(abiotic_value)
 }

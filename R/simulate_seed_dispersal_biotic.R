@@ -1,4 +1,4 @@
-#' simulate_seed_dispersal
+#' simulate_seed_dispersal_biotic
 #'
 #' @description Simulate seed dispersal
 #'
@@ -21,11 +21,11 @@
 #' df_trees <- prepare_data(data = example_input_data, x = "x_coord", y = "y_coord",
 #' species = "spec", type = "Class", dbh = "bhd")
 #'
-#' simulate_seed_dispersal(df_trees)
+#' simulate_seed_dispersal_biotic(df_trees)
 #' }
 #'
-#' @aliases simulate_seed_dispersal
-#' @rdname simulate_seed_dispersal
+#' @aliases simulate_seed_dispersal_biotic
+#' @rdname simulate_seed_dispersal_biotic
 #'
 #' @references
 #' Ribbens, E., Silander, J. A., & Pacala, S. W. (1994). Seedling recruitment in forests:
@@ -36,7 +36,7 @@
 #' Journal of Forest Science 55(4), 145-155
 #'
 #' @export
-simulate_seed_dispersal <- function(data, parameters, plot_area){
+simulate_seed_dispersal_biotic <- function(data, parameters, plot_area){
 
   # get id of current living
   id <- data[type != "dead" & i == max(i), which = TRUE]
