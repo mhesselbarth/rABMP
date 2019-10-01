@@ -22,10 +22,12 @@ globalVariables(c(
   "dbh",
   "i",
   "id",
-  "species",
+  "..select_cols",
   "type",
   "x",
-  "y"
+  "y",
+  ".",
+  ".."
   ))
 
 # Make sure data.table knows we know we're using it

@@ -4,7 +4,7 @@
 \alias{prepare_data}
 \title{prepare_data}
 \usage{
-prepare_data(data, x, y, species, type, dbh)
+prepare_data(data, x, y, type, dbh)
 }
 \arguments{
 \item{data}{Dataframe with input data.}
@@ -12,8 +12,6 @@ prepare_data(data, x, y, species, type, dbh)
 \item{x}{String with name of column containing the x-coordinate.}
 
 \item{y}{String with name of column containing the y-coordinate.}
-
-\item{species}{String with name of column containing the species.}
 
 \item{type}{String with name of column containing the type as string.}
 
@@ -33,7 +31,7 @@ renameing of the coloumns and nesting the data.
 \dontrun{
 names(example_input_data)
 prepare_data(data = example_input_data, x = "x_coord", y = "y_coord",
-species = "spec", type = "Class", dbh = "bhd")[]
+type = "Class", dbh = "bhd")[]
 }
 
 }

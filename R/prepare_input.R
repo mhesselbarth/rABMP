@@ -6,7 +6,6 @@
 #' @param x String with name of column containing the x-coordinate.
 #' @param y String with name of column containing the y-coordinate.
 #' @param type String with name of column containing the type as string.
-#' @param species String with name of column containing the species.
 #' @param dbh String with name of column containing the DBH as dbl.
 #'
 #' @details
@@ -19,17 +18,23 @@
 #' \dontrun{
 #' names(example_input_data)
 #' prepare_data(data = example_input_data, x = "x_coord", y = "y_coord",
-#' species = "spec", type = "Class", dbh = "bhd")[]
+#' type = "Class", dbh = "bhd")[]
 #' }
 #'
 #' @aliases prepare_data
 #' @rdname prepare_data
 #'
 #' @export
-prepare_data <- function(data, x, y, species, type, dbh){
+prepare_data <- function(data, x, y, type, dbh){
 
   # convert to data.table
   data <- data.table::as.data.table(data)
+
+  # get name of cols to select
+  select_cols <- c(x, y, type, dbh)
+
+  # select cols
+  data <- data[, ..select_cols]
 
   # initialize competition index
   data[, ci := 0]
@@ -38,10 +43,10 @@ prepare_data <- function(data, x, y, species, type, dbh){
   data[, i := 0]
 
   # add id
-  data[, id := 1:.N]
+  data[, id := 1:nrow(data)]
 
   # order columns
-  data.table::setcolorder(data, c("id", "i", c(x, y, type, dbh), "ci"))
+  data.table::setcolorder(data, c("id", "i", select_cols, "ci"))
 
   # name columns
   data.table::setnames(data, c("id", "i", "x", "y", "type", "dbh", "ci"))
