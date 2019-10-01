@@ -45,7 +45,7 @@ Parameters include ....
 df_trees <- prepare_data(data = example_input_data,
 x = "x_coord", y = "y_coord", species = "spec", type = "Class", dbh = "bhd")
 
-parameters <- read_parameters(file = "inst/parameters.txt", sep = "\\t", return_list = TRUE)
+parameters <- read_parameters(file = "inst/parameters.txt", sep = ";")
 
 result <- run_model_biotic(data = df_trees, parameters = parameters, years = 10)
 }

@@ -39,8 +39,7 @@
 #' hetero_df <- tibble::as_tibble(hetero)
 #' hetero_ras <- raster::rasterFromXYZ(hetero_df)
 #'
-#' parameters <- read_parameters(file = "inst/parameters.txt", sep = "\t",
-#' return_list = TRUE)
+#' parameters <- read_parameters(file = "inst/parameters.txt", sep = ";")
 #'
 #' parameters$growth_abiotic <- 1
 #'
@@ -63,7 +62,7 @@ run_model_abiotic <- function(data, parameters, abiotic,
   data <- data.table::copy(data)
 
   # check if input data cols are correct
-  if (!all(names(data) == c("id", "i", "x", "y", "species", "type", "dbh", "ci"))) {
+  if (!all(names(data) == c("id", "i", "x", "y", "type", "dbh", "ci"))) {
 
     stop("Please check your input data again. See ?prepare_data for help.",
          call. = FALSE)
@@ -73,13 +72,6 @@ run_model_abiotic <- function(data, parameters, abiotic,
   if (!all(unique(data$type) %in% c("adult", "dead", "sapling", "seedling"))) {
 
     stop("The type of the individuals must be one of: 'adult', 'dead', 'sapling', 'seedling',",
-         call. = FALSE)
-  }
-
-  # check if species are correct
-  if (!all(unique(data$species) %in% c("beech", "ash", "hornbeam", "sycamore", "others"))) {
-
-    stop("The species of the individuals must be one of: 'beech', 'ash', 'hornbeam', 'sycamore' or 'others'.",
          call. = FALSE)
   }
 
@@ -211,7 +203,7 @@ run_model_abiotic <- function(data, parameters, abiotic,
     # nest tibble
     if (return_nested) {
 
-      data <- tidyr::nest(data, -c(id, x, y, species), .key = "data")
+      data <- tidyr::nest(data, -c(id, x, y), .key = "data")
     }
   }
 

@@ -1,94 +1,51 @@
 #include "rcpp_calculate_mortality_probs.h"
 
 // [[Rcpp::export]]
-NumericVector rcpp_calculate_mortality_probs(StringVector species,
-                                             NumericVector dbh,
-                                             double int_beech_early,
-                                             double dbh_beech_early,
-                                             double int_beech_late,
-                                             double dbh_beech_late,
-                                             double dinc_beech,
-                                             double int_ash,
-                                             double dbh_ash,
-                                             double int_others,
-                                             double dbh_others) {
+NumericVector rcpp_calculate_mortality_probs(NumericVector dbh,
+                                             float int_early,
+                                             float int_late,
+                                             float dbh_early,
+                                             float dbh_late,
+                                             float dinc) {
 
 
   // get size of input
-  int size_input = species.size();
+  const int size_input = dbh.size();
 
   // initialise all needed objects
-  double logit = 0.0;
-  double logit_early = 0.0;
-  double logit_late = 0.0;
-
-  double p = 0.0;
-  double p_early = 0.0;
-  double p_late = 0.0;
-
-  double dbh_inc = 0.0;
-  bool dbh_test;
+  float logit_early;
 
   // initialise vector to store probabilities
   Rcpp::NumericVector probs(size_input, 0.0);
 
   // loop through input
-  for(int i = 0; i < size_input; i++){
+  // calculate probability depending on species
+  for(int i = 0; i < size_input; i++) {
 
-    // calculate probability depending on species
-    if(species[i] == "beech") {
+    // calculate dbh increase
+    const float dbh_inc = std::exp(-3.4 + 2.1 * (1 - std::exp(-0.00035 * std::pow(dbh[i], 2.5))));
 
-      // calculate dbh increase
-      dbh_inc = std::exp(-3.4 + 2.1 * (1 - std::exp(-0.00035 * std::pow(dbh[i], 2.5))));
+    // test if NA
+    const bool dbh_test = NumericVector::is_na(int_early + (std::log(dbh[i] + 8) * dbh_early) + (dbh_inc * dinc));
 
-      // test if NA
-      dbh_test = NumericVector::is_na(int_beech_early +
-        (std::log(dbh[i] + 8) * dbh_beech_early) + (dbh_inc * dinc_beech));
+    // set to 0 if NA, if not use value
+    if(dbh_test) {
 
-      // set to 0 if NA, if not use value
-      if(dbh_test) {
-        logit_early = 0;
-      } else {
-        logit_early = int_beech_early +
-          (std::log(dbh[i] + 8) * dbh_beech_early) + (dbh_inc * dinc_beech);
-      }
-
-      logit_late = int_beech_late + (dbh[i] * dbh_beech_late);
-
-      p_early = 1 / (1 + std::exp(-logit_early));
-
-      p_late = 1 / (1 + std::exp(-logit_late));
-
-      p = p_early + p_late;
+      logit_early = 0;
     }
 
-    else if(species[i] == "ash") {
+    else {
 
-      logit = int_ash + (std::log(dbh[i]) * dbh_ash);
-
-      p = 1 / (1 + std::exp(-logit));
+      logit_early = int_early + (std::log(dbh[i] + 8) * dbh_early) + (dbh_inc * dinc);
     }
 
-    else if(species[i] == "hornbeam") {
+    const float logit_late = int_late + (dbh[i] * dbh_late);
 
-      logit = int_others + (dbh[i] * dbh_others);
+    const float p_early = 1 / (1 + std::exp(-logit_early));
 
-      p = 1 / (1 + std::exp(-logit));
-    }
+    const float p_late = 1 / (1 + std::exp(-logit_late));
 
-    else if(species[i] == "sycamore") {
-
-      logit = int_others+ (dbh[i] * dbh_others);
-
-      p = 1 / (1 + std::exp(-logit));
-    }
-
-    else if(species[i] == "others") {
-
-      logit = int_others + (dbh[i] * dbh_others);
-
-      p = 1 / (1 + std::exp(-logit));
-    }
+    const float p = p_early + p_late;
 
     // store result in vector
     probs[i] = p;
@@ -98,15 +55,15 @@ NumericVector rcpp_calculate_mortality_probs(StringVector species,
 }
 
 /*** R
-species <- rabmp::example_input_data$spec
-dbh <- rabmp::example_input_data$bhd
+df_trees <- prepare_data(data = example_input_data, x = "x_coord", y = "y_coord",
+                         type = "Class", dbh = "bhd")
 
-rcpp_calculate_mortality_probs(species = species, dbh = dbh)
+parameters <- read_parameters(file = "inst/parameters.txt", sep = ";")
 
-vec_deprecated_calculate_mortality_probability <- Vectorize(deprecated_calculate_mortality_probability)
-
-bench::mark(rcpp_calculate_mortality_probs(species = species, dbh = dbh),
-            vec_deprecated_calculate_mortality_probability(species = species, dbh = dbh),
-            check = FALSE, relative = TRUE, iterations = 1000)
-
+rcpp_calculate_mortality_probs(dbh = df_trees$dbh,
+                               int_early = parameters$mort_int_early,
+                               int_late = parameters$mort_int_late,
+                               dbh_early = parameters$mort_dbh_early,
+                               dbh_late = parameters$mort_dbh_late,
+                               dinc = parameters$mort_dinc)
 */

@@ -4,13 +4,13 @@
 // Starting line 793
 
 // [[Rcpp::export]]
-NumericVector rcpp_calculate_distance_probability(double beta,
-                                                  double theta,
+NumericVector rcpp_calculate_distance_probability(float beta,
+                                                  float theta,
                                                   int max_dist) {
 
   // initialise doubles
-  double probability_temp = 0.0;
-  double normalizer = 0.0;
+  float probability_temp = 0.0;
+  float normalizer = 0.0;
 
   // initialise vector for probabilities
   Rcpp::NumericVector probability(max_dist, 0.0);
@@ -44,16 +44,13 @@ NumericVector rcpp_calculate_distance_probability(double beta,
 }
 
 /*** R
-max_dist <- 120
-beta <- 3.412413 / 10 ^ 5
-theta <- 3
+df_trees <- prepare_data(data = example_input_data, x = "x_coord", y = "y_coord",
+                         type = "Class", dbh = "bhd")
 
-rcpp_calculate_distance_probability(beta = beta, theta = theta, max_dist = max_dist)
+parameters <- read_parameters(file = "inst/parameters.txt", sep = ";")
 
-plot(x = 1:max_dist, y = rcpp_calculate_probability(max_dist = 120, beta = beta, theta = theta), lty = 1, type = "l")
-# lines(x = 1:max_dist, y = deprecated_calculate_probability(max_dist = 120, beta = beta, theta = theta), lty = 2)
+rcpp_calculate_distance_probability(beta = parameters$seed_beta,
+                                    theta = 3,
+                                    max_dist = parameters$seed_max_dist)
 
-# bench::mark(rcpp_calculate_probability(max_dist = max_dist, beta = beta, theta = theta),
-#             deprecated_calculate_probability(max_dist = max_dist, beta = beta, theta = theta),
-#             check = FALSE, relative = TRUE, iterations = 100000)
 */

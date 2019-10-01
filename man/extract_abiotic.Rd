@@ -12,20 +12,33 @@ extract_abiotic(data, abiotic)
 \item{abiotic}{Raster with abiotic conditions.}
 }
 \value{
-data.table
+vector
 }
 \description{
-Update competition index
+Extract abiotic values
 }
 \details{
-ADD TEXT HERE
+Function to extract value of abiotic RasterLayer at location of individuals
 }
 \examples{
 \dontrun{
-ADD TEXT HERE
-}
+df_trees <- prepare_data(data = example_input_data,
+x = "x_coord", y = "y_coord", species = "spec", type = "Class", dbh = "bhd")
+
+threshold <- quantile(df_trees$dbh, probs = 0.8)
+
+plot_area <- spatstat::owin(xrange = c(0, 500), yrange = c(0, 500))
+
+ppp_threshold <- spatstat::ppp(x = df_trees[dbh > threshold, x],
+y = df_trees[dbh > threshold, y],
+window = plot_area)
+
+hetero <- spatstat::density.ppp(ppp_threshold,  dimyx = c(250, 250))
+hetero_df <- tibble::as_tibble(hetero)
+hetero_ras <- raster::rasterFromXYZ(hetero_df)
+
+extract_abiotic(data = df_trees, abiotic = hetero_ras)
 
 }
-\references{
-ADD TEXT HERE
+
 }

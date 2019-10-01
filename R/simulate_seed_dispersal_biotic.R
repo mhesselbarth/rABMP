@@ -15,13 +15,12 @@
 #'
 #' @examples
 #' \dontrun{
-#' parameters <- read_parameters(file = "inst/parameters.txt", sep = "\t")
-#'
-#' names(example_input_data)
 #' df_trees <- prepare_data(data = example_input_data, x = "x_coord", y = "y_coord",
-#' species = "spec", type = "Class", dbh = "bhd")
+#'  type = "Class", dbh = "bhd")
 #'
-#' simulate_seed_dispersal_biotic(df_trees)
+#' parameters <- read_parameters(file = "inst/parameters.txt", sep = ";")
+#'
+#' simulate_seed_dispersal_biotic(df_trees, parameters = parameters)
 #' }
 #'
 #' @aliases simulate_seed_dispersal_biotic
@@ -42,13 +41,8 @@ simulate_seed_dispersal_biotic <- function(data, parameters, plot_area){
   id <- data[type != "dead" & i == max(i), which = TRUE]
 
   # number of seedlings for each tree (Ribbens et al. 1994 formula 1)
-  number_seedlings <- rcpp_calculate_number_seeds(species = data[id, species],
-                                                  dbh = data[id, dbh],
-                                                  str_beech = parameters$seed_str_beech,
-                                                  str_ash = parameters$seed_str_ash,
-                                                  str_sycamore = parameters$seed_str_sycamore,
-                                                  str_hornbeam = parameters$seed_str_hornbeam,
-                                                  str_others = parameters$seed_str_others)
+  number_seedlings <- rcpp_calculate_number_seeds(dbh = data[id, dbh],
+                                                  str = parameters$seed_str)
 
   # reduce seedlings (Bilek et al. 2009 p150)
   number_seedlings <- floor(number_seedlings *
@@ -66,12 +60,7 @@ simulate_seed_dispersal_biotic <- function(data, parameters, plot_area){
   # calculate seedlings coordinates (Ribbens et al. 1994 formula 2)
   seedlings <- rcpp_create_seedlings(coords = as.matrix(data[id, .(x, y)]),
                                      number =  number_seedlings,
-                                     species = data[id, species],
-                                     beta_beech = parameters$seed_beta_beech,
-                                     beta_ash = parameters$seed_beta_ash,
-                                     beta_sycamore = parameters$seed_beta_sycamore,
-                                     beta_hornbeam = parameters$seed_beta_hornbeam,
-                                     beta_others = parameters$seed_beta_others,
+                                     beta = parameters$seed_beta,
                                      max_dist = parameters$seed_max_dist)
 
   # create data.table
@@ -82,10 +71,7 @@ simulate_seed_dispersal_biotic <- function(data, parameters, plot_area){
                                                by = 1),
                                       i = max(data$i),
                                       x = seedlings[, 1],
-                                      y = seedlings[, 2],
-                                      species = rep(x = data[id, species],
-                                                    times = number_seedlings),
-                                      type = "seedling",
+                                      y = seedlings[, 2], type = "seedling",
                                       dbh = stats::runif(n = sum(number_seedlings),
                                                          min = 0.5, max = 1),
                                       ci = 0.0)

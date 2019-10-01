@@ -17,7 +17,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' parameters <- read_parameters(file = "inst/parameters.txt", sep = "\t")
+#' parameters <- read_parameters(file = "inst/parameters.txt", sep = ";")
 #' }
 #'
 #' @aliases read_parameters
@@ -41,7 +41,7 @@
 #' Ecology, 75(6), 1794-1806.
 #'
 #' @export
-read_parameters <- function(file, return_list = FALSE, ...) {
+read_parameters <- function(file, return_list = TRUE, ...) {
 
   parameters <- tibble::as_tibble(utils::read.table(file, header = TRUE, ...))
 

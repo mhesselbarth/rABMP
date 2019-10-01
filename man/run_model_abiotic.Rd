@@ -59,8 +59,7 @@ hetero <- spatstat::density.ppp(ppp_threshold,  dimyx = c(250, 250))
 hetero_df <- tibble::as_tibble(hetero)
 hetero_ras <- raster::rasterFromXYZ(hetero_df)
 
-parameters <- read_parameters(file = "inst/parameters.txt", sep = "\\t",
-return_list = TRUE)
+parameters <- read_parameters(file = "inst/parameters.txt", sep = ";")
 
 parameters$growth_abiotic <- 1
 

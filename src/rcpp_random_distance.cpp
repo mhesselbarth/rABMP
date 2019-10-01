@@ -3,53 +3,19 @@
 
 // [[Rcpp::export]]
 NumericVector rcpp_random_distance(int number_seeds,
-                                   String species,
-                                   double beta_beech,
-                                   double beta_ash,
-                                   double beta_sycamore,
-                                   double beta_hornbeam,
-                                   double beta_others,
+                                   float beta,
                                    int max_dist) {
 
   // initialise parameters
-  double beta = 0.0;
-  double theta = 3.0;
+  const float theta = 3.0;
 
   // initialise vector to store distances
   Rcpp::NumericVector distance_vector(number_seeds, 0.0);
 
-  // set parameters depending on species
-  if(species == "beech") {
-    beta = beta_beech / std::pow(10, 5);
-    // theta = 3;
-  }
-
-  else if(species == "ash") {
-    beta = beta_ash / std::pow(10, 5);
-    // theta = 3;
-  }
-
-  else if(species == "sycamore") {
-    beta = beta_sycamore / std::pow(10, 5);
-    // theta = 3;
-  }
-
-  else if(species == "hornbeam") {
-    beta = beta_hornbeam / std::pow(10, 5);
-    // theta = 3;
-  }
-
-  else if(species == "others") {
-    beta = beta_others / std::pow(10, 5);
-    // theta = 3;
-  }
-
-  else{
-    stop("Please select valid species");
-  }
+  const float beta_scl = beta / std::pow(10, 5);
 
   // get cumulative probability function
-  Rcpp::NumericVector probability = rcpp_calculate_distance_probability(beta, theta, max_dist);
+  Rcpp::NumericVector probability = rcpp_calculate_distance_probability(beta_scl, theta, max_dist);
 
   // loop through all needed seedlings
   for(int i = 0; i < number_seeds; i++) {
@@ -58,7 +24,7 @@ NumericVector rcpp_random_distance(int number_seeds,
     int counter;
 
     // create random uniform number between 0 - 1
-    double random = runif(1, 0, 1)[0];
+    const float random = runif(1, 0, 1)[0];
 
     // loop through all probabilities and inrease counter
     for(counter = 0; counter < probability.size(); counter++) {
@@ -69,10 +35,10 @@ NumericVector rcpp_random_distance(int number_seeds,
     }
 
     // get id of probability before break
-    int counter_prev = counter - 1;
+    const int counter_prev = counter - 1;
 
     // calculate distance
-    double distance = (counter + (random - probability[counter_prev]) / (probability[counter] - probability[counter_prev]));
+    const float distance = (counter + (random - probability[counter_prev]) / (probability[counter] - probability[counter_prev]));
 
     // store distance
     distance_vector[i] = distance;
@@ -94,16 +60,12 @@ NumericVector rcpp_random_distance(int number_seeds,
 }
 
 /*** R
-max_dist <- 120
-beta <- 3.412413 / 10 ^ 5
-theta <- 3
+df_trees <- prepare_data(data = example_input_data, x = "x_coord", y = "y_coord",
+                         type = "Class", dbh = "bhd")
 
-rcpp_random_distance(number_seeds = 10, species = "Beech", max_dist = 120)
+parameters <- read_parameters(file = "inst/parameters.txt", sep = ";")
 
-plot(density(rcpp_random_distance(number_seeds = 100000, species = "Beech", max_dist = 120)), lty = 1)
-# lines(density(deprecated_rcpp_random_distance(n = 100000, species = "Beech")), lty = 2)
-
-# bench::mark(rcpp_random_distance(number_seeds = 25, species = "Beech", max_dist = 120),
-#             deprecated_rcpp_random_distance(n = 25, species = "Beech"),
-#             check = FALSE, iterations = 1000, relative = TRUE)
+rcpp_random_distance(number_seeds = 10,
+                     beta = parameters$seed_beta,
+                     max_dist = parameters$seed_max_dist)
 */

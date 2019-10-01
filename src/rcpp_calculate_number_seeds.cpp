@@ -1,20 +1,14 @@
 #include "rcpp_calculate_number_seeds.h"
 
 // [[Rcpp::export]]
-NumericVector rcpp_calculate_number_seeds(StringVector species,
-                                          NumericVector dbh,
-                                          double str_beech,
-                                          double str_ash,
-                                          double str_sycamore,
-                                          double str_hornbeam,
-                                          double str_others) {
+NumericVector rcpp_calculate_number_seeds(NumericVector dbh,
+                                          float str) {
 
   // get size of input
-  int size_input = species.size();
+  const int size_input = dbh.size();
 
   // initialise double for number of seeds
-  double n;
-  double str;
+  // double n;
 
   // initialise vector to store number of seeds
   Rcpp::NumericVector number_seeds(size_input, 0.0);
@@ -22,28 +16,7 @@ NumericVector rcpp_calculate_number_seeds(StringVector species,
   // loop through input
   for(int i = 0; i < size_input; i++) {
 
-    // calculate number seeds depending on species
-    if (species[i] == "beech") {
-      str = str_beech;
-    }
-
-    else if (species[i] == "ash") {
-      str = str_ash;
-    }
-
-    else if (species[i] == "sycamore") {
-      str = str_sycamore;
-    }
-
-    else if (species[i] == "hornbeam") {
-      str = str_hornbeam;
-    }
-
-    else if (species[i] == "others") {
-      str = str_others;
-    }
-
-    n = str * std::pow((dbh[i] / 30), 2);
+    const float n = str * std::pow((dbh[i] / 30), 2);
 
     // store result in vector
     number_seeds[i] = n;
@@ -53,17 +26,12 @@ NumericVector rcpp_calculate_number_seeds(StringVector species,
 }
 
 /*** R
-parameters <- rabmp::read_parameters("inst/parameters.txt")
+df_trees <- prepare_data(data = example_input_data, x = "x_coord", y = "y_coord",
+                         type = "Class", dbh = "bhd")
 
-species <- rabmp::example_input_data$spec
-dbh <- rabmp::example_input_data$bhd
+parameters <- read_parameters(file = "inst/parameters.txt", sep = ";")
 
-b <- bench::mark(rcpp_calculate_number_seeds(species = species, dbh = dbh,
-                                        str_beech = parameters$seed_str_beech,
-                                        str_ash = parameters$seed_str_ash,
-                                        str_sycamore = parameters$seed_str_sycamore,
-                                        str_hornbeam = parameters$seed_str_hornbeam,
-                                        str_others = parameters$seed_str_others),
-            calculate_number_seeds(species = species, dbh = dbh, parameters = parameters),
-            relative = TRUE, iterations = 10000)
+rcpp_calculate_number_seeds(dbh = df_trees$dbh,
+                            str = parameters$seed_str)
+
 */

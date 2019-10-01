@@ -5,12 +5,7 @@
 using namespace Rcpp;
 
 NumericVector rcpp_random_distance(int number_seeds,
-                                   String species,
-                                   double beta_beech,
-                                   double beta_ash,
-                                   double beta_sycamore,
-                                   double beta_hornbeam,
-                                   double beta_others,
+                                   float beta,
                                    int max_dist);
 
 #endif

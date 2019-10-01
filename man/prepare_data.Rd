@@ -33,7 +33,7 @@ renameing of the coloumns and nesting the data.
 \dontrun{
 names(example_input_data)
 prepare_data(data = example_input_data, x = "x_coord", y = "y_coord",
-species = "spec", type = "Class", dbh = "bhd")
+species = "spec", type = "Class", dbh = "bhd")[]
 }
 
 }

@@ -25,13 +25,12 @@ and following distributing them around parental trees following a seed kernel.
 }
 \examples{
 \dontrun{
-parameters <- read_parameters(file = "inst/parameters.txt", sep = "\\t")
-
-names(example_input_data)
 df_trees <- prepare_data(data = example_input_data, x = "x_coord", y = "y_coord",
-species = "spec", type = "Class", dbh = "bhd")
+ type = "Class", dbh = "bhd")
 
-simulate_seed_dispersal_biotic(df_trees)
+parameters <- read_parameters(file = "inst/parameters.txt", sep = ";")
+
+simulate_seed_dispersal_biotic(df_trees, parameters = parameters)
 }
 
 }

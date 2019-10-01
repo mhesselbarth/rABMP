@@ -19,7 +19,7 @@
 #' \dontrun{
 #' names(example_input_data)
 #' prepare_data(data = example_input_data, x = "x_coord", y = "y_coord",
-#' species = "spec", type = "Class", dbh = "bhd")
+#' species = "spec", type = "Class", dbh = "bhd")[]
 #' }
 #'
 #' @aliases prepare_data
@@ -41,22 +41,15 @@ prepare_data <- function(data, x, y, species, type, dbh){
   data[, id := 1:.N]
 
   # order columns
-  data.table::setcolorder(data, c("id", "i", c(x, y, species, type, dbh), "ci"))
+  data.table::setcolorder(data, c("id", "i", c(x, y, type, dbh), "ci"))
 
   # name columns
-  data.table::setnames(data, c("id", "i", "x", "y", "species", "type", "dbh", "ci"))
+  data.table::setnames(data, c("id", "i", "x", "y", "type", "dbh", "ci"))
 
   # check if types are correct
   if (!all(unique(data$type) %in% c("adult", "dead", "sapling", "seedling"))) {
 
     stop("The type of the individuals must be one of: 'adult', 'dead', 'sapling', 'seedling',",
-         call. = FALSE)
-  }
-
-  # check if species are correct
-  if (!all(unique(data$species) %in% c("beech", "ash", "hornbeam", "sycamore", "others"))) {
-
-    stop("The species of the individuals must be one of: 'beech', 'ash', 'hornbeam', 'sycamore' or 'others'.",
          call. = FALSE)
   }
 

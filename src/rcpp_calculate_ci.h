@@ -5,8 +5,8 @@
 using namespace Rcpp;
 
 NumericVector rcpp_calculate_ci(NumericMatrix matrix,
-                                double alpha,
-                                double beta,
+                                float alpha,
+                                float beta,
                                 int max_dist);
 
 #endif
