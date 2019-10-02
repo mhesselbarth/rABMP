@@ -13,7 +13,7 @@ run_model_abiotic(data, parameters, abiotic, plot_area = NULL, years,
 
 \item{parameters}{List with all parameters..}
 
-\item{abiotic}{RasterLayer with abiotic conditions.}
+\item{abiotic}{RasterLayer with abiotic conditions. Should be scaled to 0 <= x <= 1.}
 
 \item{plot_area}{The plot area as \code{\link{owin}} object from the \code{spatstat} package.}
 

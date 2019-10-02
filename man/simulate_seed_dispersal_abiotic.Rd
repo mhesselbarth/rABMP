@@ -13,7 +13,7 @@ simulate_seed_dispersal_abiotic(data, parameters, plot_area, abiotic)
 
 \item{plot_area}{The plot area as \code{\link{owin}} object from the \code{spatstat} package.}
 
-\item{abiotic}{RasterLayer with abiotic conditions.}
+\item{abiotic}{RasterLayer with abiotic conditions. Should be scaled to 0 <= x <= 1.}
 }
 \value{
 data.table

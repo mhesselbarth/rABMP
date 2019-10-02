@@ -4,7 +4,7 @@
 #'
 #' @param data Dataframe with input data.
 #' @param parameters List with all parameters.
-#' @param abiotic RasterLayer with abiotic conditions.
+#' @param abiotic RasterLayer with abiotic conditions. Should be scaled to 0 <= x <= 1.
 #' @param plot_area The plot area as \code{\link{owin}} object from the \code{spatstat} package.
 
 #'
