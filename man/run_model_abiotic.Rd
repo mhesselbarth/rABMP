@@ -63,7 +63,7 @@ parameters <- read_parameters(file = "inst/parameters.txt", sep = ";")
 
 parameters$growth_abiotic <- 1
 
-result <- run_model_abiotic(data = df_trees, parameters = parameters, years = 50,
+result <- run_model_abiotic(data = df_trees, parameters = parameters, years = 10,
 abiotic = hetero_ras, plot_area = plot_area)
 }
 
