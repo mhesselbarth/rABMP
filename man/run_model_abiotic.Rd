@@ -45,7 +45,7 @@ Parameters include ....
 \examples{
 \dontrun{
 df_trees <- prepare_data(data = example_input_data,
-x = "x_coord", y = "y_coord", species = "spec", type = "Class", dbh = "bhd")
+x = "x_coord", y = "y_coord", type = "Class", dbh = "bhd")
 
 threshold <- quantile(df_trees$dbh, probs = 0.8)
 
@@ -63,7 +63,7 @@ parameters <- read_parameters(file = "inst/parameters.txt", sep = ";")
 
 parameters$growth_abiotic <- 1
 
-result <- run_model_abiotic(data = df_trees, parameters = parameters, years = 10,
+result <- run_model_abiotic(data = df_trees, parameters = parameters, years = 50,
 abiotic = hetero_ras, plot_area = plot_area)
 }
 

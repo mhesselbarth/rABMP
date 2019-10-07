@@ -44,7 +44,7 @@ simulate_mortality <- function(data, parameters) {
   random_number <- stats::runif(n = length(mortality_prob), min = 0, max = 1)
 
   # set all to dead if mortality prob is larger than random number
-  id <- id[random_number <= mortality_prob]
+  id <- id[random_number < mortality_prob]
 
   data[id, type := "dead"]
 

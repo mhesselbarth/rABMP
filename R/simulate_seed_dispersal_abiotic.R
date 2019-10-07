@@ -53,45 +53,55 @@ simulate_seed_dispersal_abiotic <- function(data, parameters, plot_area,
   # id of seedlings > 0
   id_seedlings <- which(number_seedlings > 0)
 
-  # id of trees that produced seedlings
-  id <- id[id_seedlings]
+  # create seedlings
+  if (length(id_seedlings) != 0) {
 
-  # only number of seedlings that are large than 0
-  number_seedlings <- number_seedlings[id_seedlings]
+    # id of trees that produced seedlings
+    id <- id[id_seedlings]
 
-  # calculate seedlings coordinates (Ribbens et al. 1994 formula 2)
-  seedlings <- rcpp_create_seedlings(coords = as.matrix(data[id, .(x, y)]),
-                                     number =  number_seedlings,
-                                     beta = parameters$seed_beta,
-                                     max_dist = parameters$seed_max_dist)
+    # only number of seedlings that are large than 0
+    number_seedlings <- number_seedlings[id_seedlings]
 
-  # create data.table
-  # create seedlings id larger than existing max id
-  # create random dbh
-  seedlings <- data.table::data.table(id = seq(from = max(data$id) + 1,
-                                               to = max(data$id) + nrow(seedlings),
-                                               by = 1),
-                                      i = max(data$i),
-                                      x = seedlings[, 1],
-                                      y = seedlings[, 2],
-                                      type = "seedling",
-                                      dbh = stats::runif(n = sum(number_seedlings),
-                                                         min = 0.5, max = 1),
-                                      ci = 0.0)
+    # calculate seedlings coordinates (Ribbens et al. 1994 formula 2)
+    seedlings <- rcpp_create_seedlings(coords = as.matrix(data[id, .(x, y)]),
+                                       number =  number_seedlings,
+                                       beta = parameters$seed_beta,
+                                       max_dist = parameters$seed_max_dist)
 
-  seedlings <- seedlings[spatstat::inside.owin(x = seedlings$x,
-                                               y = seedlings$y,
-                                               w = plot_area)]
+      # create data.table
+    # create seedlings id larger than existing max id
+    # create random dbh
+    seedlings <- data.table::data.table(id = seq(from = max(data$id) + 1,
+                                                 to = max(data$id) + nrow(seedlings),
+                                                 by = 1),
+                                        i = max(data$i),
+                                        x = seedlings[, 1],
+                                        y = seedlings[, 2],
+                                        type = "seedling",
+                                        dbh = stats::runif(n = sum(number_seedlings),
+                                                           min = 0.5, max = 1),
+                                        ci = 0.0)
 
-  # extract abiotic values
-  abiotic_values <- rabmp::extract_abiotic(data = seedlings,
-                                           abiotic = abiotic)
+    seedlings <- seedlings[spatstat::inside.owin(x = seedlings$x,
+                                                 y = seedlings$y,
+                                                 w = plot_area)]
 
-  # add abiotic values to data.table
-  seedlings[, abiotic := abiotic_values]
+    # extract abiotic values
+    abiotic_values <- rabmp::extract_abiotic(data = seedlings,
+                                             abiotic = abiotic)
 
-  # combine to one data frame with all data
-  data <- rbind(data, seedlings)
+    if (anyNA(abiotic_values)) {
+
+      stop("Some seedlings do not have an abiotic value related to them.",
+           call. = FALSE)
+    }
+
+    # add abiotic values to data.table
+    seedlings[, abiotic := abiotic_values]
+
+    # combine to one data frame with all data
+    data <- rbind(data, seedlings)
+  }
 
   return(data)
 }

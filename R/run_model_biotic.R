@@ -65,7 +65,7 @@ run_model_biotic <- function(data, parameters, plot_area = NULL,
   }
 
   # check if years can be divided by provided save_each without remainder
-  else{
+  else {
 
     if (years %% save_each != 0) {
 
