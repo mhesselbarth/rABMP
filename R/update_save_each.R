@@ -13,7 +13,7 @@
 #' @examples
 #' \dontrun{
 #' df_trees <- prepare_data(data = example_input_data, x = "x_coord", y = "y_coord",
-#' species = "spec", type = "Class", dbh = "bhd")
+#'  type = "Class", dbh = "bhd")
 #'
 #' update_save_each(data = df_trees)
 #' }
@@ -24,7 +24,7 @@
 #' @export
 update_save_each <- function(data, save_each){
 
-  # which ids can be divided by save_each without rest
+  # which ids can be divided by save_each without rest or dead
   id <- data[i %% save_each == 0 | type == "dead", which = TRUE]
 
   # only keep those rows

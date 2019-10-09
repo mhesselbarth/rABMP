@@ -9,19 +9,19 @@ rcpp_calculate_distance_probability <- function(beta, theta, max_dist) {
     .Call('_rabmp_rcpp_calculate_distance_probability', PACKAGE = 'rabmp', beta, theta, max_dist)
 }
 
-rcpp_calculate_mortality_probs <- function(species, dbh, int_beech_early, dbh_beech_early, int_beech_late, dbh_beech_late, dinc_beech, int_ash, dbh_ash, int_others, dbh_others) {
-    .Call('_rabmp_rcpp_calculate_mortality_probs', PACKAGE = 'rabmp', species, dbh, int_beech_early, dbh_beech_early, int_beech_late, dbh_beech_late, dinc_beech, int_ash, dbh_ash, int_others, dbh_others)
+rcpp_calculate_mortality_probs <- function(dbh, int_early, int_late, dbh_early, dbh_late, dinc) {
+    .Call('_rabmp_rcpp_calculate_mortality_probs', PACKAGE = 'rabmp', dbh, int_early, int_late, dbh_early, dbh_late, dinc)
 }
 
-rcpp_calculate_number_seeds <- function(species, dbh, str_beech, str_ash, str_sycamore, str_hornbeam, str_others) {
-    .Call('_rabmp_rcpp_calculate_number_seeds', PACKAGE = 'rabmp', species, dbh, str_beech, str_ash, str_sycamore, str_hornbeam, str_others)
+rcpp_calculate_number_seeds <- function(dbh, str) {
+    .Call('_rabmp_rcpp_calculate_number_seeds', PACKAGE = 'rabmp', dbh, str)
 }
 
-rcpp_create_seedlings <- function(coords, number, species, beta_beech, beta_ash, beta_sycamore, beta_hornbeam, beta_others, max_dist) {
-    .Call('_rabmp_rcpp_create_seedlings', PACKAGE = 'rabmp', coords, number, species, beta_beech, beta_ash, beta_sycamore, beta_hornbeam, beta_others, max_dist)
+rcpp_create_seedlings <- function(coords, number, beta, max_dist) {
+    .Call('_rabmp_rcpp_create_seedlings', PACKAGE = 'rabmp', coords, number, beta, max_dist)
 }
 
-rcpp_random_distance <- function(number_seeds, species, beta_beech, beta_ash, beta_sycamore, beta_hornbeam, beta_others, max_dist) {
-    .Call('_rabmp_rcpp_random_distance', PACKAGE = 'rabmp', number_seeds, species, beta_beech, beta_ash, beta_sycamore, beta_hornbeam, beta_others, max_dist)
+rcpp_random_distance <- function(number_seeds, beta, max_dist) {
+    .Call('_rabmp_rcpp_random_distance', PACKAGE = 'rabmp', number_seeds, beta, max_dist)
 }
 

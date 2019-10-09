@@ -13,7 +13,7 @@ run_model_abiotic(data, parameters, abiotic, plot_area = NULL, years,
 
 \item{parameters}{List with all parameters..}
 
-\item{abiotic}{RasterLayer with abiotic conditions.}
+\item{abiotic}{RasterLayer with abiotic conditions. Should be scaled to 0 <= x <= 1.}
 
 \item{plot_area}{The plot area as \code{\link{owin}} object from the \code{spatstat} package.}
 
@@ -45,7 +45,7 @@ Parameters include ....
 \examples{
 \dontrun{
 df_trees <- prepare_data(data = example_input_data,
-x = "x_coord", y = "y_coord", species = "spec", type = "Class", dbh = "bhd")
+x = "x_coord", y = "y_coord", type = "Class", dbh = "bhd")
 
 threshold <- quantile(df_trees$dbh, probs = 0.8)
 
@@ -59,8 +59,7 @@ hetero <- spatstat::density.ppp(ppp_threshold,  dimyx = c(250, 250))
 hetero_df <- tibble::as_tibble(hetero)
 hetero_ras <- raster::rasterFromXYZ(hetero_df)
 
-parameters <- read_parameters(file = "inst/parameters.txt", sep = "\\t",
-return_list = TRUE)
+parameters <- read_parameters(file = "inst/parameters.txt", sep = ";")
 
 parameters$growth_abiotic <- 1
 

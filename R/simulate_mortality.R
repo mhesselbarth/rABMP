@@ -13,13 +13,12 @@
 #'
 #' @examples
 #' \dontrun{
-#' parameters <- read_parameters(file = "inst/parameters.txt", sep = "\t")
-#'
-#' names(example_input_data)
 #' df_trees <- prepare_data(data = example_input_data, x = "x_coord", y = "y_coord",
-#' species = "spec", type = "Class", dbh = "bhd")
+#'  type = "Class", dbh = "bhd")
 #'
-#' simulate_mortality(data = df_trees)
+#' parameters <- read_parameters(file = "inst/parameters.txt", sep = ";")
+#'
+#' simulate_mortality(data = df_trees, parameters = parameters)
 #' }
 #'
 #' @references
@@ -34,23 +33,18 @@ simulate_mortality <- function(data, parameters) {
   id <- data[type != "dead" & i == max(i), which = TRUE]
 
   # calculate mortality prob (Holzwarth et al. 2013 formula S12, formula 1/2)
-  mortality_prob <- rcpp_calculate_mortality_probs(species = data[id, species],
-                                                   dbh = data[id, dbh],
-                                                   int_beech_early = parameters$mort_int_beech_early,
-                                                   dbh_beech_early = parameters$mort_dbh_beech_early,
-                                                   int_beech_late = parameters$mort_int_beech_late,
-                                                   dbh_beech_late = parameters$mort_dbh_beech_late,
-                                                   dinc_beech = parameters$mort_dinc_beech,
-                                                   int_ash = parameters$mort_int_ash,
-                                                   dbh_ash = parameters$mort_dbh_ash,
-                                                   int_others = parameters$mort_int_others,
-                                                   dbh_others = parameters$mort_dbh_others)
+  mortality_prob <- rcpp_calculate_mortality_probs(dbh = data[id, dbh],
+                                                   int_early = parameters$mort_int_early,
+                                                   dbh_early = parameters$mort_dbh_early,
+                                                   int_late = parameters$mort_int_late,
+                                                   dbh_late = parameters$mort_dbh_late,
+                                                   dinc = parameters$mort_dinc)
 
   # create random number for all living trees
   random_number <- stats::runif(n = length(mortality_prob), min = 0, max = 1)
 
   # set all to dead if mortality prob is larger than random number
-  id <- id[random_number <= mortality_prob]
+  id <- id[random_number < mortality_prob]
 
   data[id, type := "dead"]
 

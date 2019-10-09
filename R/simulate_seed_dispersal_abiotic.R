@@ -4,7 +4,7 @@
 #'
 #' @param data Dataframe with input data.
 #' @param parameters List with all parameters.
-#' @param abiotic RasterLayer with abiotic conditions.
+#' @param abiotic RasterLayer with abiotic conditions. Should be scaled to 0 <= x <= 1.
 #' @param plot_area The plot area as \code{\link{owin}} object from the \code{spatstat} package.
 
 #'
@@ -16,13 +16,24 @@
 #'
 #' @examples
 #' \dontrun{
-#' parameters <- read_parameters(file = "inst/parameters.txt", sep = "\t")
+#' df_trees <- prepare_data(data = example_input_data,
+#' x = "x_coord", y = "y_coord", type = "Class", dbh = "bhd")
 #'
-#' names(example_input_data)
-#' df_trees <- prepare_data(data = example_input_data, x = "x_coord", y = "y_coord",
-#' species = "spec", type = "Class", dbh = "bhd")
+#' threshold <- quantile(df_trees$dbh, probs = 0.8)
 #'
-#' simulate_seed_dispersal_abiotic(df_trees)
+#' plot_area <- spatstat::owin(xrange = c(0, 500), yrange = c(0, 500))
+#'
+#' ppp_threshold <- spatstat::ppp(x = df_trees[dbh > threshold, x],
+#' y = df_trees[dbh > threshold, y],
+#' window = plot_area)
+#'
+#' hetero <- spatstat::density.ppp(ppp_threshold,  dimyx = c(250, 250))
+#' hetero_df <- tibble::as_tibble(hetero)
+#' hetero_ras <- raster::rasterFromXYZ(hetero_df)
+#'
+#' parameters <- read_parameters(file = "inst/parameters.txt", sep = ";")
+#'
+#' simulate_seed_dispersal_abiotic(df_trees, parameters = parameters)
 #' }
 #'
 #' @aliases simulate_seed_dispersal_abiotic
@@ -44,13 +55,8 @@ simulate_seed_dispersal_abiotic <- function(data, parameters, plot_area,
   id <- data[type != "dead" & i == max(i), which = TRUE]
 
   # number of seedlings for each tree (Ribbens et al. 1994 formula 1)
-  number_seedlings <- rcpp_calculate_number_seeds(species = data[id, species],
-                                                  dbh = data[id, dbh],
-                                                  str_beech = parameters$seed_str_beech,
-                                                  str_ash = parameters$seed_str_ash,
-                                                  str_sycamore = parameters$seed_str_sycamore,
-                                                  str_hornbeam = parameters$seed_str_hornbeam,
-                                                  str_others = parameters$seed_str_others)
+  number_seedlings <- rcpp_calculate_number_seeds(dbh = data[id, dbh],
+                                                  str = parameters$seed_str)
 
   # reduce seedlings (Bilek et al. 2009 p150)
   number_seedlings <- floor(number_seedlings *
@@ -59,52 +65,56 @@ simulate_seed_dispersal_abiotic <- function(data, parameters, plot_area,
   # id of seedlings > 0
   id_seedlings <- which(number_seedlings > 0)
 
-  # id of trees that produced seedlings
-  id <- id[id_seedlings]
+  # create seedlings
+  if (length(id_seedlings) != 0) {
 
-  # only number of seedlings that are large than 0
-  number_seedlings <- number_seedlings[id_seedlings]
+    # id of trees that produced seedlings
+    id <- id[id_seedlings]
 
-  # calculate seedlings coordinates (Ribbens et al. 1994 formula 2)
-  seedlings <- rcpp_create_seedlings(coords = as.matrix(data[id, .(x, y)]),
-                                     number =  number_seedlings,
-                                     species = data[id, species],
-                                     beta_beech = parameters$seed_beta_beech,
-                                     beta_ash = parameters$seed_beta_ash,
-                                     beta_sycamore = parameters$seed_beta_sycamore,
-                                     beta_hornbeam = parameters$seed_beta_hornbeam,
-                                     beta_others = parameters$seed_beta_others,
-                                     max_dist = parameters$seed_max_dist)
+    # only number of seedlings that are large than 0
+    number_seedlings <- number_seedlings[id_seedlings]
 
-  # create data.table
-  # create seedlings id larger than existing max id
-  # create random dbh
-  seedlings <- data.table::data.table(id = seq(from = max(data$id) + 1,
-                                               to = max(data$id) + nrow(seedlings),
-                                               by = 1),
-                                      i = max(data$i),
-                                      x = seedlings[, 1],
-                                      y = seedlings[, 2],
-                                      species = rep(x = data[id, species],
-                                                    times = number_seedlings),
-                                      type = "seedling",
-                                      dbh = stats::runif(n = sum(number_seedlings),
-                                                         min = 0.5, max = 1),
-                                      ci = 0.0)
+    # calculate seedlings coordinates (Ribbens et al. 1994 formula 2)
+    seedlings <- rcpp_create_seedlings(coords = as.matrix(data[id, .(x, y)]),
+                                       number =  number_seedlings,
+                                       beta = parameters$seed_beta,
+                                       max_dist = parameters$seed_max_dist)
 
-  seedlings <- seedlings[spatstat::inside.owin(x = seedlings$x,
-                                               y = seedlings$y,
-                                               w = plot_area)]
+    # remove seedlings not inside plot
+    seedlings <- seedlings[spatstat::inside.owin(x = seedlings[, 1],
+                                                 y = seedlings[, 2],
+                                                 w = plot_area), ]
 
-  # extract abiotic values
-  abiotic_values <- rabmp::extract_abiotic(data = seedlings,
-                                           abiotic = abiotic)
+    # create data.table
+    # create seedlings id larger than existing max id
+    # create random dbh
+    seedlings <- data.table::data.table(id = seq(from = max(data$id) + 1,
+                                                 to = max(data$id) + nrow(seedlings),
+                                                 by = 1),
+                                        i = max(data$i),
+                                        x = seedlings[, 1],
+                                        y = seedlings[, 2],
+                                        type = "seedling",
+                                        dbh = stats::runif(n = nrow(seedlings),
+                                                           min = 0.5, max = 1),
+                                        ci = 0.0)
 
-  # add abiotic values to data.table
-  seedlings[, abiotic := abiotic_values]
+    # extract abiotic values
+    abiotic_values <- rabmp::extract_abiotic(data = seedlings,
+                                             abiotic = abiotic)
 
-  # combine to one data frame with all data
-  data <- rbind(data, seedlings)
+    if (anyNA(abiotic_values)) {
+
+      stop("Some seedlings do not have an abiotic value related to them.",
+           call. = FALSE)
+    }
+
+    # add abiotic values to data.table
+    seedlings[, abiotic := abiotic_values]
+
+    # combine to one data frame with all data
+    data <- rbind(data, seedlings)
+  }
 
   return(data)
 }

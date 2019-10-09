@@ -4,7 +4,7 @@
 #'
 #' @param data Data.table with input data.
 #' @param parameters List with all parameters..
-#' @param abiotic RasterLayer with abiotic conditions.
+#' @param abiotic RasterLayer with abiotic conditions. Should be scaled to 0 <= x <= 1.
 #' @param plot_area The plot area as \code{\link{owin}} object from the \code{spatstat} package.
 #' @param years Numeric timesteps (years) the model runs.
 #' @param save_each Integer value specifying time step results are saved.
@@ -25,7 +25,7 @@
 #' @examples
 #' \dontrun{
 #' df_trees <- prepare_data(data = example_input_data,
-#' x = "x_coord", y = "y_coord", species = "spec", type = "Class", dbh = "bhd")
+#' x = "x_coord", y = "y_coord", type = "Class", dbh = "bhd")
 #'
 #' threshold <- quantile(df_trees$dbh, probs = 0.8)
 #'
@@ -39,8 +39,7 @@
 #' hetero_df <- tibble::as_tibble(hetero)
 #' hetero_ras <- raster::rasterFromXYZ(hetero_df)
 #'
-#' parameters <- read_parameters(file = "inst/parameters.txt", sep = "\t",
-#' return_list = TRUE)
+#' parameters <- read_parameters(file = "inst/parameters.txt", sep = ";")
 #'
 #' parameters$growth_abiotic <- 1
 #'
@@ -63,7 +62,7 @@ run_model_abiotic <- function(data, parameters, abiotic,
   data <- data.table::copy(data)
 
   # check if input data cols are correct
-  if (!all(names(data) == c("id", "i", "x", "y", "species", "type", "dbh", "ci"))) {
+  if (!all(names(data) == c("id", "i", "x", "y", "type", "dbh", "ci"))) {
 
     stop("Please check your input data again. See ?prepare_data for help.",
          call. = FALSE)
@@ -76,13 +75,6 @@ run_model_abiotic <- function(data, parameters, abiotic,
          call. = FALSE)
   }
 
-  # check if species are correct
-  if (!all(unique(data$species) %in% c("beech", "ash", "hornbeam", "sycamore", "others"))) {
-
-    stop("The species of the individuals must be one of: 'beech', 'ash', 'hornbeam', 'sycamore' or 'others'.",
-         call. = FALSE)
-  }
-
   # check if save_each is present
   if (is.null(save_each)) {
 
@@ -90,7 +82,7 @@ run_model_abiotic <- function(data, parameters, abiotic,
   }
 
   # check if years can be divided by provided save_each without remainder
-  else{
+  else {
 
     if (years %% save_each != 0) {
 
@@ -159,6 +151,12 @@ run_model_abiotic <- function(data, parameters, abiotic,
   abiotic_values <- rabmp::extract_abiotic(data,
                                            abiotic = abiotic)
 
+  if (anyNA(abiotic_values)) {
+
+    stop("Some points do not have an abiotic value related to them.",
+         call. = FALSE)
+  }
+
   # initialse abiotic col
   data[, abiotic := abiotic_values]
 
@@ -211,7 +209,7 @@ run_model_abiotic <- function(data, parameters, abiotic,
     # nest tibble
     if (return_nested) {
 
-      data <- tidyr::nest(data, -c(id, x, y, species), .key = "data")
+      data <- tidyr::nest(data, -c(id, x, y), .key = "data")
     }
   }
 

@@ -26,7 +26,7 @@
 #' df_trees <- prepare_data(data = example_input_data,
 #' x = "x_coord", y = "y_coord", species = "spec", type = "Class", dbh = "bhd")
 #'
-#' parameters <- read_parameters(file = "inst/parameters.txt", sep = "\t", return_list = TRUE)
+#' parameters <- read_parameters(file = "inst/parameters.txt", sep = ";")
 #'
 #' result <- run_model_biotic(data = df_trees, parameters = parameters, years = 10)
 #' }
@@ -45,7 +45,7 @@ run_model_biotic <- function(data, parameters, plot_area = NULL,
   data <- data.table::copy(data)
 
   # check if input data cols are correct
-  if (!all(names(data) == c("id", "i", "x", "y", "species", "type", "dbh", "ci"))) {
+  if (!all(names(data) == c("id", "i", "x", "y", "type", "dbh", "ci"))) {
 
     stop("Please check your input data again. See ?prepare_data for help.",
          call. = FALSE)
@@ -58,13 +58,6 @@ run_model_biotic <- function(data, parameters, plot_area = NULL,
          call. = FALSE)
   }
 
-  # check if species are correct
-  if (!all(unique(data$species) %in% c("beech", "ash", "hornbeam", "sycamore", "others"))) {
-
-    stop("The species of the individuals must be one of: 'beech', 'ash', 'hornbeam', 'sycamore' or 'others'.",
-         call. = FALSE)
-  }
-
   # check if save_each is present
   if (is.null(save_each)) {
 
@@ -72,7 +65,7 @@ run_model_biotic <- function(data, parameters, plot_area = NULL,
   }
 
   # check if years can be divided by provided save_each without remainder
-  else{
+  else {
 
     if (years %% save_each != 0) {
 
@@ -185,7 +178,7 @@ run_model_biotic <- function(data, parameters, plot_area = NULL,
     # nest tibble
     if (return_nested) {
 
-      data <- tidyr::nest(data, -c(id, x, y, species), .key = "data")
+      data <- tidyr::nest(data, -c(id, x, y), .key = "data")
     }
   }
 

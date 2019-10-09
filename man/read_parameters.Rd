@@ -4,7 +4,7 @@
 \alias{read_parameters}
 \title{read_parameters}
 \usage{
-read_parameters(file, return_list = FALSE, ...)
+read_parameters(file, return_list = TRUE, ...)
 }
 \arguments{
 \item{file}{String with path to text file.}
@@ -28,7 +28,7 @@ Construct a list with all default paramerts for run_model. The parameters includ
 }
 \examples{
 \dontrun{
-parameters <- read_parameters(file = "inst/parameters.txt", sep = "\\t")
+parameters <- read_parameters(file = "inst/parameters.txt", sep = ";")
 }
 
 }

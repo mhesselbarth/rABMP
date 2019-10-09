@@ -4,19 +4,14 @@
 // [[Rcpp::export]]
 NumericMatrix rcpp_create_seedlings(NumericMatrix coords,
                                     NumericVector number,
-                                    StringVector species,
-                                    double beta_beech,
-                                    double beta_ash,
-                                    double beta_sycamore,
-                                    double beta_hornbeam,
-                                    double beta_others,
+                                    float beta,
                                     int max_dist) {
 
   // get number of trees
-  int nrow = coords.nrow();
+  const int nrow = coords.nrow();
 
   // get number of total seeds
-  int seedlings_total = sum(number);
+  const int seedlings_total = sum(number);
 
   // initialise counter because each row will get several new seedlings
   int counter = 0;
@@ -27,19 +22,12 @@ NumericMatrix rcpp_create_seedlings(NumericMatrix coords,
   for(int i = 0; i < nrow; i++) {
 
     // calculate random distances
-    Rcpp::NumericVector random_x = rcpp_random_distance(number[i], species[i],
-                                                        beta_beech,
-                                                        beta_ash,
-                                                        beta_sycamore,
-                                                        beta_hornbeam,
-                                                        beta_others,
+    Rcpp::NumericVector random_x = rcpp_random_distance(number[i],
+                                                        beta,
                                                         max_dist);
 
-    Rcpp::NumericVector random_y = rcpp_random_distance(number[i], species[i], beta_beech,
-                                                        beta_ash,
-                                                        beta_sycamore,
-                                                        beta_hornbeam,
-                                                        beta_others,
+    Rcpp::NumericVector random_y = rcpp_random_distance(number[i],
+                                                        beta,
                                                         max_dist);
 
     for(int j = 0; j < number[i]; j++){
@@ -56,19 +44,13 @@ NumericMatrix rcpp_create_seedlings(NumericMatrix coords,
 }
 
 /*** R
-coords <- matrix(data= c(1, 4, 2, 6, 8,
-                         5, 8, 3, 7, 1), ncol = 2)
-number <- c(5, 1, 7, 4, 2)
-species <- c("beech", "beech", "ash", "hornbeam", "sycamore")
+df_trees <- prepare_data(data = example_input_data, x = "x_coord", y = "y_coord",
+                         type = "Class", dbh = "bhd")
 
-rcpp_create_seedlings(coords = coords, number = number, species = species)
+parameters <- read_parameters(file = "inst/parameters.txt", sep = ";")
 
-bench::mark(rcpp_create_seedlings(coords = coords, number = number, species = species),
-            deprecated_rcpp_create_seedlings(coords = coords, number = number, species = species),
-            check = FALSE, relative = TRUE, iterations = 100)
-
-
-bench::mark(rcpp_create_seedlings(coords = coords, number = number, species = species),
-            deprecated_rcpp_create_seedlings(coords = coords, number = number, species = species),
-            check = FALSE, relative = TRUE, iterations = 100)
+rcpp_create_seedlings(coords = as.matrix(df_trees[, .(x, y)]),
+                      number = rep(10, nrow(df_trees)),
+                      beta = parameters$seed_beta,
+                      max_dist = parameters$seed_max_dist)
 */

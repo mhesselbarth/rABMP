@@ -13,7 +13,7 @@ simulate_seed_dispersal_abiotic(data, parameters, plot_area, abiotic)
 
 \item{plot_area}{The plot area as \code{\link{owin}} object from the \code{spatstat} package.}
 
-\item{abiotic}{RasterLayer with abiotic conditions.}
+\item{abiotic}{RasterLayer with abiotic conditions. Should be scaled to 0 <= x <= 1.}
 }
 \value{
 data.table
@@ -27,13 +27,12 @@ and following distributing them around parental trees following a seed kernel.
 }
 \examples{
 \dontrun{
-parameters <- read_parameters(file = "inst/parameters.txt", sep = "\\t")
-
-names(example_input_data)
 df_trees <- prepare_data(data = example_input_data, x = "x_coord", y = "y_coord",
-species = "spec", type = "Class", dbh = "bhd")
+ type = "Class", dbh = "bhd")
 
-simulate_seed_dispersal_abiotic(df_trees)
+parameters <- read_parameters(file = "inst/parameters.txt", sep = ";")
+
+simulate_seed_dispersal_abiotic(df_trees, parameters = parameters)
 }
 
 }

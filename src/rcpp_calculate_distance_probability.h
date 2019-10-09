@@ -4,8 +4,8 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
-NumericVector rcpp_calculate_distance_probability(double beta,
-                                                  double theta,
+NumericVector rcpp_calculate_distance_probability(float beta,
+                                                  float theta,
                                                   int max_dist);
 
 #endif

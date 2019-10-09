@@ -23,7 +23,7 @@ Calculates DBH increase (growth) of individual trees based on current DBH.
 \examples{
 \dontrun{
 dbh <- c(24.3, 65.2, 12.5)
-parameters <- construct_parameters()
+parameters <- read_parameters(file = "inst/parameters.txt", sep = ";")
 calculate_growth(dbh, parameters = parameters)
 }
 

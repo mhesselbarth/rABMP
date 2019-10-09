@@ -7,7 +7,7 @@ NumericVector rcpp_calculate_ci(NumericMatrix matrix,
                                 int max_dist) {
 
   // get number of rows
-  int nrow = matrix.nrow();
+  const int nrow = matrix.nrow();
 
   // initialise vector for ci value
   Rcpp::NumericVector ci(nrow, 0.0);
@@ -47,12 +47,12 @@ NumericVector rcpp_calculate_ci(NumericMatrix matrix,
 }
 
 /*** R
-set.seed(42)
-n <- 10000
+df_trees <- prepare_data(data = example_input_data, x = "x_coord", y = "y_coord",
+                         type = "Class", dbh = "bhd")
 
-df_trees <- data.frame(x = runif(n = n, min = 0, max = 100),
-                       y = runif(n = n, min = 0, max = 100),
-                       dbh = runif(n = n, min = 5, max = 65))
+parameters <- read_parameters(file = "inst/parameters.txt", sep = ";")
 
-rcpp_calculate_ci(as.matrix(df_trees), alpha = 1.5, beta = 0.5, max_dist = 30)
+rcpp_calculate_ci(as.matrix(df_trees[, .(x, y, dbh)]),
+                  alpha = parameters$ci_alpha, beta = parameters$ci_beta,
+                  max_dist = parameters$ci_max_dist)
 */

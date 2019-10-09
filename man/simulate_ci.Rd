@@ -24,11 +24,10 @@ are standardized to 0 <= CI <= 1.
 }
 \examples{
 \dontrun{
-parameters <- read_parameters(file = "inst/parameters.txt", sep = "\\t")
-
-names(example_input_data)
 df_trees <- prepare_data(data = example_input_data, x = "x_coord", y = "y_coord",
-species = "spec", type = "Class", dbh = "bhd")
+ type = "Class", dbh = "bhd")
+
+parameters <- read_parameters(file = "inst/parameters.txt", sep = ";")
 
 simulate_ci(data = df_trees, parameters = parameters)
 }

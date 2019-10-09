@@ -10,8 +10,6 @@
 #'
 #' y: y coordinate
 #'
-#' spec: species
-#'
 #' Class: type (e.g. "Adult")
 #'
 #' bhd: diameter at breast height
