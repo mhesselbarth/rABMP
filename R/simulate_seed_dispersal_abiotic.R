@@ -16,8 +16,20 @@
 #'
 #' @examples
 #' \dontrun{
-#' df_trees <- prepare_data(data = example_input_data, x = "x_coord", y = "y_coord",
-#'  type = "Class", dbh = "bhd")
+#' df_trees <- prepare_data(data = example_input_data,
+#' x = "x_coord", y = "y_coord", type = "Class", dbh = "bhd")
+#'
+#' threshold <- quantile(df_trees$dbh, probs = 0.8)
+#'
+#' plot_area <- spatstat::owin(xrange = c(0, 500), yrange = c(0, 500))
+#'
+#' ppp_threshold <- spatstat::ppp(x = df_trees[dbh > threshold, x],
+#' y = df_trees[dbh > threshold, y],
+#' window = plot_area)
+#'
+#' hetero <- spatstat::density.ppp(ppp_threshold,  dimyx = c(250, 250))
+#' hetero_df <- tibble::as_tibble(hetero)
+#' hetero_ras <- raster::rasterFromXYZ(hetero_df)
 #'
 #' parameters <- read_parameters(file = "inst/parameters.txt", sep = ";")
 #'
@@ -68,7 +80,12 @@ simulate_seed_dispersal_abiotic <- function(data, parameters, plot_area,
                                        beta = parameters$seed_beta,
                                        max_dist = parameters$seed_max_dist)
 
-      # create data.table
+    # remove seedlings not inside plot
+    seedlings <- seedlings[spatstat::inside.owin(x = seedlings[, 1],
+                                                 y = seedlings[, 2],
+                                                 w = plot_area), ]
+
+    # create data.table
     # create seedlings id larger than existing max id
     # create random dbh
     seedlings <- data.table::data.table(id = seq(from = max(data$id) + 1,
@@ -78,13 +95,9 @@ simulate_seed_dispersal_abiotic <- function(data, parameters, plot_area,
                                         x = seedlings[, 1],
                                         y = seedlings[, 2],
                                         type = "seedling",
-                                        dbh = stats::runif(n = sum(number_seedlings),
+                                        dbh = stats::runif(n = nrow(seedlings),
                                                            min = 0.5, max = 1),
                                         ci = 0.0)
-
-    seedlings <- seedlings[spatstat::inside.owin(x = seedlings$x,
-                                                 y = seedlings$y,
-                                                 w = plot_area)]
 
     # extract abiotic values
     abiotic_values <- rabmp::extract_abiotic(data = seedlings,

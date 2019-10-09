@@ -66,6 +66,11 @@ simulate_seed_dispersal_biotic <- function(data, parameters, plot_area){
                                        beta = parameters$seed_beta,
                                        max_dist = parameters$seed_max_dist)
 
+    # remove seedlings not inside plot
+    seedlings <- seedlings[spatstat::inside.owin(x = seedlings[, 1],
+                                                 y = seedlings[, 2],
+                                                 w = plot_area), ]
+
     # create data.table
     # create seedlings id larger than existing max id
     # create random dbh
@@ -75,13 +80,9 @@ simulate_seed_dispersal_biotic <- function(data, parameters, plot_area){
                                         i = max(data$i),
                                         x = seedlings[, 1],
                                         y = seedlings[, 2], type = "seedling",
-                                        dbh = stats::runif(n = sum(number_seedlings),
+                                        dbh = stats::runif(n = nrow(seedlings),
                                                            min = 0.5, max = 1),
                                         ci = 0.0)
-
-    seedlings <- seedlings[spatstat::inside.owin(x = seedlings$x,
-                                                 y = seedlings$y,
-                                                 w = plot_area)]
 
     # combine to one data frame with all data
     data <- rbind(data, seedlings)
