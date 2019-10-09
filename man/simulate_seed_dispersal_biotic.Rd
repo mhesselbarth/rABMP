@@ -37,8 +37,4 @@ simulate_seed_dispersal_biotic(df_trees, parameters = parameters)
 \references{
 Ribbens, E., Silander, J. A., & Pacala, S. W. (1994). Seedling recruitment in forests:
 Calibrating models to predict patterns of tree seedling dispersion. Ecology, 75(6), 1794-1806.
-
-Bilek, L., Remes, J., Zahradnik, D., 2009. Natural regeneration of senescent even-
-aged beech (Fagus sylvatica L.) stands under the conditions of Central Bohemua.
-Journal of Forest Science 55(4), 145-155
 }

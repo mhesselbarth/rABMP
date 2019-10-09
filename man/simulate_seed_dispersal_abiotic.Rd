@@ -27,8 +27,20 @@ and following distributing them around parental trees following a seed kernel.
 }
 \examples{
 \dontrun{
-df_trees <- prepare_data(data = example_input_data, x = "x_coord", y = "y_coord",
- type = "Class", dbh = "bhd")
+df_trees <- prepare_data(data = example_input_data,
+x = "x_coord", y = "y_coord", type = "Class", dbh = "bhd")
+
+threshold <- quantile(df_trees$dbh, probs = 0.8)
+
+plot_area <- spatstat::owin(xrange = c(0, 500), yrange = c(0, 500))
+
+ppp_threshold <- spatstat::ppp(x = df_trees[dbh > threshold, x],
+y = df_trees[dbh > threshold, y],
+window = plot_area)
+
+hetero <- spatstat::density.ppp(ppp_threshold,  dimyx = c(250, 250))
+hetero_df <- tibble::as_tibble(hetero)
+hetero_ras <- raster::rasterFromXYZ(hetero_df)
 
 parameters <- read_parameters(file = "inst/parameters.txt", sep = ";")
 
@@ -39,8 +51,4 @@ simulate_seed_dispersal_abiotic(df_trees, parameters = parameters)
 \references{
 Ribbens, E., Silander, J. A., & Pacala, S. W. (1994). Seedling recruitment in forests:
 Calibrating models to predict patterns of tree seedling dispersion. Ecology, 75(6), 1794-1806.
-
-Bilek, L., Remes, J., Zahradnik, D., 2009. Natural regeneration of senescent even-
-aged beech (Fagus sylvatica L.) stands under the conditions of Central Bohemua.
-Journal of Forest Science 55(4), 145-155
 }
