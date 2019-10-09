@@ -30,7 +30,7 @@
 simulate_mortality <- function(data, parameters) {
 
   # get id of current living
-  id <- data[type != "dead" & i == max(i), which = TRUE]
+  id <- data[type != "dead" & i == max(i) & dbh > 1, which = TRUE]
 
   # calculate mortality prob (Holzwarth et al. 2013 formula S12, formula 1/2)
   mortality_prob <- rcpp_calculate_mortality_probs(dbh = data[id, dbh],
