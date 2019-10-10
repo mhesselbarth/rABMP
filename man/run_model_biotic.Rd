@@ -43,7 +43,7 @@ Parameters include ....
 \examples{
 \dontrun{
 df_trees <- prepare_data(data = example_input_data,
-x = "x_coord", y = "y_coord", species = "spec", type = "Class", dbh = "bhd")
+x = "x_coord", y = "y_coord", type = "Class", dbh = "bhd")
 
 parameters <- read_parameters(file = "inst/parameters.txt", sep = ";")
 
