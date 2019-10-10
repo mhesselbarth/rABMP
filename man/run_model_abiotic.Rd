@@ -62,6 +62,7 @@ hetero_ras <- raster::rasterFromXYZ(hetero_df)
 parameters <- read_parameters(file = "inst/parameters.txt", sep = ";")
 
 parameters$growth_abiotic <- 1
+parameters$seed_success_high <- parameters$seed_success * 1.2
 
 result <- run_model_abiotic(data = df_trees, parameters = parameters, years = 10,
 abiotic = hetero_ras, plot_area = plot_area)

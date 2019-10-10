@@ -4,7 +4,8 @@
 \alias{simulate_seed_dispersal_abiotic}
 \title{simulate_seed_dispersal_abiotic}
 \usage{
-simulate_seed_dispersal_abiotic(data, parameters, plot_area, abiotic)
+simulate_seed_dispersal_abiotic(data, parameters, plot_area, abiotic,
+  abiotic_quantiles)
 }
 \arguments{
 \item{data}{Dataframe with input data.}

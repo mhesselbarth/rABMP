@@ -42,6 +42,7 @@
 #' parameters <- read_parameters(file = "inst/parameters.txt", sep = ";")
 #'
 #' parameters$growth_abiotic <- 1
+#' parameters$seed_success_high <- parameters$seed_success * 1.2
 #'
 #' result <- run_model_abiotic(data = df_trees, parameters = parameters, years = 10,
 #' abiotic = hetero_ras, plot_area = plot_area)
@@ -147,9 +148,11 @@ run_model_abiotic <- function(data, parameters, abiotic,
     message("> ...Starting simulation...")
   }
 
+  # get quantiles of abiotic values
+  abiotic_quantiles <- quantile(raster::values(abiotic), probs = 0.95)
+
   # extract abiotic values
-  abiotic_values <- rabmp::extract_abiotic(data,
-                                           abiotic = abiotic)
+  abiotic_values <- rabmp::extract_abiotic(data, abiotic = abiotic)
 
   if (anyNA(abiotic_values)) {
 
@@ -171,7 +174,8 @@ run_model_abiotic <- function(data, parameters, abiotic,
 
     data <- rabmp::simulate_seed_dispersal_abiotic(data, parameters = parameters,
                                                    plot_area = plot_area,
-                                                   abiotic = abiotic)
+                                                   abiotic = abiotic,
+                                                   abiotic_quantiles = abiotic_quantiles)
 
     data <- rabmp::simulate_mortality(data, parameters = parameters)
 

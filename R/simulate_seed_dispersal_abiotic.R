@@ -49,7 +49,7 @@
 #'
 #' @export
 simulate_seed_dispersal_abiotic <- function(data, parameters, plot_area,
-                                            abiotic){
+                                            abiotic, abiotic_quantiles){
 
   # get id of current living
   id <- data[type != "dead" & i == max(i), which = TRUE]
@@ -59,7 +59,7 @@ simulate_seed_dispersal_abiotic <- function(data, parameters, plot_area,
                                                   str = parameters$seed_str)
 
   # reduce seedlings
-  number_seedlings <- floor(number_seedlings * parameters$seed_success)
+  number_seedlings <- round(number_seedlings, digits = 0)
 
   # id of seedlings > 0
   id_seedlings <- which(number_seedlings > 0)
@@ -84,6 +84,31 @@ simulate_seed_dispersal_abiotic <- function(data, parameters, plot_area,
                                                  y = seedlings[, 2],
                                                  w = plot_area), ]
 
+    # extract abiotic values
+    abiotic_values <- rabmp::extract_abiotic(data = data.table::data.table(x = seedlings[, 1],
+                                                                           y = seedlings[, 2]),
+                                             abiotic = abiotic)
+
+    if (anyNA(abiotic_values)) {
+
+      stop("Some seedlings do not have an abiotic value related to them.",
+           call. = FALSE)
+    }
+
+    # get probabilities for seed reduction
+    probs <- ifelse(test = abiotic_values > abiotic_quantiles,
+                    yes = parameters$seed_success_high,
+                    no = parameters$seed_success)
+
+    # get random threshold
+    random_thres <- runif(n = nrow(seedlings), min = 0, max = 1)
+
+    # which seedlings should be kept
+    include_id <- which(random_thres < probs, arr.ind = TRUE)
+
+    # reduce seedlings
+    seedlings <- seedlings[include_id, ]
+
     # create data.table
     # create seedlings id larger than existing max id
     # create random dbh
@@ -96,20 +121,8 @@ simulate_seed_dispersal_abiotic <- function(data, parameters, plot_area,
                                         type = "seedling",
                                         dbh = stats::runif(n = nrow(seedlings),
                                                            min = 0.5, max = 1),
-                                        ci = 0.0)
-
-    # extract abiotic values
-    abiotic_values <- rabmp::extract_abiotic(data = seedlings,
-                                             abiotic = abiotic)
-
-    if (anyNA(abiotic_values)) {
-
-      stop("Some seedlings do not have an abiotic value related to them.",
-           call. = FALSE)
-    }
-
-    # add abiotic values to data.table
-    seedlings[, abiotic := abiotic_values]
+                                        ci = 0.0,
+                                        abiotic = abiotic_values[include_id])
 
     # combine to one data frame with all data
     data <- rbind(data, seedlings)

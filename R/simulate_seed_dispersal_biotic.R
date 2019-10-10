@@ -45,7 +45,7 @@ simulate_seed_dispersal_biotic <- function(data, parameters, plot_area){
                                                   str = parameters$seed_str)
 
   # reduce seedlings
-  number_seedlings <- floor(number_seedlings * parameters$seed_success)
+  number_seedlings <- round(number_seedlings, digits = 0)
 
   # id of seedlings > 0
   id_seedlings <- which(number_seedlings > 0)
@@ -69,6 +69,15 @@ simulate_seed_dispersal_biotic <- function(data, parameters, plot_area){
     seedlings <- seedlings[spatstat::inside.owin(x = seedlings[, 1],
                                                  y = seedlings[, 2],
                                                  w = plot_area), ]
+
+    # get random threshold
+    random_thres <- runif(n = nrow(seedlings), min = 0, max = 1)
+
+    # which seedlings should be kept
+    include_id <- which(random_thres < parameters$seed_success, arr.ind = TRUE)
+
+    # reduce seedlings
+    seedlings <- seedlings[include_id, ]
 
     # create data.table
     # create seedlings id larger than existing max id
