@@ -14,14 +14,6 @@
 #' @return data.table
 #'
 #' @examples
-#' \dontrun{
-#' df_trees <- prepare_data(data = example_input_data, x = "x_coord", y = "y_coord",
-#'  type = "Class", dbh = "bhd")
-#'
-#' parameters <- read_parameters(file = "inst/parameters.txt", sep = ";")
-#'
-#' simulate_growth_abiotic(data = df_trees, parameters = parameters)
-#' }
 #'
 #' @aliases simulate_growth_abiotic
 #' @rdname simulate_growth_abiotic
@@ -31,7 +23,7 @@
 #' traditional size-ratio based competition indices used in forest ecology. For. Ecol. Manage. 331, 135-143.
 #'
 #' @export
-simulate_growth_abiotic <- function(data, parameters){
+ simulate_growth_abiotic <- function(data, parameters){
 
   # get id of current living
   id <- data[type != "dead" & i == max(i), which = TRUE]
@@ -41,8 +33,11 @@ simulate_growth_abiotic <- function(data, parameters){
                                     parameters = parameters)
 
   # reduce potential growth (Pommerening et al. 2014 formula 12)
-  growth <- growth * parameters$growth_mod * (1 - data[id, ci]) *
-    parameters$growth_abiotic * (1 + data[id, abiotic])
+  growth <- growth * parameters$growth_mod * (1 - data[id, ci]) +
+    growth * parameters$growth_abiotic * data[id, abiotic]
+
+  # no negative growth possible
+  growth[growth < 0] <- 0
 
   # update DBH
   data[id, dbh := dbh + growth]

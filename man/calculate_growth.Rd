@@ -20,14 +20,6 @@ Calculate growth
 \details{
 Calculates DBH increase (growth) of individual trees based on current DBH.
 }
-\examples{
-\dontrun{
-dbh <- c(24.3, 65.2, 12.5)
-parameters <- read_parameters(file = "inst/parameters.txt", sep = ";")
-calculate_growth(dbh, parameters = parameters)
-}
-
-}
 \references{
 Pommerening, A., Maleki, K., 2014. Differences between competition kernels and
 traditional size-ratio based competition indices used in forest ecology. For. Ecol. Manage. 331, 135-143.

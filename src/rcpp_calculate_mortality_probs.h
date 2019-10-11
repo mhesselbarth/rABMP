@@ -5,10 +5,10 @@
 using namespace Rcpp;
 
 NumericVector rcpp_calculate_mortality_probs(NumericVector dbh,
-                                             float int_early,
-                                             float dbh_early,
-                                             float int_late,
-                                             float dbh_late,
-                                             float dinc);
+                                             NumericVector int_early,
+                                             NumericVector dbh_early,
+                                             NumericVector int_late,
+                                             NumericVector dbh_late,
+                                             NumericVector dinc);
 
 #endif

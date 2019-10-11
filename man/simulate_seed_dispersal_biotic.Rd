@@ -23,17 +23,6 @@ Simulate seed dispersal
 Simulates seed dispersal by first calculating the number of seeds for each tree
 and following distributing them around parental trees following a seed kernel.
 }
-\examples{
-\dontrun{
-df_trees <- prepare_data(data = example_input_data, x = "x_coord", y = "y_coord",
- type = "Class", dbh = "bhd")
-
-parameters <- read_parameters(file = "inst/parameters.txt", sep = ";")
-
-simulate_seed_dispersal_biotic(df_trees, parameters = parameters)
-}
-
-}
 \references{
 Ribbens, E., Silander, J. A., & Pacala, S. W. (1994). Seedling recruitment in forests:
 Calibrating models to predict patterns of tree seedling dispersion. Ecology, 75(6), 1794-1806.

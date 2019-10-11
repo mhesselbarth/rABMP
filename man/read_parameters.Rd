@@ -26,12 +26,6 @@ Construct a list with all default paramerts for run_model. The parameters includ
   \item Second item
 }
 }
-\examples{
-\dontrun{
-parameters <- read_parameters(file = "inst/parameters.txt", sep = ";")
-}
-
-}
 \references{
 Holzwarth, F., Kahl, A., Bauhus, J., Wirth, C., 2013. Many ways to die -
 partitioning tree mortality dynamics in a near-natural mixed deciduous forest.

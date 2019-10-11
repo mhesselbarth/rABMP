@@ -33,17 +33,17 @@ BEGIN_RCPP
 END_RCPP
 }
 // rcpp_calculate_mortality_probs
-NumericVector rcpp_calculate_mortality_probs(NumericVector dbh, float int_early, float int_late, float dbh_early, float dbh_late, float dinc);
+NumericVector rcpp_calculate_mortality_probs(NumericVector dbh, NumericVector int_early, NumericVector int_late, NumericVector dbh_early, NumericVector dbh_late, NumericVector dinc);
 RcppExport SEXP _rabmp_rcpp_calculate_mortality_probs(SEXP dbhSEXP, SEXP int_earlySEXP, SEXP int_lateSEXP, SEXP dbh_earlySEXP, SEXP dbh_lateSEXP, SEXP dincSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericVector >::type dbh(dbhSEXP);
-    Rcpp::traits::input_parameter< float >::type int_early(int_earlySEXP);
-    Rcpp::traits::input_parameter< float >::type int_late(int_lateSEXP);
-    Rcpp::traits::input_parameter< float >::type dbh_early(dbh_earlySEXP);
-    Rcpp::traits::input_parameter< float >::type dbh_late(dbh_lateSEXP);
-    Rcpp::traits::input_parameter< float >::type dinc(dincSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type int_early(int_earlySEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type int_late(int_lateSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type dbh_early(dbh_earlySEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type dbh_late(dbh_lateSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type dinc(dincSEXP);
     rcpp_result_gen = Rcpp::wrap(rcpp_calculate_mortality_probs(dbh, int_early, int_late, dbh_early, dbh_late, dinc));
     return rcpp_result_gen;
 END_RCPP

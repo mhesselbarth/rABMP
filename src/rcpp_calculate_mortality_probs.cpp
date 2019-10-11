@@ -2,12 +2,11 @@
 
 // [[Rcpp::export]]
 NumericVector rcpp_calculate_mortality_probs(NumericVector dbh,
-                                             float int_early,
-                                             float int_late,
-                                             float dbh_early,
-                                             float dbh_late,
-                                             float dinc) {
-
+                                             NumericVector int_early,
+                                             NumericVector int_late,
+                                             NumericVector dbh_early,
+                                             NumericVector dbh_late,
+                                             NumericVector dinc) {
 
   // get size of input
   const int size_input = dbh.size();
@@ -23,10 +22,12 @@ NumericVector rcpp_calculate_mortality_probs(NumericVector dbh,
   for(int i = 0; i < size_input; i++) {
 
     // calculate dbh increase
-    const float dbh_inc = std::exp(-3.4 + 2.1 * (1 - std::exp(-0.00035 * std::pow(dbh[i], 2.5))));
+    const float dbh_inc = std::exp(-3.4 + 2.1 * (1 - std::exp(-0.00035 *
+                                   std::pow(dbh[i], 2.5))));
 
     // test if NA
-    const bool dbh_test = NumericVector::is_na(int_early + (std::log(dbh[i] + 8) * dbh_early) + (dbh_inc * dinc));
+    const bool dbh_test = NumericVector::is_na(int_early[i] + (std::log(dbh[i] + 8) *
+                                               dbh_early[i]) + (dbh_inc * dinc[i]));
 
     // set to 0 if NA, if not use value
     if(dbh_test) {
@@ -36,10 +37,11 @@ NumericVector rcpp_calculate_mortality_probs(NumericVector dbh,
 
     else {
 
-      logit_early = int_early + (std::log(dbh[i] + 8) * dbh_early) + (dbh_inc * dinc);
+      logit_early = int_early[i] + (std::log(dbh[i] + 8) * dbh_early[i]) +
+        (dbh_inc * dinc[i]);
     }
 
-    const float logit_late = int_late + (dbh[i] * dbh_late);
+    const float logit_late = int_late[i] + (dbh[i] * dbh_late[i]);
 
     const float p_early = 1 / (1 + std::exp(-logit_early));
 

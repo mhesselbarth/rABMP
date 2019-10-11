@@ -6,35 +6,12 @@
 #' @param parameters List with all parameters.
 #' @param abiotic RasterLayer with abiotic conditions. Should be scaled to 0 <= x <= 1.
 #' @param plot_area The plot area as \code{\link{owin}} object from the \code{spatstat} package.
-
 #'
 #' @details
 #' Simulates seed dispersal by first calculating the number of seeds for each tree
 #' and following distributing them around parental trees following a seed kernel.
 #'
 #' @return data.table
-#'
-#' @examples
-#' \dontrun{
-#' df_trees <- prepare_data(data = example_input_data,
-#' x = "x_coord", y = "y_coord", type = "Class", dbh = "bhd")
-#'
-#' threshold <- quantile(df_trees$dbh, probs = 0.8)
-#'
-#' plot_area <- spatstat::owin(xrange = c(0, 500), yrange = c(0, 500))
-#'
-#' ppp_threshold <- spatstat::ppp(x = df_trees[dbh > threshold, x],
-#' y = df_trees[dbh > threshold, y],
-#' window = plot_area)
-#'
-#' hetero <- spatstat::density.ppp(ppp_threshold,  dimyx = c(250, 250))
-#' hetero_df <- tibble::as_tibble(hetero)
-#' hetero_ras <- raster::rasterFromXYZ(hetero_df)
-#'
-#' parameters <- read_parameters(file = "inst/parameters.txt", sep = ";")
-#'
-#' simulate_seed_dispersal_abiotic(df_trees, parameters = parameters)
-#' }
 #'
 #' @aliases simulate_seed_dispersal_abiotic
 #' @rdname simulate_seed_dispersal_abiotic
@@ -96,9 +73,11 @@ simulate_seed_dispersal_abiotic <- function(data, parameters, plot_area,
     }
 
     # get probabilities for seed reduction
-    probs <- ifelse(test = abiotic_values > abiotic_quantiles,
+    probs <- ifelse(test = abiotic_values > abiotic_quantiles[2],
                     yes = parameters$seed_success_high,
-                    no = parameters$seed_success)
+                    no = ifelse(test = abiotic_values < abiotic_quantiles[1],
+                                yes = parameters$seed_success_low,
+                                no = parameters$seed_success))
 
     # get random threshold
     random_thres <- runif(n = nrow(seedlings), min = 0, max = 1)

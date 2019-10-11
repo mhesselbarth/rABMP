@@ -13,7 +13,7 @@ run_model_abiotic(data, parameters, abiotic, plot_area = NULL, years,
 
 \item{parameters}{List with all parameters..}
 
-\item{abiotic}{RasterLayer with abiotic conditions. Should be scaled to 0 <= x <= 1.}
+\item{abiotic}{RasterLayer with abiotic conditions. Should be scaled to -1 <= x <= 1.}
 
 \item{plot_area}{The plot area as \code{\link{owin}} object from the \code{spatstat} package.}
 
@@ -44,28 +44,25 @@ Parameters include ....
 }
 \examples{
 \dontrun{
-df_trees <- prepare_data(data = example_input_data,
+data <- prepare_data(data = example_input_data,
 x = "x_coord", y = "y_coord", type = "Class", dbh = "bhd")
 
-threshold <- quantile(df_trees$dbh, probs = 0.8)
+threshold <- quantile(data$dbh, probs = 0.8)
 
 plot_area <- spatstat::owin(xrange = c(0, 500), yrange = c(0, 500))
 
-ppp_threshold <- spatstat::ppp(x = df_trees[dbh > threshold, x],
-y = df_trees[dbh > threshold, y],
-window = plot_area)
+ppp_threshold <- spatstat::ppp(x = data[dbh > threshold, x],
+y = data[dbh > threshold, y], window = plot_area)
 
-hetero <- spatstat::density.ppp(ppp_threshold,  dimyx = c(250, 250))
-hetero_df <- tibble::as_tibble(hetero)
-hetero_ras <- raster::rasterFromXYZ(hetero_df)
+abiotic <- spatstat::density.ppp(ppp_threshold,  dimyx = c(250, 250))
+abiotic <- dplyr::mutate(tibble::as_tibble(abiotic),
+value = scales::rescale(value, to = c(-1, 1)))
+abiotic <- raster::rasterFromXYZ(abiotic)
 
-parameters <- read_parameters(file = "inst/parameters.txt", sep = ";")
+parameters <- read_parameters(file = "inst/parameters_abiotic.txt", sep = ";")
 
-parameters$growth_abiotic <- 1
-parameters$seed_success_high <- parameters$seed_success * 1.2
-
-result <- run_model_abiotic(data = df_trees, parameters = parameters, years = 10,
-abiotic = hetero_ras, plot_area = plot_area)
+result <- run_model_abiotic(data = data, parameters = parameters, years = 10,
+abiotic = abiotic, plot_area = plot_area)
 }
 
 }

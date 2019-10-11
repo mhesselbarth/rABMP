@@ -15,11 +15,6 @@
 #'
 #' @return tibble
 #'
-#' @examples
-#' \dontrun{
-#' parameters <- read_parameters(file = "inst/parameters.txt", sep = ";")
-#' }
-#'
 #' @aliases read_parameters
 #' @rdname read_parameters
 #'

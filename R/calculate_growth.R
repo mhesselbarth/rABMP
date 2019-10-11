@@ -10,13 +10,6 @@
 #'
 #' @return vector
 #'
-#' @examples
-#' \dontrun{
-#' dbh <- c(24.3, 65.2, 12.5)
-#' parameters <- read_parameters(file = "inst/parameters.txt", sep = ";")
-#' calculate_growth(dbh, parameters = parameters)
-#' }
-#'
 #' @aliases calculate_growth
 #' @rdname calculate_growth
 #'

@@ -23,17 +23,6 @@ Also, i (iteration counter) will be increase and the type re-classified based
 on the DBH: trees with a DBH smaller than 10 cm get the type 'Sapling' and trees
 with a DBH over 10 cm the type 'Adult'.
 }
-\examples{
-\dontrun{
-df_trees <- prepare_data(data = example_input_data, x = "x_coord", y = "y_coord",
- type = "Class", dbh = "bhd")
-
-parameters <- read_parameters(file = "inst/parameters.txt", sep = ";")
-
-simulate_growth_biotic(data = df_trees, parameters = parameters)
-}
-
-}
 \references{
 Pommerening, A., Maleki, K., 2014. Differences between competition kernels and
 traditional size-ratio based competition indices used in forest ecology. For. Ecol. Manage. 331, 135-143.
