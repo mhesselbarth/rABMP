@@ -4,8 +4,9 @@
 \alias{run_model_abiotic}
 \title{run_model_abiotic}
 \usage{
-run_model_abiotic(data, parameters, abiotic, plot_area = NULL, years,
-  save_each = NULL, return_seedlings = FALSE, return_nested = FALSE,
+run_model_abiotic(data, parameters, abiotic, probs = c(0.05, 0.95),
+  plot_area = NULL, years, save_each = NULL,
+  return_seedlings = FALSE, return_nested = FALSE,
   return_tibble = TRUE, verbose = TRUE)
 }
 \arguments{
@@ -14,6 +15,8 @@ run_model_abiotic(data, parameters, abiotic, plot_area = NULL, years,
 \item{parameters}{List with all parameters..}
 
 \item{abiotic}{RasterLayer with abiotic conditions. Should be scaled to -1 <= x <= 1.}
+
+\item{probs}{Quantiles used for bad and good habitat threshold.}
 
 \item{plot_area}{The plot area as \code{\link{owin}} object from the \code{spatstat} package.}
 
