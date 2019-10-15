@@ -51,6 +51,7 @@
 #' @export
 run_model_abiotic <- function(data, parameters, abiotic,
                               plot_area = NULL,
+                              probs = c(0.05, 0.95),
                               years, save_each = NULL,
                               return_seedlings = FALSE,
                               return_nested = FALSE, return_tibble = TRUE,
@@ -147,7 +148,7 @@ run_model_abiotic <- function(data, parameters, abiotic,
 
   # get quantiles of abiotic values
   abiotic_quantiles <- quantile(raster::values(abiotic),
-                                probs = c(0.05, 0.95), na.rm = TRUE)
+                                probs = probs, na.rm = TRUE)
 
   # extract abiotic values
   abiotic_values <- rabmp::extract_abiotic(data, abiotic = abiotic)
