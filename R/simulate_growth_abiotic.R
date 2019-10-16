@@ -13,8 +13,6 @@
 #'
 #' @return data.table
 #'
-#' @examples
-#'
 #' @aliases simulate_growth_abiotic
 #' @rdname simulate_growth_abiotic
 #'

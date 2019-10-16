@@ -12,8 +12,6 @@
 #'
 #' @return data.table
 #'
-#' @examples
-#'
 #' @aliases simulate_ci
 #' @rdname simulate_ci
 #'

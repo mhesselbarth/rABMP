@@ -8,6 +8,8 @@
 #'
 #' @param data Dataframe with input data.
 #' @param parameters List with all parameters.
+#'@param abiotic_quantiles Quantiles used for bad and good habitat threshold.
+
 #'
 #' @return data.table
 #'
@@ -30,36 +32,34 @@ simulate_mortality_abiotic <- function(data, parameters, abiotic_quantiles) {
 
   # get mortality parameters
   int_early <- ifelse(test = abiotic_values > abiotic_quantiles[2],
-                      yes = parameters$mort_int_early_high,
+                      yes = parameters$mort_int_early_low,
                       no = ifelse(test = abiotic_values < abiotic_quantiles[1],
-                                  yes = parameters$mort_int_early_low,
+                                  yes = parameters$mort_int_early_high,
                                   no = parameters$mort_int_early))
 
   dbh_early <- ifelse(test = abiotic_values > abiotic_quantiles[2],
-                      yes = parameters$mort_dbh_early_high,
+                      yes = parameters$mort_dbh_early_low,
                       no = ifelse(test = abiotic_values < abiotic_quantiles[1],
-                                  yes = parameters$mort_dbh_early_low,
+                                  yes = parameters$mort_dbh_early_high,
                                   no = parameters$mort_dbh_early))
 
   int_late <- ifelse(test = abiotic_values > abiotic_quantiles[2],
-                      yes = parameters$mort_int_late_high,
+                      yes = parameters$mort_int_late_low,
                       no = ifelse(test = abiotic_values < abiotic_quantiles[1],
-                                  yes = parameters$mort_int_late_low,
+                                  yes = parameters$mort_int_late_high,
                                   no = parameters$mort_int_late))
 
   dbh_late <- ifelse(test = abiotic_values > abiotic_quantiles[2],
-                      yes = parameters$mort_dbh_late_high,
+                      yes = parameters$mort_dbh_late_low,
                       no = ifelse(test = abiotic_values < abiotic_quantiles[1],
-                                  yes = parameters$mort_dbh_late_low,
+                                  yes = parameters$mort_dbh_late_high,
                                   no = parameters$mort_dbh_late))
 
   dinc <- ifelse(test = abiotic_values > abiotic_quantiles[2],
-                 yes = parameters$mort_dinc_high,
+                 yes = parameters$mort_dinc_low,
                  no = ifelse(test = abiotic_values < abiotic_quantiles[1],
-                             yes = parameters$mort_dinc_low,
+                             yes = parameters$mort_dinc_high,
                              no = parameters$mort_dinc))
-
-
 
   # calculate mortality prob (Holzwarth et al. 2013 formula S12, formula 1/2)
   mortality_prob <- rcpp_calculate_mortality_probs(dbh = data[id, dbh],

@@ -10,6 +10,8 @@ simulate_mortality_abiotic(data, parameters, abiotic_quantiles)
 \item{data}{Dataframe with input data.}
 
 \item{parameters}{List with all parameters.}
+
+\item{abiotic_quantiles}{Quantiles used for bad and good habitat threshold.}
 }
 \value{
 data.table

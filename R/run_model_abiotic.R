@@ -147,8 +147,8 @@ run_model_abiotic <- function(data, parameters, abiotic, probs = c(0.05, 0.95),
   }
 
   # get quantiles of abiotic values
-  abiotic_quantiles <- quantile(raster::values(abiotic),
-                                probs = probs, na.rm = TRUE)
+  abiotic_quantiles <- stats::quantile(raster::values(abiotic),
+                                       probs = probs, na.rm = TRUE)
 
   # extract abiotic values
   abiotic_values <- rabmp::extract_abiotic(data, abiotic = abiotic)

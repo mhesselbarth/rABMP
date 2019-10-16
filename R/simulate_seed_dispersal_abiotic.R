@@ -5,6 +5,7 @@
 #' @param data Dataframe with input data.
 #' @param parameters List with all parameters.
 #' @param abiotic RasterLayer with abiotic conditions. Should be scaled to 0 <= x <= 1.
+#' @param abiotic_quantiles Quantiles used for bad and good habitat threshold.
 #' @param plot_area The plot area as \code{\link{owin}} object from the \code{spatstat} package.
 #'
 #' @details
@@ -80,7 +81,7 @@ simulate_seed_dispersal_abiotic <- function(data, parameters, plot_area,
                                 no = parameters$seed_success))
 
     # get random threshold
-    random_thres <- runif(n = nrow(seedlings), min = 0, max = 1)
+    random_thres <- stats::runif(n = nrow(seedlings), min = 0, max = 1)
 
     # which seedlings should be kept
     include_id <- which(random_thres < probs, arr.ind = TRUE)

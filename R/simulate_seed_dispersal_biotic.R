@@ -61,7 +61,7 @@ simulate_seed_dispersal_biotic <- function(data, parameters, plot_area){
                                                  w = plot_area), ]
 
     # get random threshold
-    random_thres <- runif(n = nrow(seedlings), min = 0, max = 1)
+    random_thres <- stats::runif(n = nrow(seedlings), min = 0, max = 1)
 
     # which seedlings should be kept
     include_id <- which(random_thres < parameters$seed_success, arr.ind = TRUE)

@@ -23,9 +23,6 @@ Also, i (iteration counter) will be increase and the type re-classified based
 on the DBH: trees with a DBH smaller than 10 cm get the type 'sapling' and trees
 with a DBH over 10 cm the type 'adult'.
 }
-\examples{
-
-}
 \references{
 Pommerening, A., Maleki, K., 2014. Differences between competition kernels and
 traditional size-ratio based competition indices used in forest ecology. For. Ecol. Manage. 331, 135-143.
