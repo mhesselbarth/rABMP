@@ -5,37 +5,6 @@
 
 using namespace Rcpp;
 
-// rcpp_calculate_actual_abiotic
-NumericVector rcpp_calculate_actual_abiotic(NumericMatrix matrix, double alpha, double beta, double mod, double gamma, int max_dist);
-RcppExport SEXP _rabmp_rcpp_calculate_actual_abiotic(SEXP matrixSEXP, SEXP alphaSEXP, SEXP betaSEXP, SEXP modSEXP, SEXP gammaSEXP, SEXP max_distSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericMatrix >::type matrix(matrixSEXP);
-    Rcpp::traits::input_parameter< double >::type alpha(alphaSEXP);
-    Rcpp::traits::input_parameter< double >::type beta(betaSEXP);
-    Rcpp::traits::input_parameter< double >::type mod(modSEXP);
-    Rcpp::traits::input_parameter< double >::type gamma(gammaSEXP);
-    Rcpp::traits::input_parameter< int >::type max_dist(max_distSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_calculate_actual_abiotic(matrix, alpha, beta, mod, gamma, max_dist));
-    return rcpp_result_gen;
-END_RCPP
-}
-// rcpp_calculate_actual_biotic
-NumericVector rcpp_calculate_actual_biotic(NumericMatrix matrix, double alpha, double beta, double mod, int max_dist);
-RcppExport SEXP _rabmp_rcpp_calculate_actual_biotic(SEXP matrixSEXP, SEXP alphaSEXP, SEXP betaSEXP, SEXP modSEXP, SEXP max_distSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericMatrix >::type matrix(matrixSEXP);
-    Rcpp::traits::input_parameter< double >::type alpha(alphaSEXP);
-    Rcpp::traits::input_parameter< double >::type beta(betaSEXP);
-    Rcpp::traits::input_parameter< double >::type mod(modSEXP);
-    Rcpp::traits::input_parameter< int >::type max_dist(max_distSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_calculate_actual_biotic(matrix, alpha, beta, mod, max_dist));
-    return rcpp_result_gen;
-END_RCPP
-}
 // rcpp_calculate_ci
 NumericVector rcpp_calculate_ci(NumericMatrix matrix, float alpha, float beta, int max_dist);
 RcppExport SEXP _rabmp_rcpp_calculate_ci(SEXP matrixSEXP, SEXP alphaSEXP, SEXP betaSEXP, SEXP max_distSEXP) {
@@ -120,8 +89,6 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_rabmp_rcpp_calculate_actual_abiotic", (DL_FUNC) &_rabmp_rcpp_calculate_actual_abiotic, 6},
-    {"_rabmp_rcpp_calculate_actual_biotic", (DL_FUNC) &_rabmp_rcpp_calculate_actual_biotic, 5},
     {"_rabmp_rcpp_calculate_ci", (DL_FUNC) &_rabmp_rcpp_calculate_ci, 4},
     {"_rabmp_rcpp_calculate_distance_probability", (DL_FUNC) &_rabmp_rcpp_calculate_distance_probability, 3},
     {"_rabmp_rcpp_calculate_mortality_probs", (DL_FUNC) &_rabmp_rcpp_calculate_mortality_probs, 6},
