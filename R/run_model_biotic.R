@@ -23,12 +23,12 @@
 #'
 #' @examples
 #' \dontrun{
-#' df_trees <- prepare_data(data = example_input_data,
-#' x = "x_coord", y = "y_coord", species = "spec", type = "Class", dbh = "bhd")
+#' data <- prepare_data(data = example_input_data,
+#' x = "x_coord", y = "y_coord", type = "Class", dbh = "bhd")
 #'
-#' parameters <- read_parameters(file = "inst/parameters.txt", sep = ";")
+#' parameters <- read_parameters(file = "inst/parameters_biotic.txt", sep = ";")
 #'
-#' result <- run_model_biotic(data = df_trees, parameters = parameters, years = 10)
+#' result <- run_model_biotic(data = data, parameters = parameters, years = 10)
 #' }
 #'
 #' @aliases run_model_biotic
@@ -142,7 +142,7 @@ run_model_biotic <- function(data, parameters, plot_area = NULL,
     data <- rabmp::simulate_seed_dispersal_biotic(data, parameters = parameters,
                                                   plot_area = plot_area)
 
-    data <- rabmp::simulate_mortality(data, parameters = parameters)
+    data <- rabmp::simulate_mortality_biotic(data, parameters = parameters)
 
     if (i %% save_each == 0) {
 

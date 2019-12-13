@@ -26,20 +26,11 @@ Construct a list with all default paramerts for run_model. The parameters includ
   \item Second item
 }
 }
-\examples{
-\dontrun{
-parameters <- read_parameters(file = "inst/parameters.txt", sep = ";")
-}
-
-}
 \references{
-Bilek, L., Remes, J., Zahradnik, D., 2009. Natural regeneration of senescent even-
-aged beech (Fagus sylvatica L.) stands under the conditions of Central Bohemua.
-Journal of Forest Science 55(4), 145-155
-
 Holzwarth, F., Kahl, A., Bauhus, J., Wirth, C., 2013. Many ways to die -
 partitioning tree mortality dynamics in a near-natural mixed deciduous forest.
 J. Ecol. 101, 220–230.
+
 
 Pommerening, A., Maleki, K., 2014. Differences between competition kernels and
 traditional size-ratio based competition indices used in forest ecology.

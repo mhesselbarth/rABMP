@@ -13,16 +13,6 @@
 #'
 #' @return data.table
 #'
-#' @examples
-#' \dontrun{
-#' df_trees <- prepare_data(data = example_input_data, x = "x_coord", y = "y_coord",
-#'  type = "Class", dbh = "bhd")
-#'
-#' parameters <- read_parameters(file = "inst/parameters.txt", sep = ";")
-#'
-#' simulate_growth_biotic(data = df_trees, parameters = parameters)
-#' }
-#'
 #' @aliases simulate_growth_biotic
 #' @rdname simulate_growth_biotic
 #'

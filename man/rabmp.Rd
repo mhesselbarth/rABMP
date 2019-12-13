@@ -4,7 +4,7 @@
 \name{rabmp}
 \alias{rabmp}
 \alias{rabmp-package}
-\title{rabmp: R agent Based Model for Plants}
+\title{rabmp: R agent-based model for plants}
 \description{
 Functions to model plant growth within an old-growth beech forest. All main processes (i.e. competition, 
   growth, seed dispersal, mortality) are included.

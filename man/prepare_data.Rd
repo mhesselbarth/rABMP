@@ -27,11 +27,3 @@ Prepare data
 The funcion modifies the structures of the data dataframe. This includes
 renameing of the coloumns and nesting the data.
 }
-\examples{
-\dontrun{
-names(example_input_data)
-prepare_data(data = example_input_data, x = "x_coord", y = "y_coord",
-type = "Class", dbh = "bhd")[]
-}
-
-}

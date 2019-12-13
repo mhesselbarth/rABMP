@@ -13,16 +13,6 @@
 #'
 #' @return data.table
 #'
-#' @examples
-#' \dontrun{
-#' df_trees <- prepare_data(data = example_input_data, x = "x_coord", y = "y_coord",
-#'  type = "Class", dbh = "bhd")
-#'
-#' parameters <- read_parameters(file = "inst/parameters.txt", sep = ";")
-#'
-#' simulate_seed_dispersal_biotic(df_trees, parameters = parameters)
-#' }
-#'
 #' @aliases simulate_seed_dispersal_biotic
 #' @rdname simulate_seed_dispersal_biotic
 #'
@@ -30,9 +20,9 @@
 #' Ribbens, E., Silander, J. A., & Pacala, S. W. (1994). Seedling recruitment in forests:
 #' Calibrating models to predict patterns of tree seedling dispersion. Ecology, 75(6), 1794-1806.
 #'
-#' Bilek, L., Remes, J., Zahradnik, D., 2009. Natural regeneration of senescent even-
-#' aged beech (Fagus sylvatica L.) stands under the conditions of Central Bohemua.
-#' Journal of Forest Science 55(4), 145-155
+# Olesen, C.R., Madsen, P., 2008. The impact of roe deer (Capreolus capreolus),
+# seedbed, light and seed fall on natural beech (Fagus sylvatica) regeneration.
+# For. Ecol. Manag. 255, 3962–3972.
 #'
 #' @export
 simulate_seed_dispersal_biotic <- function(data, parameters, plot_area){
@@ -44,9 +34,8 @@ simulate_seed_dispersal_biotic <- function(data, parameters, plot_area){
   number_seedlings <- rcpp_calculate_number_seeds(dbh = data[id, dbh],
                                                   str = parameters$seed_str)
 
-  # reduce seedlings (Bilek et al. 2009 p150)
-  number_seedlings <- floor(number_seedlings *
-                              parameters$seed_empty * parameters$seed_success)
+  # reduce seedlings
+  number_seedlings <- round(number_seedlings, digits = 0)
 
   # id of seedlings > 0
   id_seedlings <- which(number_seedlings > 0)
@@ -70,6 +59,15 @@ simulate_seed_dispersal_biotic <- function(data, parameters, plot_area){
     seedlings <- seedlings[spatstat::inside.owin(x = seedlings[, 1],
                                                  y = seedlings[, 2],
                                                  w = plot_area), ]
+
+    # get random threshold
+    random_thres <- stats::runif(n = nrow(seedlings), min = 0, max = 1)
+
+    # which seedlings should be kept
+    include_id <- which(random_thres < parameters$seed_success, arr.ind = TRUE)
+
+    # reduce seedlings
+    seedlings <- seedlings[include_id, ]
 
     # create data.table
     # create seedlings id larger than existing max id

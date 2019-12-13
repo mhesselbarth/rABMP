@@ -4,7 +4,8 @@
 #'
 #' @param data Data.table with input data.
 #' @param parameters List with all parameters..
-#' @param abiotic RasterLayer with abiotic conditions. Should be scaled to 0 <= x <= 1.
+#' @param abiotic RasterLayer with abiotic conditions. Should be scaled to -1 <= x <= 1.
+#' @param probs Quantiles used for bad and good habitat threshold.
 #' @param plot_area The plot area as \code{\link{owin}} object from the \code{spatstat} package.
 #' @param years Numeric timesteps (years) the model runs.
 #' @param save_each Integer value specifying time step results are saved.
@@ -24,34 +25,32 @@
 #'
 #' @examples
 #' \dontrun{
-#' df_trees <- prepare_data(data = example_input_data,
+#' data <- prepare_data(data = example_input_data,
 #' x = "x_coord", y = "y_coord", type = "Class", dbh = "bhd")
 #'
-#' threshold <- quantile(df_trees$dbh, probs = 0.8)
+#' threshold <- quantile(data$dbh, probs = 0.8)
 #'
 #' plot_area <- spatstat::owin(xrange = c(0, 500), yrange = c(0, 500))
 #'
-#' ppp_threshold <- spatstat::ppp(x = df_trees[dbh > threshold, x],
-#' y = df_trees[dbh > threshold, y],
-#' window = plot_area)
+#' ppp_threshold <- spatstat::ppp(x = data[dbh > threshold, x],
+#' y = data[dbh > threshold, y], window = plot_area)
 #'
-#' hetero <- spatstat::density.ppp(ppp_threshold,  dimyx = c(250, 250))
-#' hetero_df <- tibble::as_tibble(hetero)
-#' hetero_ras <- raster::rasterFromXYZ(hetero_df)
+#' abiotic <- spatstat::density.ppp(ppp_threshold,  dimyx = c(250, 250))
+#' abiotic <- dplyr::mutate(tibble::as_tibble(abiotic),
+#' value = scales::rescale(value, to = c(-1, 1)))
+#' abiotic <- raster::rasterFromXYZ(abiotic)
 #'
-#' parameters <- read_parameters(file = "inst/parameters.txt", sep = ";")
+#' parameters <- read_parameters(file = "inst/parameters_abiotic.txt", sep = ";")
 #'
-#' parameters$growth_abiotic <- 1
-#'
-#' result <- run_model_abiotic(data = df_trees, parameters = parameters, years = 10,
-#' abiotic = hetero_ras, plot_area = plot_area)
+#' result <- run_model_abiotic(data = data, parameters = parameters, years = 10,
+#' abiotic = abiotic, plot_area = plot_area)
 #' }
 #'
 #' @aliases run_model_abiotic
 #' @rdname run_model_abiotic
 #'
 #' @export
-run_model_abiotic <- function(data, parameters, abiotic,
+run_model_abiotic <- function(data, parameters, abiotic, probs = c(0.05, 0.95),
                               plot_area = NULL,
                               years, save_each = NULL,
                               return_seedlings = FALSE,
@@ -147,9 +146,12 @@ run_model_abiotic <- function(data, parameters, abiotic,
     message("> ...Starting simulation...")
   }
 
+  # get quantiles of abiotic values
+  abiotic_quantiles <- stats::quantile(raster::values(abiotic),
+                                       probs = probs, na.rm = TRUE)
+
   # extract abiotic values
-  abiotic_values <- rabmp::extract_abiotic(data,
-                                           abiotic = abiotic)
+  abiotic_values <- rabmp::extract_abiotic(data, abiotic = abiotic)
 
   if (anyNA(abiotic_values)) {
 
@@ -171,9 +173,11 @@ run_model_abiotic <- function(data, parameters, abiotic,
 
     data <- rabmp::simulate_seed_dispersal_abiotic(data, parameters = parameters,
                                                    plot_area = plot_area,
-                                                   abiotic = abiotic)
+                                                   abiotic = abiotic,
+                                                   abiotic_quantiles = abiotic_quantiles)
 
-    data <- rabmp::simulate_mortality(data, parameters = parameters)
+    data <- rabmp::simulate_mortality_abiotic(data, parameters = parameters,
+                                              abiotic_quantiles = abiotic_quantiles)
 
     if (i %% save_each == 0) {
 

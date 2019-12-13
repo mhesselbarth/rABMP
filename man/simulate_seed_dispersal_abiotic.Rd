@@ -4,7 +4,8 @@
 \alias{simulate_seed_dispersal_abiotic}
 \title{simulate_seed_dispersal_abiotic}
 \usage{
-simulate_seed_dispersal_abiotic(data, parameters, plot_area, abiotic)
+simulate_seed_dispersal_abiotic(data, parameters, plot_area, abiotic,
+  abiotic_quantiles)
 }
 \arguments{
 \item{data}{Dataframe with input data.}
@@ -14,6 +15,8 @@ simulate_seed_dispersal_abiotic(data, parameters, plot_area, abiotic)
 \item{plot_area}{The plot area as \code{\link{owin}} object from the \code{spatstat} package.}
 
 \item{abiotic}{RasterLayer with abiotic conditions. Should be scaled to 0 <= x <= 1.}
+
+\item{abiotic_quantiles}{Quantiles used for bad and good habitat threshold.}
 }
 \value{
 data.table
@@ -25,22 +28,7 @@ Simulate seed dispersal
 Simulates seed dispersal by first calculating the number of seeds for each tree
 and following distributing them around parental trees following a seed kernel.
 }
-\examples{
-\dontrun{
-df_trees <- prepare_data(data = example_input_data, x = "x_coord", y = "y_coord",
- type = "Class", dbh = "bhd")
-
-parameters <- read_parameters(file = "inst/parameters.txt", sep = ";")
-
-simulate_seed_dispersal_abiotic(df_trees, parameters = parameters)
-}
-
-}
 \references{
 Ribbens, E., Silander, J. A., & Pacala, S. W. (1994). Seedling recruitment in forests:
 Calibrating models to predict patterns of tree seedling dispersion. Ecology, 75(6), 1794-1806.
-
-Bilek, L., Remes, J., Zahradnik, D., 2009. Natural regeneration of senescent even-
-aged beech (Fagus sylvatica L.) stands under the conditions of Central Bohemua.
-Journal of Forest Science 55(4), 145-155
 }

@@ -15,22 +15,17 @@
 #'
 #' @return tibble
 #'
-#' @examples
-#' \dontrun{
-#' parameters <- read_parameters(file = "inst/parameters.txt", sep = ";")
-#' }
-#'
 #' @aliases read_parameters
 #' @rdname read_parameters
 #'
 #' @references
-#' Bilek, L., Remes, J., Zahradnik, D., 2009. Natural regeneration of senescent even-
-#' aged beech (Fagus sylvatica L.) stands under the conditions of Central Bohemua.
-#' Journal of Forest Science 55(4), 145-155
-#'
 #' Holzwarth, F., Kahl, A., Bauhus, J., Wirth, C., 2013. Many ways to die -
 #' partitioning tree mortality dynamics in a near-natural mixed deciduous forest.
 #' J. Ecol. 101, 220–230.
+#'
+# Olesen, C.R., Madsen, P., 2008. The impact of roe deer (Capreolus capreolus),
+# seedbed, light and seed fall on natural beech (Fagus sylvatica) regeneration.
+# For. Ecol. Manag. 255, 3962–3972.
 #'
 #' Pommerening, A., Maleki, K., 2014. Differences between competition kernels and
 #' traditional size-ratio based competition indices used in forest ecology.

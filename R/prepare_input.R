@@ -14,13 +14,6 @@
 #'
 #' @return data.table
 #'
-#' @examples
-#' \dontrun{
-#' names(example_input_data)
-#' prepare_data(data = example_input_data, x = "x_coord", y = "y_coord",
-#' type = "Class", dbh = "bhd")[]
-#' }
-#'
 #' @aliases prepare_data
 #' @rdname prepare_data
 #'

@@ -22,17 +22,6 @@ The function calculated a compeition index using a kernel. Competition depends o
 neighbouring trees (within max_dist). If \code{standardized = TRUE}, all values
 are standardized to 0 <= CI <= 1.
 }
-\examples{
-\dontrun{
-df_trees <- prepare_data(data = example_input_data, x = "x_coord", y = "y_coord",
- type = "Class", dbh = "bhd")
-
-parameters <- read_parameters(file = "inst/parameters.txt", sep = ";")
-
-simulate_ci(data = df_trees, parameters = parameters)
-}
-
-}
 \references{
 Pommerening, A., Maleki, K., 2014. Differences between competition kernels and
 traditional size-ratio based competition indices used in forest ecology. For. Ecol. Manage. 331, 135-143.

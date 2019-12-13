@@ -42,12 +42,12 @@ Parameters include ....
 }
 \examples{
 \dontrun{
-df_trees <- prepare_data(data = example_input_data,
-x = "x_coord", y = "y_coord", species = "spec", type = "Class", dbh = "bhd")
+data <- prepare_data(data = example_input_data,
+x = "x_coord", y = "y_coord", type = "Class", dbh = "bhd")
 
-parameters <- read_parameters(file = "inst/parameters.txt", sep = ";")
+parameters <- read_parameters(file = "inst/parameters_biotic.txt", sep = ";")
 
-result <- run_model_biotic(data = df_trees, parameters = parameters, years = 10)
+result <- run_model_biotic(data = data, parameters = parameters, years = 10)
 }
 
 }
