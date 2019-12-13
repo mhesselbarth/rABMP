@@ -3,3 +3,5 @@
 ^README.*$
 ^data-raw
 R/deprecated
+^\.travis\.yml$
+^appveyor\.yml$
