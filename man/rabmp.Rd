@@ -10,7 +10,7 @@ Functions to model plant growth within an old-growth beech forest. All main proc
   growth, seed dispersal, mortality) are included.
 }
 \author{
-\strong{Maintainer}: Maximillian H.K. Hesselbarth \email{maximilian.hesselbarth@uni-goettingen.de} (0000-0003-1125-9918)
+\strong{Maintainer}: Maximillian H.K. Hesselbarth \email{maximilian.hesselbarth@uni-goettingen.de} (\href{https://orcid.org/0000-0003-1125-9918}{ORCID})
 
 Authors:
 \itemize{

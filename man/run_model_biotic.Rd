@@ -4,9 +4,17 @@
 \alias{run_model_biotic}
 \title{run_model_biotic}
 \usage{
-run_model_biotic(data, parameters, plot_area = NULL, years,
-  save_each = NULL, return_seedlings = FALSE, return_nested = FALSE,
-  return_tibble = TRUE, verbose = TRUE)
+run_model_biotic(
+  data,
+  parameters,
+  plot_area = NULL,
+  years,
+  save_each = NULL,
+  return_seedlings = FALSE,
+  return_nested = FALSE,
+  return_tibble = TRUE,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{data}{Data.table with input data.}

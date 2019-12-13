@@ -4,10 +4,19 @@
 \alias{run_model_abiotic}
 \title{run_model_abiotic}
 \usage{
-run_model_abiotic(data, parameters, abiotic, probs = c(0.05, 0.95),
-  plot_area = NULL, years, save_each = NULL,
-  return_seedlings = FALSE, return_nested = FALSE,
-  return_tibble = TRUE, verbose = TRUE)
+run_model_abiotic(
+  data,
+  parameters,
+  abiotic,
+  probs = c(0.05, 0.95),
+  plot_area = NULL,
+  years,
+  save_each = NULL,
+  return_seedlings = FALSE,
+  return_nested = FALSE,
+  return_tibble = TRUE,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{data}{Data.table with input data.}
