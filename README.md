@@ -3,4 +3,4 @@
 
 # rabmp
 
-The goal of rabmp is to …
+Individual-based simulation model for forest trees.
