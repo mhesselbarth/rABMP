@@ -4,7 +4,8 @@
 \name{example_input_data}
 \alias{example_input_data}
 \title{Example data set}
-\format{A tibble with 1,340 rows and 5 variables:
+\format{
+A tibble with 1,340 rows and 5 variables:
 
 x: x coordinate
 
@@ -12,7 +13,8 @@ y: y coordinate
 
 Class: type (e.g. "Adult")
 
-bhd: diameter at breast height}
+bhd: diameter at breast height
+}
 \usage{
 example_input_data
 }
