@@ -3,10 +3,23 @@
 
 # rabmp
 
-[![Travis](https://travis-ci.org/mhesselbarth/rabmp.svg?branch=master)](https://travis-ci.org/mhesselbarth/rabmp)
-[![AppVeyor](https://ci.appveyor.com/api/projects/status/github/mhesselbarth/rabmp?branch=master&svg=true)](https://ci.appveyor.com/project/mhesselbarth/rabmp)
+<!-- badges: start -->
+
+![R-CMD-check](https://github.com/mhesselbarth/rabmp/workflows/R-CMD-check/badge.svg)
+[![License:
+MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3573619.svg)](https://doi.org/10.5281/zenodo.3573619)
+
+<!-- badges: end -->
 
 Individual-based simulation model for forest trees.
 
-Developed for: Hesselbarth, M.H.K., Enderle, L., Wiegand, K., Moloney, K.A., In prep. Environmental heterogeneity influences mostly earlier life-history stages in a temperate old-growth forest as shown by individual-based modelling.
+## Installation
+
+To install `rabmp` use:
+
+``` r
+install.packages("remotes") # if devtools is not already installed
+
+remotes::install_github("mhesselbarth/rabmp")
+```
