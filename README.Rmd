@@ -1,5 +1,7 @@
 ---
 output: github_document
+editor_options: 
+  chunk_output_type: console
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -23,3 +25,13 @@ knitr::opts_chunk$set(
 <!-- badges: end -->
 
 Individual-based simulation model for forest trees.
+
+## Installation
+
+To install `rabmp` use: 
+  
+```{r, include = TRUE, eval = FALSE}
+install.packages("remotes") # if devtools is not already installed
+
+remotes::install_github("mhesselbarth/rabmp")
+```
