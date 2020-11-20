@@ -6,3 +6,4 @@ R/deprecated
 ^\.travis\.yml$
 ^appveyor\.yml$
 ^LICENSE\.md$
+^\.github$
