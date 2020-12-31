@@ -20,15 +20,15 @@ BEGIN_RCPP
 END_RCPP
 }
 // rcpp_calculate_distance_probability
-NumericVector rcpp_calculate_distance_probability(float beta, float theta, int max_dist);
-RcppExport SEXP _rabmp_rcpp_calculate_distance_probability(SEXP betaSEXP, SEXP thetaSEXP, SEXP max_distSEXP) {
+NumericVector rcpp_calculate_distance_probability(float eta, float theta, int max_dist);
+RcppExport SEXP _rabmp_rcpp_calculate_distance_probability(SEXP etaSEXP, SEXP thetaSEXP, SEXP max_distSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< float >::type beta(betaSEXP);
+    Rcpp::traits::input_parameter< float >::type eta(etaSEXP);
     Rcpp::traits::input_parameter< float >::type theta(thetaSEXP);
     Rcpp::traits::input_parameter< int >::type max_dist(max_distSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_calculate_distance_probability(beta, theta, max_dist));
+    rcpp_result_gen = Rcpp::wrap(rcpp_calculate_distance_probability(eta, theta, max_dist));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -61,29 +61,29 @@ BEGIN_RCPP
 END_RCPP
 }
 // rcpp_create_seedlings
-NumericMatrix rcpp_create_seedlings(NumericMatrix coords, NumericVector number, float beta, int max_dist);
-RcppExport SEXP _rabmp_rcpp_create_seedlings(SEXP coordsSEXP, SEXP numberSEXP, SEXP betaSEXP, SEXP max_distSEXP) {
+NumericMatrix rcpp_create_seedlings(NumericMatrix coords, NumericVector number, float eta, int max_dist);
+RcppExport SEXP _rabmp_rcpp_create_seedlings(SEXP coordsSEXP, SEXP numberSEXP, SEXP etaSEXP, SEXP max_distSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type coords(coordsSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type number(numberSEXP);
-    Rcpp::traits::input_parameter< float >::type beta(betaSEXP);
+    Rcpp::traits::input_parameter< float >::type eta(etaSEXP);
     Rcpp::traits::input_parameter< int >::type max_dist(max_distSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_create_seedlings(coords, number, beta, max_dist));
+    rcpp_result_gen = Rcpp::wrap(rcpp_create_seedlings(coords, number, eta, max_dist));
     return rcpp_result_gen;
 END_RCPP
 }
 // rcpp_random_distance
-NumericVector rcpp_random_distance(int number_seeds, float beta, int max_dist);
-RcppExport SEXP _rabmp_rcpp_random_distance(SEXP number_seedsSEXP, SEXP betaSEXP, SEXP max_distSEXP) {
+NumericVector rcpp_random_distance(int number_seeds, float eta, int max_dist);
+RcppExport SEXP _rabmp_rcpp_random_distance(SEXP number_seedsSEXP, SEXP etaSEXP, SEXP max_distSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< int >::type number_seeds(number_seedsSEXP);
-    Rcpp::traits::input_parameter< float >::type beta(betaSEXP);
+    Rcpp::traits::input_parameter< float >::type eta(etaSEXP);
     Rcpp::traits::input_parameter< int >::type max_dist(max_distSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_random_distance(number_seeds, beta, max_dist));
+    rcpp_result_gen = Rcpp::wrap(rcpp_random_distance(number_seeds, eta, max_dist));
     return rcpp_result_gen;
 END_RCPP
 }

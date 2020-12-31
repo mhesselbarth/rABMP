@@ -4,7 +4,7 @@
 // Starting line 793
 
 // [[Rcpp::export]]
-NumericVector rcpp_calculate_distance_probability(float beta,
+NumericVector rcpp_calculate_distance_probability(float eta,
                                                   float theta,
                                                   int max_dist) {
 
@@ -18,8 +18,8 @@ NumericVector rcpp_calculate_distance_probability(float beta,
   // loop from to max_dist and sum all probabilities (area under curve)
   for(int distance = 0; distance < max_dist; distance++) {
 
-    // normalizer += M_PI * (2 * (distance + 0.5)) * std::exp(-beta * std::pow(distance, theta));
-    normalizer += std::exp(-beta * std::pow(distance, theta));
+    // normalizer += M_PI * (2 * (distance + 0.5)) * std::exp(-eta * std::pow(distance, theta));
+    normalizer += std::exp(-eta * std::pow(distance, theta));
   }
 
   // normalize area under curve
@@ -28,8 +28,8 @@ NumericVector rcpp_calculate_distance_probability(float beta,
   // loop again through all distance, calculate probability but use normalizer and store each value
   for(int distance = 0; distance < max_dist; distance++) {
 
-    // probability_temp += normalizer * M_PI * (2 * (distance + 0.5)) * std::exp(-beta * std::pow(distance, theta));
-    probability_temp += normalizer * std::exp(-beta * std::pow(distance, theta));
+    // probability_temp += normalizer * M_PI * (2 * (distance + 0.5)) * std::exp(-eta * std::pow(distance, theta));
+    probability_temp += normalizer * std::exp(-eta * std::pow(distance, theta));
 
     probability[distance] = probability_temp;
   }
@@ -49,7 +49,7 @@ df_trees <- prepare_data(data = example_input_data, x = "x_coord", y = "y_coord"
 
 parameters <- read_parameters(file = "inst/parameters.txt", sep = ";")
 
-rcpp_calculate_distance_probability(beta = parameters$seed_beta,
+rcpp_calculate_distance_probability(eta = parameters$seed_eta,
                                     theta = 3,
                                     max_dist = parameters$seed_max_dist)
 

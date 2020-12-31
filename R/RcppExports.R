@@ -5,8 +5,8 @@ rcpp_calculate_ci <- function(matrix, alpha, beta, max_dist) {
     .Call('_rabmp_rcpp_calculate_ci', PACKAGE = 'rabmp', matrix, alpha, beta, max_dist)
 }
 
-rcpp_calculate_distance_probability <- function(beta, theta, max_dist) {
-    .Call('_rabmp_rcpp_calculate_distance_probability', PACKAGE = 'rabmp', beta, theta, max_dist)
+rcpp_calculate_distance_probability <- function(eta, theta, max_dist) {
+    .Call('_rabmp_rcpp_calculate_distance_probability', PACKAGE = 'rabmp', eta, theta, max_dist)
 }
 
 rcpp_calculate_mortality_probs <- function(dbh, int_early, int_late, dbh_early, dbh_late, dinc) {
@@ -17,11 +17,11 @@ rcpp_calculate_number_seeds <- function(dbh, str) {
     .Call('_rabmp_rcpp_calculate_number_seeds', PACKAGE = 'rabmp', dbh, str)
 }
 
-rcpp_create_seedlings <- function(coords, number, beta, max_dist) {
-    .Call('_rabmp_rcpp_create_seedlings', PACKAGE = 'rabmp', coords, number, beta, max_dist)
+rcpp_create_seedlings <- function(coords, number, eta, max_dist) {
+    .Call('_rabmp_rcpp_create_seedlings', PACKAGE = 'rabmp', coords, number, eta, max_dist)
 }
 
-rcpp_random_distance <- function(number_seeds, beta, max_dist) {
-    .Call('_rabmp_rcpp_random_distance', PACKAGE = 'rabmp', number_seeds, beta, max_dist)
+rcpp_random_distance <- function(number_seeds, eta, max_dist) {
+    .Call('_rabmp_rcpp_random_distance', PACKAGE = 'rabmp', number_seeds, eta, max_dist)
 }
 

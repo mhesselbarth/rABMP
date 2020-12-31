@@ -52,7 +52,7 @@ simulate_seed_dispersal_biotic <- function(data, parameters, plot_area){
     # calculate seedlings coordinates (Ribbens et al. 1994 formula 2)
     seedlings <- rcpp_create_seedlings(coords = as.matrix(data[id, .(x, y)]),
                                        number =  number_seedlings,
-                                       beta = parameters$seed_beta,
+                                       eta = parameters$seed_eta,
                                        max_dist = parameters$seed_max_dist)
 
     # remove seedlings not inside plot

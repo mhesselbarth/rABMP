@@ -3,7 +3,7 @@
 
 // [[Rcpp::export]]
 NumericVector rcpp_random_distance(int number_seeds,
-                                   float beta,
+                                   float eta,
                                    int max_dist) {
 
   // initialise parameters
@@ -12,10 +12,10 @@ NumericVector rcpp_random_distance(int number_seeds,
   // initialise vector to store distances
   Rcpp::NumericVector distance_vector(number_seeds, 0.0);
 
-  const float beta_scl = beta / std::pow(10, 5);
+  const float eta_scl = eta / std::pow(10, 5);
 
   // get cumulative probability function
-  Rcpp::NumericVector probability = rcpp_calculate_distance_probability(beta_scl, theta, max_dist);
+  Rcpp::NumericVector probability = rcpp_calculate_distance_probability(eta_scl, theta, max_dist);
 
   // loop through all needed seedlings
   for(int i = 0; i < number_seeds; i++) {
@@ -66,6 +66,6 @@ df_trees <- prepare_data(data = example_input_data, x = "x_coord", y = "y_coord"
 parameters <- read_parameters(file = "inst/parameters.txt", sep = ";")
 
 rcpp_random_distance(number_seeds = 10,
-                     beta = parameters$seed_beta,
+                     eta = parameters$seed_eta,
                      max_dist = parameters$seed_max_dist)
 */
