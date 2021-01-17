@@ -31,8 +31,11 @@
                                     parameters = parameters)
 
   # reduce potential growth (Pommerening et al. 2014 formula 12)
-  growth <- growth * parameters$growth_mod * (1 - data[id, ci]) +
-    growth * parameters$growth_abiotic * data[id, abiotic]
+  # growth <- growth * parameters$growth_mod * (1 - data[id, ci]) +
+  #   growth * parameters$growth_abiotic * data[id, abiotic]
+
+  growth <- growth * parameters$growth_mod *
+    (((1 - data[id, ci]) + parameters$growth_abiotic * data[id, abiotic]) / 2)
 
   # no negative growth possible
   growth[growth < 0] <- 0

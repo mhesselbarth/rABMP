@@ -1,3 +1,8 @@
+# rabmp 1.4.3
+
+* New abiotic growth modification
+
+
 # rabmp 1.4.2.1
 
 * renamed `seed_beta` to `seed_eta`
