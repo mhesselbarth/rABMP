@@ -169,7 +169,7 @@ run_model_abiotic <- function(data, parameters, abiotic, probs = c(0.05, 0.95),
 
     data <- rabmp::simulate_ci(data, parameters = parameters)
 
-    data <- rabmp::simulate_growth_abiotic(data, parameters = parameters)
+    data <- rabmp::simulate_growth(data, parameters = parameters)
 
     data <- rabmp::simulate_seed_dispersal_abiotic(data, parameters = parameters,
                                                    plot_area = plot_area,

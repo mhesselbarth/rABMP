@@ -21,7 +21,7 @@
 #' traditional size-ratio based competition indices used in forest ecology. For. Ecol. Manage. 331, 135-143.
 #'
 #' @export
-simulate_growth_biotic <- function(data, parameters){
+simulate_growth <- function(data, parameters){
 
   # get id of current living
   id <- data[type != "dead" & i == max(i), which = TRUE]
