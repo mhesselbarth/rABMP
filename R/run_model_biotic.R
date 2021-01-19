@@ -137,7 +137,7 @@ run_model_biotic <- function(data, parameters, plot_area = NULL,
 
     data <- rabmp::simulate_ci(data, parameters = parameters)
 
-    data <- rabmp::simulate_growth(data, parameters = parameters)
+    data <- rabmp::simulate_growth_biotic(data, parameters = parameters)
 
     data <- rabmp::simulate_seed_dispersal_biotic(data, parameters = parameters,
                                                   plot_area = plot_area)

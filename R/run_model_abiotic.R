@@ -37,7 +37,7 @@
 #'
 #' abiotic <- spatstat::density.ppp(ppp_threshold,  dimyx = c(250, 250))
 #' abiotic <- dplyr::mutate(tibble::as_tibble(abiotic),
-#' value = scales::rescale(value, to = c(-1, 1)))
+#' value = scales::rescale(value, to = c(0, 1)))
 #' abiotic <- raster::rasterFromXYZ(abiotic)
 #'
 #' parameters <- read_parameters(file = "inst/parameters_abiotic.txt", sep = ";")
@@ -169,7 +169,7 @@ run_model_abiotic <- function(data, parameters, abiotic, probs = c(0.05, 0.95),
 
     data <- rabmp::simulate_ci(data, parameters = parameters)
 
-    data <- rabmp::simulate_growth(data, parameters = parameters)
+    data <- rabmp::simulate_growth_abiotic(data, parameters = parameters)
 
     data <- rabmp::simulate_seed_dispersal_abiotic(data, parameters = parameters,
                                                    plot_area = plot_area,

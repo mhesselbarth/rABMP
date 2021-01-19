@@ -19,6 +19,7 @@ NumericVector rcpp_calculate_ci(NumericMatrix matrix,
 
       // get distance between current point i and all points j
       const float dist_x = matrix(i, 0) - matrix(j, 0);
+
       const float dist_y = matrix(i, 1) - matrix(j, 1);
 
       const float distance = std::sqrt(dist_x * dist_x + dist_y * dist_y);
@@ -29,10 +30,12 @@ NumericVector rcpp_calculate_ci(NumericMatrix matrix,
 
       // calculate ci of current i and j
       const float ci_temp_i = std::pow(matrix(j, 2), alpha) * std::exp(-(distance / std::pow(matrix(j, 2), beta)));
+
       const float ci_temp_j = std::pow(matrix(i, 2), alpha) * std::exp(-(distance / std::pow(matrix(i, 2), beta)));
 
       // increase ci at point i and j
       ci[i] += ci_temp_i;
+
       ci[j] += ci_temp_j;
     }
 

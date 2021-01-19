@@ -1,6 +1,6 @@
 #' simulate_growth_biotic
 #'
-#' @description Simulate growth
+#' @description Simulate growth biotic
 #'
 #' @param data Dataframe with input data.
 #' @param parameters List with all parameters.
@@ -21,7 +21,7 @@
 #' traditional size-ratio based competition indices used in forest ecology. For. Ecol. Manage. 331, 135-143.
 #'
 #' @export
-simulate_growth <- function(data, parameters){
+simulate_growth_biotic <- function(data, parameters){
 
   # get id of current living
   id <- data[type != "dead" & i == max(i), which = TRUE]
@@ -31,7 +31,7 @@ simulate_growth <- function(data, parameters){
                                     parameters = parameters)
 
   # reduce potential growth (Pommerening et al. 2014 formula 12)
-  growth <- growth * parameters$growth_mod * (1 - data[id, ci])
+  growth <- growth * parameters$growth_mod * (1 - data[id, ci]) # (2 - data[id, ci] + abiotic) scaled to 0 - 1
 
   # update DBH
   data[id, dbh := dbh + growth]
