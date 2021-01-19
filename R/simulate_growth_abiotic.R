@@ -31,7 +31,8 @@ simulate_growth_abiotic <- function(data, parameters){
                                     parameters = parameters)
 
   # reduce potential growth (Pommerening et al. 2014 formula 12)
-  growth <- growth * parameters$growth_mod * (1 - ((data[id, ci] + data[id, abiotic]) / 2))
+  growth <- growth * parameters$growth_mod * (1 - ((data[id, ci] + parameters$growth_abiotic * data[id, abiotic]) /
+                                                     (1 + parameters$growth_abiotic)))
 
   # update DBH
   data[id, dbh := dbh + growth]
