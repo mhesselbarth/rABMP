@@ -30,9 +30,11 @@ simulate_growth_abiotic <- function(data, parameters){
   growth <- rabmp::calculate_growth(dbh = data[id, dbh],
                                     parameters = parameters)
 
+  # combine CI and abiotic to one value
+  x <- (data[id, ci] + (1 - data[id, abiotic]) * parameters$growth_abiotic)
+
   # reduce potential growth (Pommerening et al. 2014 formula 12)
-  growth <- growth * parameters$growth_mod * (1 - ((data[id, ci] + parameters$growth_abiotic * data[id, abiotic]) /
-                                                     (1 + parameters$growth_abiotic)))
+  growth <- growth * parameters$growth_mod * ((1 - x) / (1 + parameters$growth_abiotic))
 
   # update DBH
   data[id, dbh := dbh + growth]
