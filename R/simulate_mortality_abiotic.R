@@ -31,33 +31,33 @@ simulate_mortality_abiotic <- function(data, parameters, abiotic_quantiles) {
   abiotic_values <- data[id, abiotic]
 
   # get mortality parameters
-  int_early <- ifelse(test = abiotic_values > abiotic_quantiles[2],
+  int_early <- ifelse(test = abiotic_values < abiotic_quantiles[1],
                       yes = parameters$mort_int_early_low,
-                      no = ifelse(test = abiotic_values < abiotic_quantiles[1],
+                      no = ifelse(test = abiotic_values > abiotic_quantiles[2],
                                   yes = parameters$mort_int_early_high,
                                   no = parameters$mort_int_early))
 
-  dbh_early <- ifelse(test = abiotic_values > abiotic_quantiles[2],
+  dbh_early <- ifelse(test = abiotic_values < abiotic_quantiles[1],
                       yes = parameters$mort_dbh_early_low,
-                      no = ifelse(test = abiotic_values < abiotic_quantiles[1],
+                      no = ifelse(test = abiotic_values > abiotic_quantiles[2],
                                   yes = parameters$mort_dbh_early_high,
                                   no = parameters$mort_dbh_early))
 
-  int_late <- ifelse(test = abiotic_values > abiotic_quantiles[2],
+  int_late <- ifelse(test = abiotic_values < abiotic_quantiles[1],
                       yes = parameters$mort_int_late_low,
-                      no = ifelse(test = abiotic_values < abiotic_quantiles[1],
+                      no = ifelse(test = abiotic_values > abiotic_quantiles[2],
                                   yes = parameters$mort_int_late_high,
                                   no = parameters$mort_int_late))
 
-  dbh_late <- ifelse(test = abiotic_values > abiotic_quantiles[2],
+  dbh_late <- ifelse(test = abiotic_values < abiotic_quantiles[1],
                       yes = parameters$mort_dbh_late_low,
-                      no = ifelse(test = abiotic_values < abiotic_quantiles[1],
+                      no = ifelse(test = abiotic_values > abiotic_quantiles[2],
                                   yes = parameters$mort_dbh_late_high,
                                   no = parameters$mort_dbh_late))
 
-  dinc <- ifelse(test = abiotic_values > abiotic_quantiles[2],
+  dinc <- ifelse(test = abiotic_values < abiotic_quantiles[1],
                  yes = parameters$mort_dinc_low,
-                 no = ifelse(test = abiotic_values < abiotic_quantiles[1],
+                 no = ifelse(test = abiotic_values > abiotic_quantiles[2],
                              yes = parameters$mort_dinc_high,
                              no = parameters$mort_dinc))
 

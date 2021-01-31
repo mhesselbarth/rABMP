@@ -74,11 +74,12 @@ simulate_seed_dispersal_abiotic <- function(data, parameters, plot_area,
     }
 
     # get probabilities for seed reduction
-    probs <- ifelse(test = abiotic_values > abiotic_quantiles[2],
-                    yes = parameters$seed_success_high,
-                    no = ifelse(test = abiotic_values < abiotic_quantiles[1],
-                                yes = parameters$seed_success_low,
-                                no = parameters$seed_success))
+    # 0 is good conditions; 1 is bad conditions
+    probs <-  ifelse(test = abiotic_values < abiotic_quantiles[1],
+                     yes = parameters$seed_success_high,
+                     no = ifelse(test = abiotic_values > abiotic_quantiles[2],
+                                 yes = parameters$seed_success_low,
+                                 no = parameters$seed_success))
 
     # get random threshold
     random_thres <- stats::runif(n = nrow(seedlings), min = 0, max = 1)

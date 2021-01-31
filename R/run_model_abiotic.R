@@ -37,7 +37,7 @@
 #'
 #' abiotic <- spatstat::density.ppp(ppp_threshold,  dimyx = c(250, 250))
 #' abiotic <- dplyr::mutate(tibble::as_tibble(abiotic),
-#' value = scales::rescale(value, to = c(0, 1)))
+#' value = scales::rescale(value, to = c(1, 0)))
 #' abiotic <- raster::rasterFromXYZ(abiotic)
 #'
 #' parameters <- read_parameters(file = "inst/parameters_abiotic.txt", sep = ";")
